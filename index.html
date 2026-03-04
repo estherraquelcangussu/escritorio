@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Escritório [v44 — 04/03/2026 14:21]</title>
+<title>Escritório [v46 — 04/03/2026 14:55]</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&display=swap');
@@ -643,6 +643,7 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
   <input type="file" id="impFile" accept=".html,.json" style="display:none" onchange="importar(event)">
   <button class="btn-bar btn-bar-ouro" onclick="abrirCred()">🔑 Credenciais</button>
   <span id="backupTs" style="margin-left:4px;"></span>
+  <span id="save-status" style="margin-left:10px;font-size:0.78em;font-weight:700;padding:3px 10px;border-radius:12px;background:rgba(45,122,90,.12);color:#2d7a5a;border:1px solid #2d7a5a;display:none"></span>
   <span style="margin-left:8px;border-left:1px solid var(--borda2);padding-left:8px;color:var(--texto3)">Acesso rápido:</span>
   <button class="btn-bar" style="background:#fdf0f0;border-color:#e07050;color:#c0432a;font-weight:700" id="btn-urgencias-top" onclick="irPag('pg-proc',document.querySelectorAll('.nav-tab')[0]);setTimeout(function(){document.getElementById('urg-body').style.display='block';},100)">🚨 Urgentes <span id="top-urg-cnt" style="background:#c0432a;color:#fff;border-radius:8px;padding:0 6px;font-size:0.8em;margin-left:2px">0</span></button>
   <button class="btn-bar" style="background:var(--amarelo-fundo);border-color:#c4a040;color:var(--amarelo);font-weight:700" onclick="irPag('pg-financ',document.getElementById('tab-financ'));renderFinanc()">💰 Financeiro</button>
@@ -2034,7 +2035,7 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
   <button class="fab fab-save" onclick="salvarTudo()">💾 Backup</button>
 </div>
 <div class="toast" id="toast"></div>
-<div id="version-badge" style="position:fixed;bottom:8px;right:8px;background:rgba(0,0,0,.45);color:#fff;font-size:10px;padding:3px 8px;border-radius:10px;z-index:9999;font-family:monospace;pointer-events:none">v44 — 04/03/2026 14:21</div>
+<div id="version-badge" style="position:fixed;bottom:8px;right:8px;background:rgba(0,0,0,.45);color:#fff;font-size:10px;padding:3px 8px;border-radius:10px;z-index:9999;font-family:monospace;pointer-events:none">v46 — 04/03/2026 14:55</div>
 
 <script>
 // ── irPag declarada no topo para estar disponível em todo o HTML ──
@@ -2285,9 +2286,9 @@ async function init(){
       }
   var badge = document.getElementById('save-status');
   if(badge){
-    if(supaId) badge.textContent = '✅ ' + dados.length + ' processo(s) carregado(s) do servidor';
-    else badge.textContent = '⚠️ Modo offline — dados locais';
-    badge.style.color = supaId ? '#2d7a5a' : '#c0392b';
+    badge.style.display='inline-block';
+    if(supaId){ badge.textContent='☁️ '+dados.length+' processo(s)'; badge.style.color='#2d7a5a'; badge.style.borderColor='#2d7a5a'; badge.style.background='rgba(45,122,90,.1)'; }
+    else { badge.textContent='⚠️ Offline'; badge.style.color='#c0392b'; badge.style.borderColor='#c0392b'; badge.style.background='rgba(192,57,43,.1)'; }
   }
   render(dados); renderIntim(); renderProts(); renderLixo(); atualizarBackupTs(); popularDls(); renderUrgencias(); renderTarefas();
   // Pré-selecionar mês atual no financeiro
@@ -2382,7 +2383,7 @@ async function save(){
   localStorage.setItem('escLX',JSON.stringify(lixo));
   // Indicador visual de salvamento
   var badge = document.getElementById('save-status');
-  if(badge){ badge.textContent='💾 Salvando...'; badge.style.color='#f0a500'; }
+  if(badge){ badge.style.display='inline-block'; badge.textContent='💾 Salvando...'; badge.style.color='#f0a500'; badge.style.borderColor='#f0a500'; badge.style.background='rgba(240,165,0,.1)'; }
   try {
     if(!SUPA_OK) throw new Error('offline');
     var reg = buildReg();
@@ -2394,10 +2395,10 @@ async function save(){
       if(error) throw error;
       if(data&&data[0]) supaId=data[0].id;
     }
-    if(badge){ badge.textContent='✅ Salvo no servidor ' + new Date().toLocaleTimeString('pt-BR'); badge.style.color='#2d7a5a'; }
+    if(badge){ badge.textContent='✅ Salvo ' + new Date().toLocaleTimeString('pt-BR'); badge.style.color='#2d7a5a'; badge.style.borderColor='#2d7a5a'; badge.style.background='rgba(45,122,90,.1)'; }
   } catch(e){
     console.warn('[save] erro:', e.message);
-    if(badge){ badge.textContent='⚠️ Salvo só localmente — ' + e.message; badge.style.color='#c0392b'; }
+    if(badge){ badge.textContent='⚠️ Só local!'; badge.style.color='#c0392b'; badge.style.borderColor='#c0392b'; badge.style.background='rgba(192,57,43,.1)'; }
   }
   atualizarBackupTs();
 }
@@ -2412,7 +2413,7 @@ function salvarHTML(sil){
   var ts=new Date().toLocaleDateString('pt-BR')+' '+new Date().toLocaleTimeString('pt-BR'); localStorage.setItem('escBkTs',ts); atualizarBackupTs();
   if(!sil) toast('💾 Backup salvo!');
 }
-function salvarTudo(){ save(); salvarHTML(false); }
+async function salvarTudo(){ await save(); salvarHTML(false); }
 function exportCSV(){ var r=[['#','Cliente','CPF','Processo','Área','Data','Status']]; dados.forEach(function(m,i){r.push([i+1,m.cli||'',m.cpf||'',m.p||'',m.area||'',fmt(m.d),m.s||'']);}); var csv=r.map(function(x){return x.map(function(c){return'"'+String(c).replace(/"/g,'""')+'"';}).join(',');}).join('\n'); var a=document.createElement('a'); a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv); a.download='processos_particulares.csv'; a.click(); }
 function importar(ev){ var f=ev.target.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(e){ try { var c=e.target.result; var m=c.match(/var DADOS_INICIAIS = (\[.*?\]);/s); if(m){dados=JSON.parse(m[1]);save();render(dados);toast('✅ '+dados.length+' registros importados!');} else {var j=JSON.parse(c);if(Array.isArray(j)){dados=j;save();render(dados);toast('✅ Importado!');}} } catch(ex){alert('Erro: '+ex.message);} }; r.readAsText(f); ev.target.value=''; }
 function popularDls(){
@@ -3930,7 +3931,7 @@ function abrirReciboConsolidado(){
       + '</tr>';
   }).join('');
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v44 — 04/03/2026 14:21]</title><style>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v46 — 04/03/2026 14:55]</title><style>'
     + '@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap");'
     + '*{margin:0;padding:0;box-sizing:border-box}'
     + 'body{font-family:"Cormorant Garamond",Georgia,serif;max-width:740px;margin:40px auto;padding:36px 48px;color:#1a1a1a;background:#fff;font-size:16px}'
@@ -4035,7 +4036,7 @@ function gerarRecibo(){
   var vencVal = document.getElementById('rc_venc') ? dateVal('rc_venc') : '';
   var vencFmt = vencVal ? (function(d){var p=d.split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:d;})(vencVal) : '';
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v44 — 04/03/2026 14:21]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v46 — 04/03/2026 14:55]</title>'
     + '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=EB+Garamond:wght@400;600&display=swap" rel="stylesheet">'
     + '<style>'
     + 'body{font-family:"Cormorant Garamond","EB Garamond",Georgia,serif;max-width:680px;margin:40px auto;padding:36px 48px;color:#1a1a1a;background:#fff;line-height:1.6}'
@@ -4551,7 +4552,7 @@ function gerarReciboConsolidadoHonFin(){
 
   var totalFmt = 'R$ '+totalV.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v44 — 04/03/2026 14:21]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v46 — 04/03/2026 14:55]</title>'
     +'<style>'
     +'@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap");'
     +'*{margin:0;padding:0;box-sizing:border-box}'
@@ -4785,7 +4786,7 @@ function gerarBoleto(r){
   var oab    = 'OAB/SP 469.261';
   var hoje   = new Date().toLocaleDateString('pt-BR');
   var num    = 'BOL-'+Date.now()%100000;
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v44 — 04/03/2026 14:21]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v46 — 04/03/2026 14:55]</title>'
     +'<style>'
     +'@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap");'
     +'*{margin:0;padding:0;box-sizing:border-box}'

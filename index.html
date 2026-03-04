@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Escritório [v47 — 04/03/2026 16:23]</title>
+<title>Escritório [v48 — 04/03/2026 16:46]</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&display=swap');
@@ -2118,11 +2118,11 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <div>
           <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Data *</label>
-          <input type="date" id="aud-data" class="inp" style="width:100%">
+          <input type="text" id="aud-data" class="inp" style="width:100%" placeholder="dd/mm/aaaa" maxlength="10" oninput="mascaraDataAud(this)" autocomplete="off">
         </div>
         <div>
           <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Hora *</label>
-          <input type="time" id="aud-hora" class="inp" style="width:100%">
+          <input type="text" id="aud-hora" class="inp" style="width:100%" placeholder="00:00" maxlength="5" oninput="mascaraHoraAud(this)" autocomplete="off">
         </div>
       </div>
       <div>
@@ -2171,7 +2171,7 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
   <button class="fab fab-save" onclick="salvarTudo()">💾 Backup</button>
 </div>
 <div class="toast" id="toast"></div>
-<div id="version-badge" style="position:fixed;bottom:8px;right:8px;background:rgba(0,0,0,.45);color:#fff;font-size:10px;padding:3px 8px;border-radius:10px;z-index:9999;font-family:monospace;pointer-events:none">v47 — 04/03/2026 16:23</div>
+<div id="version-badge" style="position:fixed;bottom:8px;right:8px;background:rgba(0,0,0,.45);color:#fff;font-size:10px;padding:3px 8px;border-radius:10px;z-index:9999;font-family:monospace;pointer-events:none">v48 — 04/03/2026 16:46</div>
 
 <script>
 // ── irPag declarada no topo para estar disponível em todo o HTML ──
@@ -4067,7 +4067,7 @@ function abrirReciboConsolidado(){
       + '</tr>';
   }).join('');
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v47 — 04/03/2026 16:23]</title><style>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v48 — 04/03/2026 16:46]</title><style>'
     + '@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap");'
     + '*{margin:0;padding:0;box-sizing:border-box}'
     + 'body{font-family:"Cormorant Garamond",Georgia,serif;max-width:740px;margin:40px auto;padding:36px 48px;color:#1a1a1a;background:#fff;font-size:16px}'
@@ -4172,7 +4172,7 @@ function gerarRecibo(){
   var vencVal = document.getElementById('rc_venc') ? dateVal('rc_venc') : '';
   var vencFmt = vencVal ? (function(d){var p=d.split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:d;})(vencVal) : '';
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v47 — 04/03/2026 16:23]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v48 — 04/03/2026 16:46]</title>'
     + '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=EB+Garamond:wght@400;600&display=swap" rel="stylesheet">'
     + '<style>'
     + 'body{font-family:"Cormorant Garamond","EB Garamond",Georgia,serif;max-width:680px;margin:40px auto;padding:36px 48px;color:#1a1a1a;background:#fff;line-height:1.6}'
@@ -4688,7 +4688,7 @@ function gerarReciboConsolidadoHonFin(){
 
   var totalFmt = 'R$ '+totalV.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v47 — 04/03/2026 16:23]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v48 — 04/03/2026 16:46]</title>'
     +'<style>'
     +'@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap");'
     +'*{margin:0;padding:0;box-sizing:border-box}'
@@ -4922,7 +4922,7 @@ function gerarBoleto(r){
   var oab    = 'OAB/SP 469.261';
   var hoje   = new Date().toLocaleDateString('pt-BR');
   var num    = 'BOL-'+Date.now()%100000;
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v47 — 04/03/2026 16:23]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v48 — 04/03/2026 16:46]</title>'
     +'<style>'
     +'@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap");'
     +'*{margin:0;padding:0;box-sizing:border-box}'
@@ -6164,7 +6164,7 @@ function abrirModalAud(idx){
   if(_audEditIdx >= 0){
     var a = _audiencias[_audEditIdx];
     document.getElementById('aud-modal-titulo').textContent = 'Editar Audiência';
-    document.getElementById('aud-data').value  = a.data||'';
+    document.getElementById('aud-data').value  = audFormatData(a.data||'');
     document.getElementById('aud-hora').value  = a.hora||'';
     document.getElementById('aud-tipo').value  = a.tipo||'';
     document.getElementById('aud-cliente').value = a.cliente||'';
@@ -6184,13 +6184,42 @@ function abrirModalAud(idx){
   document.getElementById('ov-aud').classList.add('aberto');
 }
 
+function audParseData(s){
+  // Converte dd/mm/aaaa para yyyy-mm-dd
+  if(!s) return '';
+  if(s.includes('-')) return s; // já está no formato ISO
+  var p=s.split('/');
+  if(p.length===3) return p[2]+'-'+p[1]+'-'+p[0];
+  return s;
+}
+function audFormatData(s){
+  // Converte yyyy-mm-dd para dd/mm/aaaa para exibição
+  if(!s) return '';
+  if(s.includes('/')) return s; // já está formatado
+  var p=s.split('-');
+  if(p.length===3) return p[2]+'/'+p[1]+'/'+p[0];
+  return s;
+}
+function mascaraHoraAud(el){
+  var v=el.value.replace(/\D/g,'');
+  if(v.length>=3) v=v.slice(0,2)+':'+v.slice(2,4);
+  el.value=v;
+}
+function mascaraDataAud(el){
+  var v=el.value.replace(/\D/g,'');
+  if(v.length>=5) v=v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4,8);
+  else if(v.length>=3) v=v.slice(0,2)+'/'+v.slice(2);
+  el.value=v;
+}
 function salvarAud(){
-  var data=document.getElementById('aud-data').value;
+  var dataDigitada=document.getElementById('aud-data').value;
   var hora=document.getElementById('aud-hora').value;
   var tipo=document.getElementById('aud-tipo').value;
-  if(!data){alert('Informe a data!');return;}
-  if(!hora){alert('Informe o horário!');return;}
+  if(!dataDigitada){alert('Informe a data!');return;}
+  if(dataDigitada.replace(/\D/g,'').length<8){alert('Data incompleta! Use dd/mm/aaaa');return;}
+  if(!hora||hora.replace(/\D/g,'').length<4){alert('Informe o horário! Use HH:MM');return;}
   if(!tipo){alert('Selecione o tipo!');return;}
+  var data=audParseData(dataDigitada); // salvar internamente como yyyy-mm-dd
   var aud={data:data,hora:hora,tipo:tipo,
     cliente:document.getElementById('aud-cliente').value.trim(),
     vara:document.getElementById('aud-vara').value.trim(),
@@ -6255,6 +6284,9 @@ function selecionarDiaAud(ds){
   var p=ds.split('-'); var M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
   var tit=document.getElementById('aud-lista-titulo');
   if(tit) tit.textContent='Audiências em '+parseInt(p[2])+'/'+M[parseInt(p[1])-1]+'/'+p[0];
+  // Preencher campo data no formato dd/mm/aaaa ao clicar no calendário
+  var campoData = document.getElementById('aud-data');
+  if(campoData) campoData.value = p[2]+'/'+p[1]+'/'+p[0];
   renderCalAud(); renderListaAud();
 }
 
@@ -6283,7 +6315,7 @@ function renderListaAud(){
     if(_audFiltro==='hoje') return diff===0;
     if(_audFiltro==='proximas') return diff>=0;
     if(_audFiltro==='passadas') return diff<0;
-    if(_audFiltro==='dia') return a.data===_audDiaSel;
+    if(_audFiltro==='dia') return audParseData(a.data)===_audDiaSel||a.data===_audDiaSel;
     return true;
   });
   if(!lista.length){ el.innerHTML='<div style="text-align:center;padding:40px;color:var(--texto3)">Nenhuma audiência encontrada.</div>'; return; }
@@ -6305,6 +6337,7 @@ function renderListaAud(){
       '</div>'+
       '<div>'+
         '<div class="aud-tipo">'+escHtml(a.tipo||'—')+difTxt+'</div>'+
+        '<div class="aud-info" style="font-weight:700;color:var(--acento)">🕐 '+audFormatData(a.data)+' às '+(a.hora||'—')+'</div>'+
         (a.cliente?'<div class="aud-info">👤 '+escHtml(a.cliente)+'</div>':'')+
         (a.vara?'<div class="aud-info">⚖️ '+escHtml(a.vara)+'</div>':'')+
         (a.local?'<div class="aud-info">📍 '+escHtml(a.local)+'</div>':'')+

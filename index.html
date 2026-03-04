@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Escritório [v46 — 04/03/2026 14:55]</title>
+<title>Escritório [v47 — 04/03/2026 16:23]</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&display=swap');
@@ -568,6 +568,33 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
 .add-row-grid2 { display: grid; grid-template-columns: 1fr 1fr auto; gap: 6px; margin-top: 6px; }
 .add-row-grid input { padding: 6px 8px; border: 1px solid var(--borda2); border-radius: 5px; font-size: 0.75em; font-family: 'Inter', sans-serif; background: var(--fundo); color: var(--texto); }
 .btn-add-row { background: var(--azul); color: #fff; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 0.75em; font-weight: 700; white-space: nowrap; }
+
+/* ══ AUDIÊNCIAS ══ */
+.aud-card { background:var(--card); border:1px solid var(--borda); border-radius:10px; padding:14px 16px; margin-bottom:10px; display:grid; grid-template-columns:90px 1fr auto; gap:12px; align-items:center; transition:box-shadow .15s; }
+.aud-card:hover { box-shadow:0 3px 12px rgba(0,0,0,.1); }
+.aud-card.aud-hoje { border-left:4px solid #c0432a; background:linear-gradient(135deg,#fff8f8,var(--card)); }
+.aud-card.aud-passada { opacity:.6; }
+.aud-card.aud-proxima { border-left:4px solid #2d7a5a; }
+.aud-data-box { text-align:center; background:var(--acento); color:#fff; border-radius:8px; padding:8px 4px; }
+.aud-data-dia { font-size:1.8em; font-weight:800; line-height:1; }
+.aud-data-mes { font-size:0.7em; text-transform:uppercase; letter-spacing:1px; }
+.aud-hora-badge { font-size:0.85em; font-weight:700; color:var(--acento); margin-top:2px; }
+.aud-tipo { font-weight:700; font-size:0.95em; color:var(--texto1); }
+.aud-info { font-size:0.8em; color:var(--texto2); margin-top:3px; }
+.aud-aviso { background:linear-gradient(135deg,#fff3e0,#fff8f0); border:2px solid #f0a500; border-radius:10px; padding:12px 16px; margin-bottom:10px; display:flex; align-items:center; gap:12px; }
+.aud-aviso.urgente { background:linear-gradient(135deg,#fff0f0,#fff5f5); border-color:#c0432a; }
+.aud-fil-btn { background:var(--fundo2); border:1px solid var(--borda); border-radius:16px; padding:4px 12px; font-size:0.78em; cursor:pointer; color:var(--texto2); transition:all .15s; }
+.aud-fil-btn:hover, .aud-fil-btn.aud-fil-ativo { background:var(--acento); color:#fff; border-color:var(--acento); font-weight:700; }
+.aud-cal-dia { border-radius:6px; padding:5px 2px; font-size:0.82em; cursor:pointer; transition:all .15s; min-height:32px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; }
+.aud-cal-dia:hover { background:var(--fundo2); }
+.aud-cal-dia.tem-aud { font-weight:700; color:var(--azul); }
+.aud-cal-dia.tem-aud::after { content:'●'; font-size:6px; color:var(--azul); display:block; }
+.aud-cal-dia.hoje { background:#c0432a; color:#fff; font-weight:700; border-radius:50%; }
+.aud-cal-dia.hoje.tem-aud { background:#c0432a; }
+.aud-cal-dia.selecionado { background:var(--acento); color:#fff; border-radius:6px; }
+.aud-cal-header { font-size:0.72em; font-weight:700; color:var(--texto3); padding:3px; text-align:center; }
+
+/* ══ fim dos estilos ══ */
 </style>
 </head>
 <body>
@@ -657,6 +684,7 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
   <button class="nav-tab" id="tab-financ" onclick="irPag('pg-financ',this);renderFinanc()">💰 Financeiro <span class="badge-tab" id="badge-financ" style="background:#c9a96e;color:#3a2510;display:none">0</span></button>
   <button class="nav-tab" onclick="irPag('pg-intim',this)">📬 Intimações <span class="badge-tab" id="badge-intim">0</span></button>
   <button class="nav-tab" onclick="irPag('pg-prot',this)">📤 Peticionamento</button>
+  <button class="nav-tab" onclick="irPag('pg-aud',this);renderAudiencias()">📅 Audiências <span class="badge-tab" id="badge-aud" style="background:#c0432a;color:#fff;display:none">0</span></button>
   <button class="nav-tab" onclick="irPag('pg-lixo',this)">🗑 Lixeira <span class="badge-tab" id="badge-lixo" style="background:var(--texto3);display:none">0</span></button>
 </div>
 
@@ -2029,13 +2057,121 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
   </div>
 </div>
 
+
+<!-- ══════════════ PÁG: AUDIÊNCIAS ══════════════ -->
+<div class="pag" id="pg-aud">
+<div class="wrap">
+<div style="max-width:1100px;margin:0 auto">
+
+  <!-- CABEÇALHO -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.5em;color:var(--acento)">📅 Audiências & Compromissos</h2>
+    <button class="btn-prim" onclick="abrirModalAud()" style="padding:8px 20px">+ Nova Audiência</button>
+  </div>
+
+  <!-- AVISOS DE HOJE E PRÓXIMAS -->
+  <div id="aud-avisos" style="margin-bottom:16px"></div>
+
+  <!-- CALENDÁRIO + LISTA LADO A LADO -->
+  <div style="display:grid;grid-template-columns:340px 1fr;gap:20px;align-items:start">
+
+    <!-- CALENDÁRIO -->
+    <div style="background:var(--card);border:1px solid var(--borda);border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <button onclick="audCalMes(-1)" style="background:none;border:none;font-size:1.3em;cursor:pointer;color:var(--acento);padding:4px 8px">‹</button>
+        <span id="aud-cal-titulo" style="font-weight:700;font-size:1em;color:var(--texto1)"></span>
+        <button onclick="audCalMes(1)" style="background:none;border:none;font-size:1.3em;cursor:pointer;color:var(--acento);padding:4px 8px">›</button>
+      </div>
+      <div id="aud-cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center"></div>
+      <div style="margin-top:10px;display:flex;gap:12px;font-size:0.72em;color:var(--texto3)">
+        <span>🔴 Hoje</span><span>🔵 Com audiência</span><span style="background:var(--acento);color:#fff;border-radius:4px;padding:1px 5px">Selecionado</span>
+      </div>
+    </div>
+
+    <!-- LISTA DE AUDIÊNCIAS -->
+    <div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+        <span id="aud-lista-titulo" style="font-weight:700;color:var(--texto1)">Todas as audiências</span>
+        <div style="display:flex;gap:6px;margin-left:auto">
+          <button onclick="filtrarAud('todas')" class="aud-fil-btn aud-fil-ativo" id="afb-todas">Todas</button>
+          <button onclick="filtrarAud('proximas')" class="aud-fil-btn" id="afb-proximas">Próximas</button>
+          <button onclick="filtrarAud('hoje')" class="aud-fil-btn" id="afb-hoje">Hoje</button>
+          <button onclick="filtrarAud('passadas')" class="aud-fil-btn" id="afb-passadas">Passadas</button>
+        </div>
+      </div>
+      <div id="aud-lista"></div>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+
+<!-- MODAL NOVA/EDITAR AUDIÊNCIA -->
+<div class="ov" id="ov-aud" onclick="fecharOvFora(event,'ov-aud')">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-head">
+      <h3 id="aud-modal-titulo">Nova Audiência</h3>
+      <button class="modal-close" onclick="fecharOv('ov-aud')">×</button>
+    </div>
+    <div class="modal-body" style="display:grid;gap:12px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Data *</label>
+          <input type="date" id="aud-data" class="inp" style="width:100%">
+        </div>
+        <div>
+          <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Hora *</label>
+          <input type="time" id="aud-hora" class="inp" style="width:100%">
+        </div>
+      </div>
+      <div>
+        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Tipo de Audiência *</label>
+        <select id="aud-tipo" class="inp" style="width:100%">
+          <option value="">Selecione...</option>
+          <option>Audiência de Instrução e Julgamento</option>
+          <option>Audiência de Conciliação</option>
+          <option>Audiência Preliminar</option>
+          <option>Audiência de Custódia</option>
+          <option>Audiência Una</option>
+          <option>Depoimento Pessoal</option>
+          <option>Oitiva de Testemunha</option>
+          <option>Sessão de Julgamento</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Cliente / Processo</label>
+        <input type="text" id="aud-cliente" class="inp" style="width:100%" placeholder="Nome do cliente ou nº do processo" list="aud-clientes-dl">
+        <datalist id="aud-clientes-dl"></datalist>
+      </div>
+      <div>
+        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Vara / Juízo</label>
+        <input type="text" id="aud-vara" class="inp" style="width:100%" placeholder="Ex: 1ª Vara Cível de São Simão">
+      </div>
+      <div>
+        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Local</label>
+        <input type="text" id="aud-local" class="inp" style="width:100%" placeholder="Ex: Fórum de São Simão, Sala 2">
+      </div>
+      <div>
+        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Observações</label>
+        <textarea id="aud-obs" class="inp" rows="2" style="width:100%;resize:vertical" placeholder="Documentos necessários, orientações..."></textarea>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">
+        <button class="btn-xs" onclick="fecharOv('ov-aud')">Cancelar</button>
+        <button class="btn-prim" onclick="salvarAud()" style="padding:8px 24px">💾 Salvar Audiência</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- FABS -->
 <div class="fab-wrap">
   <button class="fab fab-cloud" onclick="salvarNuvem()">☁️ Salvar</button>
   <button class="fab fab-save" onclick="salvarTudo()">💾 Backup</button>
 </div>
 <div class="toast" id="toast"></div>
-<div id="version-badge" style="position:fixed;bottom:8px;right:8px;background:rgba(0,0,0,.45);color:#fff;font-size:10px;padding:3px 8px;border-radius:10px;z-index:9999;font-family:monospace;pointer-events:none">v46 — 04/03/2026 14:55</div>
+<div id="version-badge" style="position:fixed;bottom:8px;right:8px;background:rgba(0,0,0,.45);color:#fff;font-size:10px;padding:3px 8px;border-radius:10px;z-index:9999;font-family:monospace;pointer-events:none">v47 — 04/03/2026 16:23</div>
 
 <script>
 // ── irPag declarada no topo para estar disponível em todo o HTML ──
@@ -2267,7 +2403,7 @@ async function init(){
       else if(r&&Array.isArray(r.clientes)) procs=r.clientes;
       dados=procs;
       if(r&&!Array.isArray(r)){
-        lixo=r.lixo||[]; intimacoes=r.intimacoes||[]; protocolos=r.protocolos||[];
+        lixo=r.lixo||[]; intimacoes=r.intimacoes||[]; protocolos=r.protocolos||[]; if(r.audiencias) _audiencias=r.audiencias;
         if(r.creds){localStorage.setItem('escU',r.creds.usuario||'esther');localStorage.setItem('escH',r.creds.senhaHash||'');}
       }
       console.log('[INIT] Supabase: estrutura='+JSON.stringify(Object.keys(data[0]))+' processos='+dados.length);
@@ -2290,7 +2426,7 @@ async function init(){
     if(supaId){ badge.textContent='☁️ '+dados.length+' processo(s)'; badge.style.color='#2d7a5a'; badge.style.borderColor='#2d7a5a'; badge.style.background='rgba(45,122,90,.1)'; }
     else { badge.textContent='⚠️ Offline'; badge.style.color='#c0392b'; badge.style.borderColor='#c0392b'; badge.style.background='rgba(192,57,43,.1)'; }
   }
-  render(dados); renderIntim(); renderProts(); renderLixo(); atualizarBackupTs(); popularDls(); renderUrgencias(); renderTarefas();
+  render(dados); renderIntim(); renderProts(); renderLixo(); atualizarBackupTs(); popularDls(); renderUrgencias(); renderTarefas(); atualizarBadgeAud();
   // Pré-selecionar mês atual no financeiro
   var mesAtual = String(new Date().getMonth()+1).padStart(2,"0");
   var selMes = document.getElementById("fin-filtro-mes"); if(selMes) selMes.value = mesAtual;
@@ -2375,7 +2511,7 @@ async function recuperarDoServidor(){
   }
 }
 
-function buildReg(){ return {processos:dados, intimacoes:intimacoes, protocolos:protocolos, lixo:lixo, creds:{usuario:localStorage.getItem('escU')||'esther',senhaHash:localStorage.getItem('escH')||''}}; }
+function buildReg(){ return {processos:dados, intimacoes:intimacoes, protocolos:protocolos, lixo:lixo, audiencias:_audiencias, creds:{usuario:localStorage.getItem('escU')||'esther',senhaHash:localStorage.getItem('escH')||''}}; }
 async function save(){
   localStorage.setItem('escD',JSON.stringify(dados));
   localStorage.setItem('escI',JSON.stringify(intimacoes));
@@ -3931,7 +4067,7 @@ function abrirReciboConsolidado(){
       + '</tr>';
   }).join('');
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v46 — 04/03/2026 14:55]</title><style>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v47 — 04/03/2026 16:23]</title><style>'
     + '@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap");'
     + '*{margin:0;padding:0;box-sizing:border-box}'
     + 'body{font-family:"Cormorant Garamond",Georgia,serif;max-width:740px;margin:40px auto;padding:36px 48px;color:#1a1a1a;background:#fff;font-size:16px}'
@@ -4036,7 +4172,7 @@ function gerarRecibo(){
   var vencVal = document.getElementById('rc_venc') ? dateVal('rc_venc') : '';
   var vencFmt = vencVal ? (function(d){var p=d.split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:d;})(vencVal) : '';
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v46 — 04/03/2026 14:55]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v47 — 04/03/2026 16:23]</title>'
     + '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=EB+Garamond:wght@400;600&display=swap" rel="stylesheet">'
     + '<style>'
     + 'body{font-family:"Cormorant Garamond","EB Garamond",Georgia,serif;max-width:680px;margin:40px auto;padding:36px 48px;color:#1a1a1a;background:#fff;line-height:1.6}'
@@ -4552,7 +4688,7 @@ function gerarReciboConsolidadoHonFin(){
 
   var totalFmt = 'R$ '+totalV.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v46 — 04/03/2026 14:55]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v47 — 04/03/2026 16:23]</title>'
     +'<style>'
     +'@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap");'
     +'*{margin:0;padding:0;box-sizing:border-box}'
@@ -4786,7 +4922,7 @@ function gerarBoleto(r){
   var oab    = 'OAB/SP 469.261';
   var hoje   = new Date().toLocaleDateString('pt-BR');
   var num    = 'BOL-'+Date.now()%100000;
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v46 — 04/03/2026 14:55]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v47 — 04/03/2026 16:23]</title>'
     +'<style>'
     +'@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap");'
     +'*{margin:0;padding:0;box-sizing:border-box}'
@@ -6008,6 +6144,195 @@ function fecharOvFora(e,id){ if(e.target===document.getElementById(id))fecharOv(
 function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},3000); }
 
 // Handler de erro removido para evitar limpeza acidental de dados
+
+// ══════════════════════════════════════════════════════════
+// AUDIÊNCIAS
+// ══════════════════════════════════════════════════════════
+var _audiencias = (function(){ try { return JSON.parse(localStorage.getItem('escAud')||'[]'); } catch(e){ return []; } })();
+var _audEditIdx = -1;
+var _audCalAno  = new Date().getFullYear();
+var _audCalMes  = new Date().getMonth();
+var _audFiltro  = 'todas';
+var _audDiaSel  = null;
+
+function salvarAudsLocal(){ localStorage.setItem('escAud', JSON.stringify(_audiencias)); }
+
+function abrirModalAud(idx){
+  _audEditIdx = (idx !== undefined) ? idx : -1;
+  var dl = document.getElementById('aud-clientes-dl');
+  if(dl){ dl.innerHTML = dados.map(function(m){ return '<option value="'+(m.cli||'')+(m.p&&m.p!=='-'?' — '+m.p:'')+'">' }).join(''); }
+  if(_audEditIdx >= 0){
+    var a = _audiencias[_audEditIdx];
+    document.getElementById('aud-modal-titulo').textContent = 'Editar Audiência';
+    document.getElementById('aud-data').value  = a.data||'';
+    document.getElementById('aud-hora').value  = a.hora||'';
+    document.getElementById('aud-tipo').value  = a.tipo||'';
+    document.getElementById('aud-cliente').value = a.cliente||'';
+    document.getElementById('aud-vara').value  = a.vara||'';
+    document.getElementById('aud-local').value = a.local||'';
+    document.getElementById('aud-obs').value   = a.obs||'';
+  } else {
+    document.getElementById('aud-modal-titulo').textContent = 'Nova Audiência';
+    document.getElementById('aud-data').value  = _audDiaSel || '';
+    document.getElementById('aud-hora').value  = '';
+    document.getElementById('aud-tipo').value  = '';
+    document.getElementById('aud-cliente').value = '';
+    document.getElementById('aud-vara').value  = '';
+    document.getElementById('aud-local').value = '';
+    document.getElementById('aud-obs').value   = '';
+  }
+  document.getElementById('ov-aud').classList.add('aberto');
+}
+
+function salvarAud(){
+  var data=document.getElementById('aud-data').value;
+  var hora=document.getElementById('aud-hora').value;
+  var tipo=document.getElementById('aud-tipo').value;
+  if(!data){alert('Informe a data!');return;}
+  if(!hora){alert('Informe o horário!');return;}
+  if(!tipo){alert('Selecione o tipo!');return;}
+  var aud={data:data,hora:hora,tipo:tipo,
+    cliente:document.getElementById('aud-cliente').value.trim(),
+    vara:document.getElementById('aud-vara').value.trim(),
+    local:document.getElementById('aud-local').value.trim(),
+    obs:document.getElementById('aud-obs').value.trim()};
+  if(_audEditIdx>=0) _audiencias[_audEditIdx]=aud;
+  else _audiencias.push(aud);
+  _audiencias.sort(function(a,b){return (a.data+a.hora).localeCompare(b.data+b.hora);});
+  salvarAudsLocal(); save(); fecharOv('ov-aud'); renderAudiencias(); atualizarBadgeAud();
+  toast('📅 Audiência salva!');
+}
+
+function excluirAud(idx){
+  if(!confirm('Excluir esta audiência?')) return;
+  _audiencias.splice(idx,1); salvarAudsLocal(); save(); renderAudiencias(); atualizarBadgeAud();
+  toast('🗑 Excluída.');
+}
+
+function filtrarAud(f){
+  _audFiltro=f; _audDiaSel=null;
+  document.querySelectorAll('.aud-fil-btn').forEach(function(b){b.classList.remove('aud-fil-ativo');});
+  var btn=document.getElementById('afb-'+f); if(btn) btn.classList.add('aud-fil-ativo');
+  var tit=document.getElementById('aud-lista-titulo');
+  if(tit) tit.textContent=f==='hoje'?'Audiências de hoje':f==='proximas'?'Próximas audiências':f==='passadas'?'Passadas':'Todas';
+  renderListaAud();
+}
+
+function audCalMes(delta){
+  _audCalMes+=delta;
+  if(_audCalMes>11){_audCalMes=0;_audCalAno++;}
+  if(_audCalMes<0){_audCalMes=11;_audCalAno--;}
+  renderCalAud();
+}
+
+function renderCalAud(){
+  var MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  var DIAS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  var tit=document.getElementById('aud-cal-titulo');
+  if(tit) tit.textContent=MESES[_audCalMes]+' '+_audCalAno;
+  var grid=document.getElementById('aud-cal-grid'); if(!grid) return;
+  var hoje=new Date(); hoje.setHours(0,0,0,0);
+  var comAud={};
+  _audiencias.forEach(function(a){
+    if(a.data){var p=a.data.split('-');if(parseInt(p[0])===_audCalAno&&parseInt(p[1])-1===_audCalMes)comAud[parseInt(p[2])]=true;}
+  });
+  var html=DIAS.map(function(d){return '<div class="aud-cal-header">'+d+'</div>';}).join('');
+  var prim=new Date(_audCalAno,_audCalMes,1).getDay();
+  for(var i=0;i<prim;i++) html+='<div></div>';
+  var total=new Date(_audCalAno,_audCalMes+1,0).getDate();
+  for(var d=1;d<=total;d++){
+    var ds=_audCalAno+'-'+String(_audCalMes+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    var dObj=new Date(_audCalAno,_audCalMes,d);
+    var cls='aud-cal-dia'+(comAud[d]?' tem-aud':'')+(dObj.getTime()===hoje.getTime()?' hoje':'')+((_audDiaSel===ds)?' selecionado':'');
+    html+='<div class="'+cls+'" onclick="selecionarDiaAud(\"'+ds+'\")">'+d+'</div>';
+  }
+  grid.innerHTML=html;
+}
+
+function selecionarDiaAud(ds){
+  _audDiaSel=ds; _audFiltro='dia';
+  document.querySelectorAll('.aud-fil-btn').forEach(function(b){b.classList.remove('aud-fil-ativo');});
+  var p=ds.split('-'); var M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  var tit=document.getElementById('aud-lista-titulo');
+  if(tit) tit.textContent='Audiências em '+parseInt(p[2])+'/'+M[parseInt(p[1])-1]+'/'+p[0];
+  renderCalAud(); renderListaAud();
+}
+
+function renderAvisos(){
+  var el=document.getElementById('aud-avisos'); if(!el) return;
+  var hoje=new Date(); hoje.setHours(0,0,0,0);
+  var html='';
+  _audiencias.forEach(function(a,idx){
+    if(!a.data) return;
+    var d=new Date(a.data+'T00:00:00');
+    var diff=Math.round((d-hoje)/(1000*60*60*24));
+    if(diff===0) html+='<div class="aud-aviso urgente">🔴 <strong>HOJE às '+a.hora+'</strong> — '+escHtml(a.tipo)+(a.cliente?' | '+escHtml(a.cliente):'')+(a.local?' | '+escHtml(a.local):'')+' <button onclick="abrirModalAud('+idx+')" style="margin-left:auto;background:none;border:1px solid #c0432a;color:#c0432a;border-radius:5px;padding:2px 8px;cursor:pointer;font-size:0.78em">✏️</button></div>';
+    else if(diff===1) html+='<div class="aud-aviso">🟡 <strong>AMANHÃ às '+a.hora+'</strong> — '+escHtml(a.tipo)+(a.cliente?' | '+escHtml(a.cliente):'')+' <button onclick="abrirModalAud('+idx+')" style="margin-left:auto;background:none;border:1px solid #f0a500;color:#8b6000;border-radius:5px;padding:2px 8px;cursor:pointer;font-size:0.78em">✏️</button></div>';
+    else if(diff>1&&diff<=7) html+='<div class="aud-aviso">📅 <strong>Em '+diff+' dias — '+a.hora+'</strong> — '+escHtml(a.tipo)+(a.cliente?' | '+escHtml(a.cliente):'')+' <button onclick="abrirModalAud('+idx+')" style="margin-left:auto;background:none;border:1px solid var(--borda);border-radius:5px;padding:2px 8px;cursor:pointer;font-size:0.78em">✏️</button></div>';
+  });
+  el.innerHTML=html;
+}
+
+function renderListaAud(){
+  var el=document.getElementById('aud-lista'); if(!el) return;
+  var hoje=new Date(); hoje.setHours(0,0,0,0);
+  var lista=_audiencias.filter(function(a){
+    if(!a.data) return true;
+    var d=new Date(a.data+'T00:00:00');
+    var diff=Math.round((d-hoje)/(1000*60*60*24));
+    if(_audFiltro==='hoje') return diff===0;
+    if(_audFiltro==='proximas') return diff>=0;
+    if(_audFiltro==='passadas') return diff<0;
+    if(_audFiltro==='dia') return a.data===_audDiaSel;
+    return true;
+  });
+  if(!lista.length){ el.innerHTML='<div style="text-align:center;padding:40px;color:var(--texto3)">Nenhuma audiência encontrada.</div>'; return; }
+  var M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  el.innerHTML=lista.map(function(a){
+    var idx=_audiencias.indexOf(a);
+    var p=a.data?a.data.split('-'):['','',''];
+    var dObj=a.data?new Date(a.data+'T00:00:00'):null;
+    var hoje2=new Date(); hoje2.setHours(0,0,0,0);
+    var diff=dObj?Math.round((dObj-hoje2)/(1000*60*60*24)):999;
+    var cls='aud-card'+(diff===0?' aud-hoje':diff<0?' aud-passada':diff<=7?' aud-proxima':'');
+    var difTxt=diff===0?'<span style="color:#c0432a;font-weight:700;font-size:0.75em"> • HOJE</span>':diff===1?'<span style="color:#f0a500;font-size:0.75em"> • amanhã</span>':diff>1&&diff<=7?'<span style="color:#2d7a5a;font-size:0.75em"> • em '+diff+' dias</span>':diff<0?'<span style="color:var(--texto3);font-size:0.75em"> • realizada</span>':'';
+    return '<div class="'+cls+'">'+
+      '<div class="aud-data-box">'+
+        '<div class="aud-data-dia">'+(p[2]?parseInt(p[2]):'—')+'</div>'+
+        '<div class="aud-data-mes">'+(p[1]?M[parseInt(p[1])-1]:'')+'</div>'+
+        '<div class="aud-data-mes">'+(p[0]||'')+'</div>'+
+        '<div class="aud-hora-badge">'+(a.hora||'—')+'</div>'+
+      '</div>'+
+      '<div>'+
+        '<div class="aud-tipo">'+escHtml(a.tipo||'—')+difTxt+'</div>'+
+        (a.cliente?'<div class="aud-info">👤 '+escHtml(a.cliente)+'</div>':'')+
+        (a.vara?'<div class="aud-info">⚖️ '+escHtml(a.vara)+'</div>':'')+
+        (a.local?'<div class="aud-info">📍 '+escHtml(a.local)+'</div>':'')+
+        (a.obs?'<div class="aud-info" style="font-style:italic">📝 '+escHtml(a.obs)+'</div>':'')+
+      '</div>'+
+      '<div style="display:flex;flex-direction:column;gap:6px">'+
+        '<button onclick="abrirModalAud('+idx+')" class="btn-xs">✏️</button>'+
+        '<button onclick="excluirAud('+idx+')" class="btn-xs btn-xs-del">✕</button>'+
+      '</div></div>';
+  }).join('');
+}
+
+function renderAudiencias(){
+  renderCalAud(); renderAvisos(); renderListaAud();
+}
+
+function atualizarBadgeAud(){
+  var hoje=new Date(); hoje.setHours(0,0,0,0);
+  var n=_audiencias.filter(function(a){
+    if(!a.data) return false;
+    var d=new Date(a.data+'T00:00:00');
+    return Math.round((d-hoje)/(1000*60*60*24))>=0;
+  }).length;
+  var badge=document.getElementById('badge-aud');
+  if(badge){badge.style.display=n>0?'inline':'none';badge.textContent=n;}
+}
+
+
 preCarregar();
 </script>
 </div>

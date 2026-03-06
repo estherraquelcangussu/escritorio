@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Escritório [v48 — 04/03/2026 16:46]</title>
+<title>Escritório [v53 — 06/03/2026 16:28]</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&display=swap');
@@ -1332,7 +1332,8 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
       <div id="det-caso-resumo"></div>
       <div id="det-hon-resumo"></div>
       <div class="m-tabs">
-        <button class="m-tab ativo" onclick="mTab('m-and',this)">📝 Andamentos</button>
+        <button class="m-tab ativo" onclick="mTab('m-and',this)">📋 Histórico</button>
+        <button class="m-tab" id="tab-outros-proc" onclick="mTab('m-outros-proc',this);renderOutrosProc()" style="display:none">📂 Processos <span id="badge-outros-proc" style="background:#2d5f8a;color:#fff;border-radius:10px;padding:1px 6px;font-size:0.72em;font-weight:700;margin-left:3px">0</span></button>
         <button class="m-tab" onclick="mTab('m-hon',this)">💰 Honorários</button>
         <button class="m-tab" onclick="mTab('m-docs',this)">📄 Documentos</button>
         <button class="m-tab" onclick="mTab('m-edit',this)">✏️ Editar</button>
@@ -1384,6 +1385,19 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
         <button class="btn-prim" style="width:auto;margin-top:8px;padding:7px 18px" onclick="salvarAnd()">+ Salvar Andamento</button>
         <div class="sec">Histórico</div>
         <div id="and-hist"></div>
+      </div>
+
+
+      <!-- ABA OUTROS PROCESSOS DO MESMO CLIENTE -->
+      <div class="m-pane" id="m-outros-proc">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+          <div>
+            <div style="font-weight:700;font-size:1em;color:var(--texto1)" id="outros-proc-titulo">Processos do cliente</div>
+            <div style="font-size:0.8em;color:var(--texto3);margin-top:2px">Todos os processos vinculados a este cliente</div>
+          </div>
+          <button class="btn-prim" onclick="adicionarNovoProcesso()" style="padding:7px 16px;font-size:0.82em">+ Novo Processo</button>
+        </div>
+        <div id="outros-proc-lista"></div>
       </div>
 
       <!-- ABA HONORÁRIOS -->
@@ -1721,7 +1735,7 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
           <span style="font-weight:700;font-size:0.82em;color:var(--texto2);text-transform:uppercase;letter-spacing:.5px">💰 Pagamentos Registrados</span>
           <div style="display:flex;gap:5px">
             <button style="background:#fdf6e3;color:#7a4e00;border:1px solid #c9a96e;border-radius:5px;padding:3px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="toggleRecibosHonFin()">🧾 Ver Recibos</button>
-            <button style="background:#fdf6e3;color:#7a4e00;border:1px solid #c9a96e;border-radius:5px;padding:3px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="gerarReciboConsolidadoHonFin()">🧾 Consolidado</button>
+            <button style="background:#fdf6e3;color:#7a4e00;border:1px solid #c9a96e;border-radius:5px;padding:3px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="abrirModalReciboEdit()">🧾 Consolidado</button>
           </div>
         </div>
         <div id="hon-fin-pags"></div>
@@ -1754,7 +1768,7 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
         <div style="font-weight:700;font-size:0.82em;color:var(--acento);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">🧾 Pagamentos para Recibo</div>
         <div id="hon-fin-recibos-lista"></div>
         <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
-          <button class="btn-prim" style="background:var(--acento);padding:7px 16px;font-size:0.82em" onclick="gerarReciboConsolidadoHonFin()">🧾 Recibo Consolidado (todos pagos)</button>
+          <button class="btn-prim" style="background:var(--acento);padding:7px 16px;font-size:0.82em" onclick="abrirModalReciboEdit()">🧾 Recibo Consolidado (todos pagos)</button>
           <button class="btn-xs" onclick="document.getElementById('hon-fin-sec-recibos').style.display='none'">Fechar recibos</button>
         </div>
       </div>
@@ -2165,13 +2179,146 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
   </div>
 </div>
 
+
+<!-- MODAL CONCLUIR AUDIÊNCIA -->
+<div class="ov" id="ov-aud-concluir" onclick="fecharOvFora(event,'ov-aud-concluir')">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-head" style="background:linear-gradient(135deg,#2d7a5a,#3da870)">
+      <h3 style="color:#fff">✅ Concluir Audiência</h3>
+      <button class="modal-close" onclick="fecharOv('ov-aud-concluir')" style="color:#fff">×</button>
+    </div>
+    <div class="modal-body" style="display:grid;gap:12px">
+      <div style="background:var(--fundo);border-radius:8px;padding:10px 14px">
+        <div style="font-size:0.72em;color:var(--texto3);font-weight:700;margin-bottom:3px">AUDIÊNCIA</div>
+        <div id="aud-concluir-titulo" style="font-weight:700;color:var(--texto1)"></div>
+        <div id="aud-concluir-info" style="font-size:0.82em;color:var(--texto2);margin-top:3px"></div>
+      </div>
+      <div>
+        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Resultado *</label>
+        <select id="aud-concluir-status" class="inp" style="width:100%">
+          <option value="realizada">✅ Realizada</option>
+          <option value="remarcada">🔄 Remarcada para outra data</option>
+          <option value="cancelada">❌ Cancelada</option>
+          <option value="suspensa">⏸ Suspensa</option>
+          <option value="adiada">📅 Adiada</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">O que aconteceu? *</label>
+        <textarea id="aud-concluir-relato" class="inp" rows="4" style="width:100%;resize:vertical" placeholder="Descreva o resultado da audiência, decisões tomadas, acordos firmados..."></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Data de realização</label>
+          <input type="text" id="aud-concluir-data" class="inp" style="width:100%" placeholder="dd/mm/aaaa" maxlength="10" oninput="mascaraDataAud(this)">
+        </div>
+        <div>
+          <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Nova data (se remarcada)</label>
+          <input type="text" id="aud-concluir-novaData" class="inp" style="width:100%" placeholder="dd/mm/aaaa" maxlength="10" oninput="mascaraDataAud(this)">
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">
+        <button class="btn-xs" onclick="fecharOv('ov-aud-concluir')">Cancelar</button>
+        <button class="btn-prim" onclick="salvarConcluirAud()" style="background:var(--verde);padding:8px 20px">✅ Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL RECIBO EDITÁVEL -->
+<div class="ov" id="ov-recibo-edit" onclick="fecharOvFora(event,'ov-recibo-edit')">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-head" style="background:linear-gradient(135deg,#3a2008,#6b4423)">
+      <h3 style="color:#f5ede0">🧾 Recibo Consolidado — Editar antes de gerar</h3>
+      <button class="modal-close" style="color:#f5ede0" onclick="fecharOv('ov-recibo-edit')">×</button>
+    </div>
+    <div class="modal-body" style="display:grid;gap:14px">
+      <div style="background:var(--fundo);border-radius:8px;padding:10px 14px;font-size:0.82em;color:var(--texto2)">
+        ✏️ Edite os campos abaixo antes de gerar o recibo. As alterações <strong>não</strong> são salvas no cadastro.
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Nome do Advogado</label>
+          <input id="re_adv" class="inp" style="width:100%" value="Esther Raquel Cangussu Bernardes dos Santos"></div>
+        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">OAB</label>
+          <input id="re_oab" class="inp" style="width:100%" value="OAB/SP 469.261"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Cliente</label>
+          <input id="re_cli" class="inp" style="width:100%"></div>
+        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">CPF/CNPJ</label>
+          <input id="re_cpf" class="inp" style="width:100%"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Processo</label>
+          <input id="re_proc" class="inp" style="width:100%"></div>
+        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Ação/Referência</label>
+          <input id="re_acao" class="inp" style="width:100%"></div>
+      </div>
+      <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Endereço do Escritório</label>
+        <input id="re_end" class="inp" style="width:100%" value="Rua Expedicionários, 1019, Centro — São Simão/SP · CEP 14200-013"></div>
+      <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Cidade (para assinatura)</label>
+        <input id="re_cidade" class="inp" style="width:100%" value="São Simão/SP"></div>
+      <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Observação adicional (opcional)</label>
+        <textarea id="re_obs" class="inp" rows="2" style="width:100%;resize:vertical" placeholder="Texto adicional a incluir no recibo..."></textarea></div>
+      <div id="re_pagamentos_lista" style="background:var(--fundo);border-radius:8px;padding:12px;font-size:0.82em;max-height:200px;overflow-y:auto"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn-xs" onclick="fecharOv('ov-recibo-edit')">Cancelar</button>
+        <button class="btn-prim" onclick="gerarReciboComDadosEdit()" style="background:linear-gradient(135deg,#3a2008,#6b4423);padding:8px 22px">🖨️ Gerar Recibo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL INSTRUÇÃO PAGAMENTO EDITÁVEL -->
+<div class="ov" id="ov-boleto-edit" onclick="fecharOvFora(event,'ov-boleto-edit')">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-head" style="background:linear-gradient(135deg,#2d7a5a,#1a5e3a)">
+      <h3 style="color:#fff">📄 Instrução de Pagamento — Editar</h3>
+      <button class="modal-close" style="color:#fff" onclick="fecharOv('ov-boleto-edit')">×</button>
+    </div>
+    <div class="modal-body" style="display:grid;gap:14px">
+      <div style="background:var(--fundo);border-radius:8px;padding:10px 14px;font-size:0.82em;color:var(--texto2)">
+        ✏️ Edite os campos antes de gerar o documento.
+      </div>
+      <input type="hidden" id="be_r_json">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Cliente</label>
+          <input id="be_cli" class="inp" style="width:100%"></div>
+        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">CPF</label>
+          <input id="be_cpf" class="inp" style="width:100%"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Referência/Descrição</label>
+          <input id="be_desc" class="inp" style="width:100%"></div>
+        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Processo</label>
+          <input id="be_proc" class="inp" style="width:100%"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Valor</label>
+          <input id="be_valor" class="inp" style="width:100%"></div>
+        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Vencimento</label>
+          <input id="be_venc" class="inp" style="width:100%" placeholder="dd/mm/aaaa" maxlength="10"></div>
+        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Forma</label>
+          <input id="be_forma" class="inp" style="width:100%"></div>
+      </div>
+      <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Observação adicional</label>
+        <textarea id="be_obs" class="inp" rows="2" style="width:100%;resize:vertical" placeholder="Instruções adicionais..."></textarea></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn-xs" onclick="fecharOv('ov-boleto-edit')">Cancelar</button>
+        <button class="btn-prim" onclick="gerarBoletoComEdit()" style="background:#2d7a5a;padding:8px 22px">📄 Gerar Documento</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- FABS -->
 <div class="fab-wrap">
   <button class="fab fab-cloud" onclick="salvarNuvem()">☁️ Salvar</button>
   <button class="fab fab-save" onclick="salvarTudo()">💾 Backup</button>
 </div>
 <div class="toast" id="toast"></div>
-<div id="version-badge" style="position:fixed;bottom:8px;right:8px;background:rgba(0,0,0,.45);color:#fff;font-size:10px;padding:3px 8px;border-radius:10px;z-index:9999;font-family:monospace;pointer-events:none">v48 — 04/03/2026 16:46</div>
+<div id="version-badge" style="position:fixed;bottom:8px;right:8px;background:rgba(0,0,0,.45);color:#fff;font-size:10px;padding:3px 8px;border-radius:10px;z-index:9999;font-family:monospace;pointer-events:none">v53 — 06/03/2026 16:28</div>
 
 <script>
 // ── irPag declarada no topo para estar disponível em todo o HTML ──
@@ -2710,6 +2857,14 @@ function abrirDet(idx){
   document.getElementById('ed_cli').value=m.cli||''; document.getElementById('ed_cpf').value=m.cpf||''; document.getElementById('ed_proc').value=m.p||''; dateSet('ed_data', m.d||''); document.getElementById('ed_area').value=m.area||''; document.getElementById('ed_status').value=m.s||''; var edDefEl=document.getElementById('ed_def'); if(edDefEl) edDefEl.checked=m.def||false;
   aplicarBloqueioDefensoria(m.def||false);
   renderHist(m); renderPags(m); renderDocs(m); renderDrive(m); renderCasoRes(m); renderHonRes(m); _iaHistorico=[]; iaAtualizarContexto();
+  // Mostrar aba de outros processos se houver
+  var outrosCount = dados.filter(function(x,xi){ return xi!==idx && x.cli && x.cli===m.cli; }).length;
+  var tabOutros = document.getElementById('tab-outros-proc');
+  var badgeOutros = document.getElementById('badge-outros-proc');
+  if(tabOutros){ tabOutros.style.display = outrosCount>0 ? 'inline-block' : 'none'; }
+  if(badgeOutros){ badgeOutros.textContent = outrosCount+1; }
+  var titOutros = document.getElementById('outros-proc-titulo');
+  if(titOutros) titOutros.textContent = 'Processos de '+(m.cli||'cliente')+' ('+(outrosCount+1)+' total)';
   document.querySelector('.m-tab.ativo').click();
   document.getElementById('ov-det').classList.add('aberto');
   setTimeout(function(){ var mb=document.querySelector('#ov-det .modal-body'); if(mb) mb.scrollTop=0; }, 50);
@@ -2946,7 +3101,11 @@ function salvarHon(){
   h.obs=document.getElementById('h_obs').value;
   // Calcular saldo automaticamente
   calcularSaldoHon();
-  save(); renderHonRes(dados[idxAtual]); render(dados); toggleParcelas(); toast('💰 Honorários salvos!');
+  // Registrar no histórico
+  var h2 = dados[idxAtual].hon||{};
+  var descHon = '💰 Honorários atualizados: Total R$'+(h2.total||'—')+' | Forma: '+(h2.forma||'—')+' | Status: '+(h2.status||'—');
+  registrarHistorico(idxAtual, 'Atualização de Honorários', descHon, new Date().toISOString().slice(0,10));
+  save(); renderHonRes(dados[idxAtual]); render(dados); toggleParcelas(); renderHist(dados[idxAtual]); toast('💰 Honorários salvos!');
 }
 
 // ── PARCELAS ──
@@ -3131,7 +3290,11 @@ function addPagamento(){
   var desc = document.getElementById('pg_desc').value.trim();
   if(!val){alert('Informe o valor.');return;}
   if(!dados[idxAtual].pagamentos) dados[idxAtual].pagamentos=[];
-  dados[idxAtual].pagamentos.push({data:dt, venc:venc, valor:val, desc:desc});
+  var novoPag = {data:dt, venc:venc, valor:val, desc:desc, _manual:true};
+  dados[idxAtual].pagamentos.push(novoPag);
+  // Registrar no histórico
+  var descHist = '💰 Pagamento registrado: R$ '+val+(desc?' — '+desc:'')+(dt?' em '+fmt(dt):'')+(venc?' | Venc: '+fmt(venc):'');
+  registrarHistorico(idxAtual, 'Pagamento', descHist, dt||new Date().toISOString().slice(0,10));
   save();
   renderPags(dados[idxAtual]);
   dateSet('pg_data', '');
@@ -3146,21 +3309,8 @@ function renderPags(m){
   if(avisoDefPag) avisoDefPag.style.display = (m.def) ? 'flex' : 'none';
   var addBtnPag = document.querySelector('button[onclick="addPagamento()"]');
   if(addBtnPag){ addBtnPag.disabled = m.def||false; addBtnPag.style.opacity = m.def ? '0.35' : ''; }
-  // Sincronizar parcelas pagas → m.pagamentos (garante vínculo sempre)
-  if(m.hon && m.hon.parcelas){
-    m.hon.parcelas.forEach(function(p, pi){
-      if(p.pago){
-        if(!m.pagamentos) m.pagamentos=[];
-        var existe = m.pagamentos.findIndex(function(pg){ return parseInt(pg._parcela)===pi; });
-        var dtPago = p.dtPago||p.dtpag||'';
-        var entrada = {data:dtPago, venc:p.venc||'', valor:p.valorPago||p.valor,
-          desc:'Parcela '+p.num+(m.hon&&m.hon.obs?' — '+m.hon.obs:''),
-          forma:p.forma||'', _parcela:pi};
-        if(existe<0) m.pagamentos.push(entrada);
-        else if(dtPago && !m.pagamentos[existe].data) m.pagamentos[existe]=entrada;
-      }
-    });
-  }
+  // Sincronização de parcelas removida daqui para evitar duplicatas
+  // Parcelas pagas são registradas apenas uma vez ao marcar como pago
   var div=document.getElementById('pag-lista');
   var selBar=document.getElementById('pag-sel-bar');
   if(!m.pagamentos||!m.pagamentos.length){
@@ -3475,6 +3625,15 @@ function salvarTarefa(){
     toast('✏️ Tarefa atualizada!');
   } else {
     _tarefas.push(nova);
+    // Registrar no histórico do cliente se vinculado
+    if(ref){
+      var idxCli = encontrarIdxCliente(ref);
+      if(idxCli >= 0){
+        var prioLabel = {alta:'🔴 Alta',media:'🟡 Média',baixa:'🟢 Baixa'}[prio]||prio;
+        var descHist = '📋 Tarefa criada: '+titulo+(prazo?' | Prazo: '+fmt(prazo):'')+(desc?' — '+desc:'');
+        registrarHistorico(idxCli, 'Tarefa Criada ('+prioLabel+')', descHist, nova.criada);
+      }
+    }
     toast('📋 Tarefa criada!');
   }
   salvarTarefasLocal();
@@ -3508,10 +3667,18 @@ function confirmarCumprimento(){
   t.dtCumprimento = dt;
   t.horaCumprimento = hora;
   t.relatoCumprimento = relato;
+  // ── Registrar no histórico do cliente vinculado ──
+  var idxCli = encontrarIdxCliente(t.ref || t.titulo);
+  if(idxCli >= 0){
+    var desc = '📋 Tarefa concluída: ' + t.titulo + (hora?' às '+hora:'') + '\n' + relato;
+    registrarHistorico(idxCli, 'Cumprimento de Tarefa', desc, dt);
+    toast('✅ Cumprimento registrado no histórico de ' + dados[idxCli].cli + '!');
+  } else {
+    toast('✅ Tarefa cumprida! Registrado em '+fmt(dt)+(hora?' às '+hora:'')+'.');
+  }
   salvarTarefasLocal();
   fecharOv('ov-cumprir');
   renderTarefas();
-  toast('✅ Tarefa cumprida! Registrado em '+fmt(dt)+(hora?' às '+hora:'')+'.');
 }
 
 function excluirTarefa(idx){
@@ -3546,15 +3713,17 @@ function renderTarefas(){
   var painel = document.getElementById('tarefas-painel');
   if(painel) painel.style.display = 'block';
 
-  if(!_tarefas.length){
-    lista.innerHTML = '<div style="text-align:center;padding:14px;color:var(--texto3);font-size:0.85em">Nenhuma tarefa criada. Clique em <strong>+ Nova Tarefa</strong> para começar.</div>';
+  var pendentes2 = _tarefas.filter(function(t){ return !t.concluida; });
+  var concluidas2 = _tarefas.filter(function(t){ return t.concluida; });
+  if(!pendentes2.length){
+    lista.innerHTML = '<div style="text-align:center;padding:14px;color:var(--texto3);font-size:0.85em">'+(concluidas2.length?'✅ '+concluidas2.length+' tarefa(s) concluída(s). Nenhuma pendente.':'Nenhuma tarefa criada. Clique em <strong>+ Nova Tarefa</strong> para começar.')+'</div>';
     return;
   }
 
   var hoje = new Date(); hoje.setHours(0,0,0,0);
 
-  // Ordenar: pendentes urgentes primeiro, depois por prazo, depois concluídas
-  var ordenadas = _tarefas.slice().map(function(t,i){ return {t:t,i:i}; });
+  // Mostrar apenas pendentes na tela principal (concluídas somem)
+  var ordenadas = _tarefas.slice().map(function(t,i){ return {t:t,i:i}; }).filter(function(o){ return !o.t.concluida; });
   ordenadas.sort(function(a,b){
     if(a.t.concluida !== b.t.concluida) return a.t.concluida ? 1 : -1;
     var pa = a.t.prazo ? new Date(a.t.prazo+'T00:00:00') : null;
@@ -4001,20 +4170,7 @@ function abrirReciboConsolidado(){
   var m = dados[idxAtual];
   if(!m) return;
   // Sincronizar parcelas pagas → m.pagamentos
-  if(m.hon && m.hon.parcelas){
-    m.hon.parcelas.forEach(function(p, pi){
-      if(p.pago){
-        if(!m.pagamentos) m.pagamentos=[];
-        var existe = m.pagamentos.findIndex(function(pg){ return parseInt(pg._parcela)===pi; });
-        var dtPago = p.dtPago||p.dtpag||'';
-        var entrada = {data:dtPago, venc:p.venc||'', valor:p.valorPago||p.valor,
-          desc:'Parcela '+p.num+(m.hon&&m.hon.obs?' — '+m.hon.obs:''),
-          forma:p.forma||'', _parcela:pi};
-        if(existe<0) m.pagamentos.push(entrada);
-        else if(!m.pagamentos[existe].data && dtPago) m.pagamentos[existe]=entrada;
-      }
-    });
-  }
+  /* Sync de parcelas desabilitada — evita duplicatas na lista de pagamentos */
   // Coletar pagamentos selecionados
   var checks = document.querySelectorAll('.pag-check:checked');
   var selecionados = [];
@@ -4067,7 +4223,7 @@ function abrirReciboConsolidado(){
       + '</tr>';
   }).join('');
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v48 — 04/03/2026 16:46]</title><style>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v53 — 06/03/2026 16:28]</title><style>'
     + '@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap");'
     + '*{margin:0;padding:0;box-sizing:border-box}'
     + 'body{font-family:"Cormorant Garamond",Georgia,serif;max-width:740px;margin:40px auto;padding:36px 48px;color:#1a1a1a;background:#fff;font-size:16px}'
@@ -4172,7 +4328,7 @@ function gerarRecibo(){
   var vencVal = document.getElementById('rc_venc') ? dateVal('rc_venc') : '';
   var vencFmt = vencVal ? (function(d){var p=d.split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:d;})(vencVal) : '';
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v48 — 04/03/2026 16:46]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v53 — 06/03/2026 16:28]</title>'
     + '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=EB+Garamond:wght@400;600&display=swap" rel="stylesheet">'
     + '<style>'
     + 'body{font-family:"Cormorant Garamond","EB Garamond",Georgia,serif;max-width:680px;margin:40px auto;padding:36px 48px;color:#1a1a1a;background:#fff;line-height:1.6}'
@@ -4688,7 +4844,7 @@ function gerarReciboConsolidadoHonFin(){
 
   var totalFmt = 'R$ '+totalV.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v48 — 04/03/2026 16:46]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v53 — 06/03/2026 16:28]</title>'
     +'<style>'
     +'@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap");'
     +'*{margin:0;padding:0;box-sizing:border-box}'
@@ -4729,7 +4885,7 @@ function gerarReciboConsolidadoHonFin(){
     +', a título de honorários advocatícios'+(caso?' referentes a <span class="dest">'+caso+'</span>':'')
     +(proc?' — Processo nº <span class="dest">'+proc+'</span>':'')
     +', os seguintes pagamentos:</div>'
-    +'<div class="secao">Discriminação dos Pagamentos</div>'
+    +(m&&m.hon&&m.hon.total?'<div style="background:#fdf8f0;border:1px solid #e8d4bc;border-radius:6px;padding:12px 16px;margin:14px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"><div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;letter-spacing:.8px">Valor do Contrato</div><div style="font-size:17px;font-weight:700;color:#3a2008;margin-top:3px">R$ '+m.hon.total+'</div></div><div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;letter-spacing:.8px">Total de Parcelas</div><div style="font-size:17px;font-weight:700;color:#3a2008;margin-top:3px">'+(m.hon.parcelas?m.hon.parcelas.length:1)+'</div></div><div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;letter-spacing:.8px">Parcelas Pagas</div><div style="font-size:17px;font-weight:700;color:#2d7a5a;margin-top:3px">'+pagos.length+'</div></div></div>':'')+'<div class="secao">Discriminação dos Pagamentos</div>'
     +'<table class="tab-pags"><thead><tr>'
     +'<th style="width:34px">#</th><th style="width:110px">Valor</th><th style="width:110px">Pago em</th><th style="width:110px">Vencimento</th><th style="width:100px">Forma</th><th>Referência</th>'
     +'</tr></thead><tbody>'+tabelaLinhas+'</tbody>'
@@ -4848,7 +5004,8 @@ function renderBoletos(){
       +'<td style="padding:9px 12px;font-weight:800;text-align:right">'+escHtml(r.valor)+'</td>'
       +'<td style="padding:7px 10px;text-align:center">'
       +'<div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap">'
-      +'<button style="background:#edf5f0;color:#2d7a5a;border:1px solid #2d7a5a;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="gerarBoleto('+JSON.stringify(r).replace(/"/g,"&quot;")+')" title="Gerar instrução de pagamento">📄 Gerar Instrução de Pagamento</button>'
+      +'<button style="background:#edf5f0;color:#2d7a5a;border:1px solid #2d7a5a;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="abrirModalBoletoEdit('+JSON.stringify(r).replace(/"/g,"&quot;")+')" title="Gerar instrução de pagamento">📄 Gerar Instrução de Pagamento</button>'
+      +'<button style="background:#fff8e0;color:#8b6000;border:1px solid #c4a040;margin-left:4px;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="gerarInstrucaoAberto('+JSON.stringify(r).replace(/"/g,"&quot;")+')" title="Parcelas em aberto">📋 Todas em Aberto</button>'
       +'<button style="background:#e8f4ff;color:#1a6aaa;border:1px solid #1a6aaa;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="marcarPagoBoleto('+JSON.stringify(r).replace(/"/g,"&quot;")+')" title="Marcar como pago">✅ Colocar Pago</button>'
       +'</div></td>'
       +'</tr>';
@@ -4909,6 +5066,9 @@ function marcarPagoBoleto(r){
     var entrada = {data:iso, venc:p.venc||'', valor:p.valorPago||p.valor,
       desc:'Parcela '+p.num+(m.hon&&m.hon.obs?' — '+m.hon.obs:''), forma:p.forma||'', _parcela:r.idxParc};
     if(existe<0) m.pagamentos.push(entrada); else m.pagamentos[existe]=entrada;
+    // Histórico
+    var descPag2 = '💰 Parcela '+p.num+' paga: R$'+(p.valorPago||p.valor)+' em '+dt;
+    registrarHistorico(r.idxM, 'Pagamento de Parcela', descPag2, iso);
     save();
     renderBoletos();
     renderFinanc();
@@ -4922,9 +5082,9 @@ function gerarBoleto(r){
   var oab    = 'OAB/SP 469.261';
   var hoje   = new Date().toLocaleDateString('pt-BR');
   var num    = 'BOL-'+Date.now()%100000;
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v48 — 04/03/2026 16:46]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v53 — 06/03/2026 16:28]</title>'
     +'<style>'
-    +'@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap");'
+    +'@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap");'
     +'*{margin:0;padding:0;box-sizing:border-box}'
     +'body{font-family:"Inter",sans-serif;padding:36px 42px;max-width:740px;margin:0 auto;color:#1a1a1a;font-size:14.5px;background:#fff;line-height:1.6}'
     +'.h-bol{padding-bottom:16px;margin-bottom:0;border-bottom:3px solid #3a2008;display:flex;justify-content:space-between;align-items:flex-start}'
@@ -5202,6 +5362,7 @@ function renderFinanc(){
     if(!filtroTipoVal || filtroTipoVal === 'honorario' || filtroTipoVal === 'pagamento'){
       if(m.pagamentos && m.pagamentos.length){
         m.pagamentos.forEach(function(p, pi){
+          if(p._parcela !== undefined && p._parcela !== null) return; // parcela já listada acima
           var dataRef = p.venc || p.data || '';
           if(filtroMes && dataRef && dataRef.substring(5,7) !== filtroMes) return;
           if(filtroAno && dataRef && dataRef.substring(0,4) !== filtroAno) return;
@@ -6229,6 +6390,20 @@ function salvarAud(){
   else _audiencias.push(aud);
   _audiencias.sort(function(a,b){return (a.data+a.hora).localeCompare(b.data+b.hora);});
   salvarAudsLocal(); save(); fecharOv('ov-aud'); renderAudiencias(); atualizarBadgeAud();
+  // Registrar no histórico do cliente
+  if(aud.cliente){
+    var idxCliAud = encontrarIdxCliente(aud.cliente);
+    if(idxCliAud >= 0){
+      var M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+      var pa = aud.data ? aud.data.split('-') : ['','',''];
+      var descAud = '📅 Audiência agendada: '+aud.tipo+
+        (aud.data?' em '+parseInt(pa[2])+'/'+(pa[1]?M[parseInt(pa[1])-1]:'')+'/'+pa[0]:'')+
+        (aud.hora?' às '+aud.hora:'')+
+        (aud.vara?' | '+aud.vara:'')+
+        (aud.local?' | '+aud.local:'');
+      registrarHistorico(idxCliAud, 'Audiência Agendada', descAud, aud.data||new Date().toISOString().slice(0,10));
+    }
+  }
   toast('📅 Audiência salva!');
 }
 
@@ -6327,7 +6502,8 @@ function renderListaAud(){
     var hoje2=new Date(); hoje2.setHours(0,0,0,0);
     var diff=dObj?Math.round((dObj-hoje2)/(1000*60*60*24)):999;
     var cls='aud-card'+(diff===0?' aud-hoje':diff<0?' aud-passada':diff<=7?' aud-proxima':'');
-    var difTxt=diff===0?'<span style="color:#c0432a;font-weight:700;font-size:0.75em"> • HOJE</span>':diff===1?'<span style="color:#f0a500;font-size:0.75em"> • amanhã</span>':diff>1&&diff<=7?'<span style="color:#2d7a5a;font-size:0.75em"> • em '+diff+' dias</span>':diff<0?'<span style="color:var(--texto3);font-size:0.75em"> • realizada</span>':'';
+    var statusLabel = a.status==='realizada'?'<span style="color:#2d7a5a;font-size:0.75em;background:#e8f5ec;border-radius:4px;padding:1px 6px">✅ Realizada</span>':a.status==='remarcada'?'<span style="color:#f0a500;font-size:0.75em;background:#fff8e0;border-radius:4px;padding:1px 6px">🔄 Remarcada</span>':a.status==='cancelada'?'<span style="color:#c0432a;font-size:0.75em;background:#fff0f0;border-radius:4px;padding:1px 6px">❌ Cancelada</span>':'';
+    var difTxt=statusLabel||(diff===0?'<span style="color:#c0432a;font-weight:700;font-size:0.75em"> • HOJE</span>':diff===1?'<span style="color:#f0a500;font-size:0.75em"> • amanhã</span>':diff>1&&diff<=7?'<span style="color:#2d7a5a;font-size:0.75em"> • em '+diff+' dias</span>':diff<0?'<span style="color:var(--texto3);font-size:0.75em"> • passou</span>':'');
     return '<div class="'+cls+'">'+
       '<div class="aud-data-box">'+
         '<div class="aud-data-dia">'+(p[2]?parseInt(p[2]):'—')+'</div>'+
@@ -6344,6 +6520,7 @@ function renderListaAud(){
         (a.obs?'<div class="aud-info" style="font-style:italic">📝 '+escHtml(a.obs)+'</div>':'')+
       '</div>'+
       '<div style="display:flex;flex-direction:column;gap:6px">'+
+        (a.status!=='realizada'&&a.status!=='remarcada'?'<button onclick="abrirConcluirAud('+idx+')" class="btn-xs btn-xs-verde" title="Concluir audiência">✅</button>':'')+
         '<button onclick="abrirModalAud('+idx+')" class="btn-xs">✏️</button>'+
         '<button onclick="excluirAud('+idx+')" class="btn-xs btn-xs-del">✕</button>'+
       '</div></div>';
@@ -6365,6 +6542,395 @@ function atualizarBadgeAud(){
   if(badge){badge.style.display=n>0?'inline':'none';badge.textContent=n;}
 }
 
+
+
+// ── Registra qualquer evento no histórico (andamentos) de um cliente ──
+function registrarHistorico(idxCliente, tipo, descricao, data){
+  if(idxCliente < 0 || !dados[idxCliente]) return;
+  if(!dados[idxCliente].andamentos) dados[idxCliente].andamentos = [];
+  var dt = data || new Date().toISOString().slice(0,10);
+  dados[idxCliente].andamentos.push({
+    data: dt,
+    and: tipo,
+    prot: '',
+    prazo: '',
+    status: 'Concluído',
+    obs: descricao
+  });
+  save();
+}
+
+// Encontra índice do cliente pelo nome/referência da tarefa
+function encontrarIdxCliente(ref){
+  if(!ref) return -1;
+  var r = ref.toLowerCase();
+  for(var i=0; i<dados.length; i++){
+    var m = dados[i];
+    if((m.cli||'').toLowerCase().includes(r)) return i;
+    if((m.p||'').toLowerCase().includes(r)) return i;
+  }
+  return -1;
+}
+
+
+var _audConcluirIdx = -1;
+
+function abrirConcluirAud(idx){
+  _audConcluirIdx = idx;
+  var a = _audiencias[idx];
+  if(!a) return;
+  var M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  var p = a.data ? a.data.split('-') : ['','',''];
+  document.getElementById('aud-concluir-titulo').textContent = a.tipo || '—';
+  document.getElementById('aud-concluir-info').textContent = 
+    (p[2]?parseInt(p[2])+'/'+(p[1]?M[parseInt(p[1])-1]:'')+'/'+p[0]:'') + 
+    (a.hora?' às '+a.hora:'') + (a.cliente?' | '+a.cliente:'') + (a.local?' | '+a.local:'');
+  document.getElementById('aud-concluir-status').value = 'realizada';
+  document.getElementById('aud-concluir-relato').value = '';
+  // Data padrão = data da audiência
+  var hoje = new Date();
+  var dataHoje = String(hoje.getDate()).padStart(2,'0')+'/'+String(hoje.getMonth()+1).padStart(2,'0')+'/'+hoje.getFullYear();
+  document.getElementById('aud-concluir-data').value = a.data ? (p[2]+'/'+p[1]+'/'+p[0]) : dataHoje;
+  document.getElementById('aud-concluir-novaData').value = '';
+  document.getElementById('ov-aud-concluir').classList.add('aberto');
+}
+
+function salvarConcluirAud(){
+  var relato = document.getElementById('aud-concluir-relato').value.trim();
+  var status = document.getElementById('aud-concluir-status').value;
+  var dataStr = document.getElementById('aud-concluir-data').value;
+  var novaData = document.getElementById('aud-concluir-novaData').value;
+  if(!relato){ alert('Descreva o que aconteceu na audiência.'); return; }
+  var a = _audiencias[_audConcluirIdx];
+  if(!a) return;
+  // Atualizar audiência
+  a.status = status;
+  a.relatoConclusao = relato;
+  a.dataConclusao = audParseData(dataStr);
+  if(novaData) a.novaData = audParseData(novaData);
+  // Se remarcada, criar nova audiência
+  if(status === 'remarcada' && novaData){
+    var novaAud = {
+      data: audParseData(novaData), hora: a.hora, tipo: a.tipo,
+      cliente: a.cliente, vara: a.vara, local: a.local,
+      obs: 'Remarcada de '+audFormatData(a.data)+'. '+relato
+    };
+    _audiencias.push(novaAud);
+    _audiencias.sort(function(x,y){ return (x.data+x.hora).localeCompare(y.data+y.hora); });
+  }
+  salvarAudsLocal();
+  // ── Registrar no histórico do cliente ──
+  var idxCli = encontrarIdxCliente(a.cliente);
+  if(idxCli >= 0){
+    var statusLabel = {realizada:'Realizada',remarcada:'Remarcada',cancelada:'Cancelada',suspensa:'Suspensa',adiada:'Adiada'}[status]||status;
+    var descHist = '⚖️ Audiência '+statusLabel+': '+a.tipo+
+      (a.data?' em '+audFormatData(a.data)+(a.hora?' às '+a.hora:''):'')+
+      (a.local?' | '+a.local:'')+
+      '\n'+relato+
+      (novaData&&status==='remarcada'?' | Nova data: '+novaData:'');
+    registrarHistorico(idxCli, 'Audiência — '+statusLabel, descHist, audParseData(dataStr));
+    toast('✅ Audiência concluída! Registrado no histórico de '+dados[idxCli].cli+'.');
+  } else {
+    toast('✅ Audiência marcada como '+status+'!');
+  }
+  save();
+  fecharOv('ov-aud-concluir');
+  renderAudiencias();
+  atualizarBadgeAud();
+}
+
+
+function gerarInstrucaoAberto(r){
+  var m = null;
+  dados.forEach(function(d){
+    if((d.cli||'')===( r.cli||'') && (d.p||'')===(r.proc||'')) m=d;
+    else if((d.cli||'')===(r.cli||'') && !m) m=d;
+  });
+  if(!m) m=r;
+
+  var adv   = 'Esther Raquel Cangussu Bernardes dos Santos';
+  var oab   = 'OAB/SP 469.261';
+  var hoje  = new Date().toLocaleDateString('pt-BR');
+  var hoje2 = new Date(); hoje2.setHours(0,0,0,0);
+  var num   = 'INS-'+Date.now()%100000;
+
+  var parcelasAberto = [], parcelasPagas = [];
+  var totalContrato = (m.hon&&m.hon.total)||'';
+  var nParcelas = (m.hon&&m.hon.parcelas) ? m.hon.parcelas.length : 0;
+
+  if(m.hon && m.hon.parcelas){
+    m.hon.parcelas.forEach(function(p, pi){
+      var item = {
+        num: p.num||(pi+1),
+        valor: p.valorPago||p.valor||'—',
+        venc: p.venc||'',
+        forma: p.forma||m.hon.forma||'',
+        pago: p.pago||false,
+        dtPago: p.dtPago||''
+      };
+      if(p.pago) parcelasPagas.push(item);
+      else parcelasAberto.push(item);
+    });
+  }
+  if(!parcelasAberto.length && !parcelasPagas.length){
+    parcelasAberto.push({num:1, valor:r.valor||'—', venc:r.venc||'', forma:r.forma||'', pago:false});
+  }
+
+  var totalAberto = parcelasAberto.reduce(function(a,p){ return a+(parseFloat(String(p.valor).replace(/[^0-9,\.]/g,'').replace(',','.'))||0); }, 0);
+  var totalPago   = parcelasPagas.reduce(function(a,p){ return a+(parseFloat(String(p.valor).replace(/[^0-9,\.]/g,'').replace(',','.'))||0); }, 0);
+
+  function rowParcela(p, tipo){
+    var vStr = p.venc ? new Date(p.venc+'T00:00:00').toLocaleDateString('pt-BR') : '—';
+    var atrasado = !p.pago && p.venc && new Date(p.venc+'T00:00:00') < hoje2;
+    var bg = tipo==='paga' ? '#f0faf4' : (atrasado?'#fff5f5':'#fffcf8');
+    var statusCell = tipo==='paga'
+      ? '<td style="padding:9px 12px;border-bottom:1px solid #e8d4bc;color:#2d7a5a;font-weight:700;font-size:12px">✅ Pago em '+(p.dtPago?new Date(p.dtPago+'T00:00:00').toLocaleDateString('pt-BR'):'—')+'</td>'
+      : '<td style="padding:9px 12px;border-bottom:1px solid #e8d4bc;color:'+(atrasado?'#c0432a;font-weight:700':'#444')+'">' +vStr+(atrasado?' ⚠':'')+'</td>';
+    return '<tr style="background:'+bg+'">'+
+      '<td style="padding:9px 12px;border-bottom:1px solid #e8d4bc;text-align:center;font-weight:700;color:#8b6f47">'+p.num+'ª</td>'+
+      '<td style="padding:9px 12px;border-bottom:1px solid #e8d4bc;font-weight:700;font-size:15px;color:#2c1a0e">R$ '+p.valor+'</td>'+
+      statusCell+
+      '<td style="padding:9px 12px;border-bottom:1px solid #e8d4bc;color:#666;font-size:13px">'+p.forma+'</td>'+
+    '</tr>';
+  }
+
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">'
+    +'<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">'
+    +'<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:"DM Sans",sans-serif;padding:44px 52px;max-width:780px;margin:0 auto;color:#1a1a1a;font-size:14px;background:#fff;line-height:1.7}.cabecalho{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:18px;border-bottom:3px solid #3a2008;margin-bottom:24px}.adv-nome{font-family:"Cormorant Garamond",serif;font-size:24px;font-weight:700;color:#2c1a0e}.adv-sub{font-size:12px;color:#7a5535;margin-top:5px}.titulo-doc{background:linear-gradient(135deg,#3a2008,#6b4423);color:#f5ede0;text-align:center;padding:14px;font-family:"Cormorant Garamond",serif;font-size:17px;letter-spacing:3px;text-transform:uppercase;border-radius:4px;margin-bottom:22px}.bloco{border:1px solid #d4b896;border-radius:6px;padding:16px 20px;background:#fffcf8;margin-bottom:14px}.bloco-titulo{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#8b6f47;margin-bottom:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.campo label{font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;display:block;margin-bottom:3px;letter-spacing:.8px}.campo .val{font-size:14px;font-weight:500;color:#1a1a1a;padding-bottom:4px;border-bottom:1px solid #e8d4bc}table{width:100%;border-collapse:collapse}th{background:#3a2008;color:#f5ede0;padding:9px 12px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase}.secao-titulo{font-family:"Cormorant Garamond",serif;font-size:15px;font-weight:700;color:#3a2008;margin:18px 0 8px;padding-bottom:4px;border-bottom:2px solid #c9a96e}.total-box{background:linear-gradient(135deg,#f5ede0,#fff8f0);border:2px solid #8b6f47;border-radius:8px;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;margin:14px 0}.total-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#7a5535}.total-val{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:700;color:#2c1a0e}.pix-box{background:#edf5f0;border:1.5px solid #2d7a5a;border-radius:8px;padding:14px 18px;margin-top:14px}.rodape{margin-top:28px;padding-top:14px;border-top:1px solid #d4b896;font-size:11px;color:#999;text-align:center}@media print{body{padding:24px}.btn-print{display:none!important}}.btn-print{display:block;width:100%;margin-top:20px;padding:11px;background:#3a2008;color:#f5ede0;border:none;border-radius:4px;font-size:13px;cursor:pointer;font-family:"DM Sans",sans-serif;letter-spacing:.5px}</style></head><body>'
+    +'<div class="cabecalho"><div><div class="adv-nome">'+adv+'</div><div class="adv-sub">'+oab+' | Advogada</div></div><div style="text-align:right;font-size:11px;color:#999">Nº '+num+'<br>Emitido em '+hoje+'</div></div>'
+    +'<div class="titulo-doc">Demonstrativo Financeiro do Contrato</div>'
+    +'<div class="bloco"><div class="bloco-titulo">Dados do Cliente</div><div class="grid2">'
+      +'<div class="campo"><label>Cliente</label><div class="val">'+(m.cli||r.cli||'—')+'</div></div>'
+      +'<div class="campo"><label>CPF</label><div class="val">'+(m.cpf||'—')+'</div></div>'
+      +'<div class="campo"><label>Processo</label><div class="val">'+(m.p||r.proc||'—')+'</div></div>'
+      +'<div class="campo"><label>Área</label><div class="val">'+(m.area||'—')+'</div></div>'
+    +'</div></div>'
+    +(totalContrato?'<div class="bloco"><div class="grid2"><div class="campo"><label>Valor Total do Contrato</label><div class="val" style="font-size:16px;font-weight:700;color:#3a2008">R$ '+totalContrato+'</div></div><div class="campo"><label>Total de Parcelas</label><div class="val">'+nParcelas+' parcela'+(nParcelas!==1?'s':'')+'</div></div></div></div>':'');
+
+  if(parcelasPagas.length){
+    html += '<div class="secao-titulo">✅ Parcelas Pagas ('+parcelasPagas.length+')</div>'
+      +'<table><thead><tr><th>Parcela</th><th>Valor</th><th>Situação</th><th>Forma</th></tr></thead><tbody>'
+      +parcelasPagas.map(function(p){ return rowParcela(p,'paga'); }).join('')
+      +'</tbody></table>'
+      +'<div class="total-box"><div class="total-label">Total Pago</div><div class="total-val" style="color:#2d7a5a">R$ '+totalPago.toFixed(2).replace('.',',')+'</div></div>';
+  }
+  if(parcelasAberto.length){
+    html += '<div class="secao-titulo">⏳ Parcelas em Aberto ('+parcelasAberto.length+')</div>'
+      +'<table><thead><tr><th>Parcela</th><th>Valor</th><th>Vencimento</th><th>Forma</th></tr></thead><tbody>'
+      +parcelasAberto.map(function(p){ return rowParcela(p,'aberto'); }).join('')
+      +'</tbody></table>'
+      +'<div class="total-box"><div class="total-label">Total em Aberto</div><div class="total-val">R$ '+totalAberto.toFixed(2).replace('.',',')+'</div></div>';
+  }
+  html += '<div class="pix-box"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#2d7a5a;margin-bottom:6px">🔑 Dados para Pagamento</div>'
+    +'<div style="font-size:15px;font-weight:700;color:#1a5e3a">PIX — CPF: 397.180.958-88</div>'
+    +'<div style="font-size:12px;color:#2d7a5a;margin-top:4px">'+adv+'</div>'
+    +'<div style="font-size:12px;color:#555;margin-top:4px">Banco do Brasil · Agência: 1398-6 · CC: 18144-7</div></div>'
+    +'<div class="rodape">'+adv+' — '+oab+' | Emitido em '+hoje+'</div>'
+    +'<button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>'
+    +'</body></html>';
+
+  var w=window.open('','_blank');
+  if(w){ w.document.write(html); w.document.close(); }
+}
+
+function renderOutrosProc(){
+  var m = dados[idxAtual];
+  if(!m) return;
+  var outros = dados.filter(function(x, xi){ return xi !== idxAtual && x.cli && x.cli === m.cli; });
+  var tit = document.getElementById('outros-proc-titulo');
+  if(tit) tit.textContent = 'Processos de ' + (m.cli||'cliente') + ' ('+( outros.length+1)+' total)';
+  var lista = document.getElementById('outros-proc-lista');
+  if(!lista) return;
+
+  // Card do processo atual
+  var todos = [{ proc: m, idx: idxAtual, atual: true }].concat(
+    outros.map(function(x){ return { proc: x, idx: dados.indexOf(x), atual: false }; })
+  );
+
+  lista.innerHTML = todos.map(function(item){
+    var p = item.proc;
+    var isAtual = item.atual;
+    var andCount = (p.andamentos||[]).length;
+    var docCount = (p.docs||[]).length;
+    var parcelasTotal = (p.hon&&p.hon.parcelas) ? p.hon.parcelas.length : 0;
+    var parcelasPagas = (p.hon&&p.hon.parcelas) ? p.hon.parcelas.filter(function(pc){ return pc.pago; }).length : 0;
+    var statusCor = {Ativo:'#2d7a5a',Arquivado:'#888',Encerrado:'#c0432a','Em recurso':'#e07a20'}[p.s||'Ativo']||'#888';
+
+    return '<div style="background:'+(isAtual?'linear-gradient(135deg,#fff8f0,var(--card))':'var(--card)')+';border:'+(isAtual?'2px solid var(--acento)':'1px solid var(--borda)')+';border-radius:10px;padding:14px 16px;margin-bottom:10px">'+
+      '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">'+
+        '<div style="flex:1">'+
+          (isAtual?'<span style="font-size:0.7em;background:var(--acento);color:#fff;border-radius:4px;padding:1px 7px;font-weight:700;margin-bottom:6px;display:inline-block">● ESTE PROCESSO</span><br>':'')+
+          '<div style="font-weight:700;font-size:0.95em;color:var(--texto1)">'+(p.p&&p.p!=='-'?escHtml(p.p):'Sem número')+'</div>'+
+          '<div style="font-size:0.82em;color:var(--texto2);margin-top:3px">'+
+            '<span style="color:'+statusCor+';font-weight:700">● '+(p.s||'Ativo')+'</span>'+
+            (p.area?' &nbsp;·&nbsp; '+escHtml(p.area):'')+
+            (p.d?' &nbsp;·&nbsp; Entrada: '+fmt(p.d):'')+
+          '</div>'+
+          (p.caso&&p.caso.acao?'<div style="font-size:0.8em;color:var(--texto2);margin-top:4px">⚖️ '+escHtml(p.caso.acao)+'</div>':'')+
+          '<div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap">'+
+            '<span style="font-size:0.75em;color:var(--texto3)">📝 '+andCount+' andamento'+(andCount!==1?'s':'')+'</span>'+
+            '<span style="font-size:0.75em;color:var(--texto3)">📄 '+docCount+' doc'+(docCount!==1?'s':'')+'</span>'+
+            (parcelasTotal?'<span style="font-size:0.75em;color:'+(parcelasPagas===parcelasTotal?'#2d7a5a':'#c0432a')+'">💰 '+parcelasPagas+'/'+parcelasTotal+' pago'+(parcelasTotal!==1?'s':'')+'</span>':'')+
+          '</div>'+
+        '</div>'+
+        '<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">'+
+          (!isAtual?'<button onclick="fecharOv(\"ov-det\");setTimeout(function(){abrirDet('+item.idx+')},80)" class="btn-prim" style="padding:5px 14px;font-size:0.78em">Abrir</button>':'')+
+          (!isAtual?'<button onclick="if(confirm(\"Excluir este processo?\"))delProcesso('+item.idx+')" class="btn-xs btn-xs-del" style="font-size:0.72em">Excluir</button>':'')+
+        '</div>'+
+      '</div>'+
+      // Últimos andamentos
+      (andCount>0?'<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--borda)">'+
+        '<div style="font-size:0.72em;color:var(--texto3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Últimos andamentos</div>'+
+        (p.andamentos||[]).slice(-3).reverse().map(function(a){
+          return '<div style="font-size:0.8em;padding:4px 0;border-bottom:1px solid var(--fundo2);display:flex;gap:8px;align-items:flex-start">'+
+            '<span style="color:var(--texto3);white-space:nowrap;font-size:0.85em">'+fmt(a.data)+'</span>'+
+            '<span style="color:var(--texto1)">'+escHtml(a.and||'')+(a.obs?' — '+escHtml(a.obs.slice(0,60))+(a.obs.length>60?'…':''):'')+'</span>'+
+          '</div>';
+        }).join('')+
+      '</div>':'') +
+    '</div>';
+  }).join('');
+}
+
+function delProcesso(idx){
+  dados.splice(idx,1);
+  save(); render(dados);
+  renderOutrosProc();
+  toast('🗑 Processo excluído.');
+}
+
+
+// ══════════════════════════════════════════════════════════
+// RECIBO CONSOLIDADO EDITÁVEL
+// ══════════════════════════════════════════════════════════
+function abrirModalReciboEdit(){
+  var m = dados[_honFinIdxM];
+  if(!m){ toast('Selecione um processo.'); return; }
+  document.getElementById('re_cli').value = m.cli||'';
+  document.getElementById('re_cpf').value = m.cpf||'';
+  document.getElementById('re_proc').value = m.p&&m.p!=='-'?m.p:'';
+  document.getElementById('re_acao').value = m.caso&&m.caso.acao?m.caso.acao:'';
+  document.getElementById('re_obs').value = '';
+  // Listar pagamentos
+  var pagos = [];
+  if(m.pagamentos) m.pagamentos.forEach(function(p,pi){ if(p.data) pagos.push({p:p,pi:pi}); });
+  var lista = document.getElementById('re_pagamentos_lista');
+  if(lista){
+    if(!pagos.length){
+      lista.innerHTML='<div style="color:var(--texto3)">⚠️ Nenhum pagamento registrado para incluir no recibo.</div>';
+    } else {
+      lista.innerHTML='<div style="font-weight:700;color:var(--texto2);margin-bottom:6px">Pagamentos que serão incluídos ('+pagos.length+'):</div>'+
+        pagos.map(function(item){ var p=item.p;
+          return '<div style="padding:4px 0;border-bottom:1px solid var(--borda);display:flex;gap:8px">'+
+            '<span style="font-weight:700;color:#2d7a5a">R$ '+escHtml(p.valor)+'</span>'+
+            '<span style="color:var(--texto3)">'+fmt(p.data)+'</span>'+
+            '<span style="color:var(--texto2)">'+escHtml(p.desc||'Honorários')+'</span>'+
+          '</div>';
+        }).join('');
+    }
+  }
+  document.getElementById('ov-recibo-edit').classList.add('aberto');
+}
+
+function gerarReciboComDadosEdit(){
+  var m = dados[_honFinIdxM];
+  if(!m){ return; }
+  var adv     = document.getElementById('re_adv').value.trim() || 'Esther Raquel Cangussu Bernardes dos Santos';
+  var oab     = document.getElementById('re_oab').value.trim() || 'OAB/SP 469.261';
+  var cli     = document.getElementById('re_cli').value.trim() || m.cli||'';
+  var cpf     = document.getElementById('re_cpf').value.trim() || m.cpf||'';
+  var proc    = document.getElementById('re_proc').value.trim();
+  var acao    = document.getElementById('re_acao').value.trim();
+  var endAdv  = document.getElementById('re_end').value.trim();
+  var cidade  = document.getElementById('re_cidade').value.trim() || 'São Simão/SP';
+  var obsAdd  = document.getElementById('re_obs').value.trim();
+  var hoje    = new Date().toLocaleDateString('pt-BR');
+  _reciboContador++;
+  try{ localStorage.setItem('escRcN',_reciboContador); }catch(e){}
+  var num = String(_reciboContador).padStart(4,'0')+'/'+new Date().getFullYear();
+  var pagos = [];
+  if(m.pagamentos) m.pagamentos.forEach(function(p,pi){ if(p.data) pagos.push({p:p,pi:pi}); });
+  if(!pagos.length){ toast('Nenhum pagamento registrado.'); return; }
+  var totalV = 0;
+  var tabelaLinhas = pagos.map(function(item,idx){
+    var p=item.p;
+    var v=parseFloat((p.valor||'').replace(/[^\d,\.]/g,'').replace(',','.'));
+    if(!isNaN(v)) totalV+=v;
+    return '<tr>'
+      +'<td style="padding:8px 10px;border-bottom:1px solid #ede8df;text-align:center;color:#888;font-size:12px">'+(idx+1)+'</td>'
+      +'<td style="padding:8px 10px;border-bottom:1px solid #ede8df;font-size:15px;font-weight:700;color:#2d7a5a">'+escHtml(p.valor)+'</td>'
+      +'<td style="padding:8px 10px;border-bottom:1px solid #ede8df;font-size:13px;font-weight:600;color:#2c1a0e">'+fmt(p.data)+'</td>'
+      +'<td style="padding:8px 10px;border-bottom:1px solid #ede8df;font-size:13px;color:'+(p.venc?'#8b4513':'#aaa')+'">'+(p.venc?fmt(p.venc):'—')+'</td>'
+      +'<td style="padding:8px 10px;border-bottom:1px solid #ede8df;font-size:12px;color:#666">'+(p.forma||'—')+'</td>'
+      +'<td style="padding:8px 10px;border-bottom:1px solid #ede8df;font-size:13px;color:#444">'+escHtml(p.desc||'Honorários advocatícios')+'</td>'
+      +'</tr>';
+  }).join('');
+  var totalFmt = 'R$ '+totalV.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  var html='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">'
+    +'<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">'
+    +'<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:"DM Sans",sans-serif;max-width:760px;margin:40px auto;padding:40px 52px;color:#1a1a1a;background:#fff;font-size:14px;line-height:1.7}.h-rec{text-align:center;padding-bottom:18px;margin-bottom:24px;border-bottom:3px solid #c9a96e}.adv-nome{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:700;color:#2c1a0e;letter-spacing:.5px}.adv-sub{font-size:12px;color:#8b6f47;letter-spacing:1.5px;text-transform:uppercase;margin-top:5px}.adv-end{font-size:11px;color:#aaa;margin-top:4px}.titulo-rec{text-align:center;margin:22px 0 6px}.titulo-rec h2{font-family:"Cormorant Garamond",serif;font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#5c4020;border:1.5px solid #c9a96e;display:inline-block;padding:7px 32px;font-weight:400}.num-rec{font-size:11px;color:#bbb;text-align:center;margin:5px 0 24px;letter-spacing:1px}.corpo{font-size:15px;line-height:2;color:#1a1a1a;margin-bottom:16px;font-family:"Cormorant Garamond",serif}.dest{font-weight:700;color:#2c1a0e}.valor-box{background:linear-gradient(135deg,#fdf8f0,#f5ede0);border:2px solid #c9a96e;border-radius:6px;padding:18px 28px;margin:20px 0;text-align:center}.valor-n{font-family:"Cormorant Garamond",serif;font-size:34px;font-weight:700;color:#3a2008;letter-spacing:1px}.valor-ext{font-size:12px;color:#8b6f47;margin-top:5px}.secao{font-family:"DM Sans",sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#8b6f47;margin:18px 0 8px;font-weight:700;border-bottom:1px solid #f0e8de;padding-bottom:4px}.tab-pags{width:100%;border-collapse:collapse;font-size:14px}.tab-pags thead th{background:#f5ede0;color:#5c4020;font-size:10px;text-transform:uppercase;letter-spacing:.6px;padding:8px 10px;text-align:left;border-bottom:2px solid #c9a96e;font-weight:700}.tab-pags tbody td,.tab-pags tfoot td{padding:8px 10px}.tab-pags tfoot td{border-top:2px solid #c9a96e;font-weight:700;color:#3a2008;font-size:15px}.ass{margin-top:52px;text-align:center}.ass-linha{width:260px;border-top:1.5px solid #555;margin:0 auto 10px}.ass-nome{font-family:"Cormorant Garamond",serif;font-size:17px;font-weight:700;color:#2c1a0e}.ass-oab{font-size:11px;color:#8b6f47;letter-spacing:1px;margin-top:2px}.rodape{margin-top:22px;text-align:center;font-size:10px;color:#ccc;border-top:1px solid #f0e8de;padding-top:10px}@media print{body{margin:0;padding:24px}.btn-print{display:none!important}}.btn-print{display:block;margin:24px auto 0;background:#3a2008;color:#f0e0c0;border:none;padding:10px 32px;border-radius:4px;font-size:13px;cursor:pointer;letter-spacing:1px;font-family:"DM Sans",sans-serif}</style></head><body>'
+    +'<div class="h-rec"><div style="font-size:22px;color:#c9a96e;margin-bottom:6px">⚖</div>'
+    +'<div class="adv-nome">'+adv+'</div>'
+    +'<div class="adv-sub">'+oab+'</div>'
+    +(endAdv?'<div class="adv-end">'+endAdv+'</div>':'')+
+    '</div>'
+    +'<div class="titulo-rec"><h2>Recibo Consolidado de Honorários</h2></div>'
+    +'<div class="num-rec">Nº '+num+' &nbsp;·&nbsp; Emitido em '+hoje+'</div>'
+    +'<div class="corpo">Recebi de <span class="dest">'+cli+'</span>'+(cpf?' (CPF/CNPJ: <span class="dest">'+cpf+'</span>)':'')+', a título de honorários advocatícios'+(acao?' referentes a <span class="dest">'+acao+'</span>':'')+(proc?' — Processo nº <span class="dest">'+proc+'</span>':'')+', os seguintes pagamentos:</div>'
+    +(m&&m.hon&&m.hon.total?'<div style="background:#fdf8f0;border:1px solid #e8d4bc;border-radius:6px;padding:12px 16px;margin:14px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"><div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;letter-spacing:.8px">Valor do Contrato</div><div style="font-size:17px;font-weight:700;color:#3a2008;margin-top:3px">R$ '+m.hon.total+'</div></div><div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;letter-spacing:.8px">Total de Parcelas</div><div style="font-size:17px;font-weight:700;color:#3a2008;margin-top:3px">'+(m.hon.parcelas?m.hon.parcelas.length:1)+'</div></div><div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;letter-spacing:.8px">Parcelas Pagas</div><div style="font-size:17px;font-weight:700;color:#2d7a5a;margin-top:3px">'+pagos.length+'</div></div></div>':'')+'<div class="secao">Discriminação dos Pagamentos</div>'
+    +'<table class="tab-pags"><thead><tr><th style="width:32px">#</th><th style="width:110px">Valor</th><th style="width:110px">Pago em</th><th style="width:110px">Vencimento</th><th style="width:100px">Forma</th><th>Referência</th></tr></thead>'
+    +'<tbody>'+tabelaLinhas+'</tbody>'
+    +'<tfoot><tr><td colspan="4" style="text-align:right;font-size:12px;color:#888">TOTAL:</td><td colspan="2" style="font-weight:700;font-size:16px;color:#3a2008">'+totalFmt+'</td></tr></tfoot></table>'
+    +'<div class="valor-box"><div class="valor-n">'+totalFmt+'</div><div class="valor-ext">'+pagos.length+' pagamento'+(pagos.length!==1?'s':'')+' consolidados</div></div>'
+    +'<div class="corpo">Por serem verdadeiros, firmo o presente recibo declarando quitados os valores acima discriminados.</div>'
+    +(obsAdd?'<div style="background:#fafaf8;border:1px solid #e0d8cc;border-radius:6px;padding:12px 16px;font-size:13px;color:#444;margin-bottom:16px">'+obsAdd+'</div>':'')+
+    '<div class="ass"><div class="ass-linha"></div><div class="ass-nome">'+adv+'</div><div class="ass-oab">'+oab+'</div><div style="font-size:12px;color:#888;margin-top:5px">'+cidade+', '+hoje+'</div></div>'
+    +'<div class="rodape">'+adv+' — '+oab+'</div>'
+    +'<button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>'
+    +'</body></html>';
+  fecharOv('ov-recibo-edit');
+  var w=window.open('','_blank','width=820,height=950,scrollbars=yes');
+  w.document.write(html); w.document.close();
+  toast('🧾 Recibo gerado!');
+}
+
+// ══════════════════════════════════════════════════════════
+// INSTRUÇÃO DE PAGAMENTO EDITÁVEL
+// ══════════════════════════════════════════════════════════
+function abrirModalBoletoEdit(r){
+  document.getElementById('be_cli').value = r.cli||'';
+  document.getElementById('be_cpf').value = r.cpf||'';
+  document.getElementById('be_desc').value = r.desc||'';
+  document.getElementById('be_proc').value = r.proc||'';
+  document.getElementById('be_valor').value = r.valor||'';
+  document.getElementById('be_venc').value = r.venc ? fmt(r.venc) : '';
+  document.getElementById('be_forma').value = r.forma||'';
+  document.getElementById('be_obs').value = '';
+  document.getElementById('be_r_json').value = JSON.stringify(r);
+  document.getElementById('ov-boleto-edit').classList.add('aberto');
+}
+
+function gerarBoletoComEdit(){
+  var r = {};
+  try{ r = JSON.parse(document.getElementById('be_r_json').value||'{}'); }catch(e){}
+  r.cli   = document.getElementById('be_cli').value.trim();
+  r.cpf   = document.getElementById('be_cpf').value.trim();
+  r.desc  = document.getElementById('be_desc').value.trim();
+  r.proc  = document.getElementById('be_proc').value.trim();
+  r.valor = document.getElementById('be_valor').value.trim();
+  var vencRaw = document.getElementById('be_venc').value.trim();
+  // Converter dd/mm/aaaa para yyyy-mm-dd
+  if(vencRaw && vencRaw.includes('/')){
+    var vp = vencRaw.split('/');
+    r.venc = vp[2]+'-'+vp[1]+'-'+vp[0];
+  } else {
+    r.venc = vencRaw;
+  }
+  r.forma = document.getElementById('be_forma').value.trim();
+  r._obsExtra = document.getElementById('be_obs').value.trim();
+  fecharOv('ov-boleto-edit');
+  gerarBoleto(r);
+}
 
 preCarregar();
 </script>

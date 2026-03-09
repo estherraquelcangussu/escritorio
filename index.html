@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Escritório [v53 — 06/03/2026 16:28]</title>
+<title>Escritório Particular v1772632090 — Esther Raquel Cangussu</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&display=swap');
@@ -569,32 +569,20 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
 .add-row-grid input { padding: 6px 8px; border: 1px solid var(--borda2); border-radius: 5px; font-size: 0.75em; font-family: 'Inter', sans-serif; background: var(--fundo); color: var(--texto); }
 .btn-add-row { background: var(--azul); color: #fff; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 0.75em; font-weight: 700; white-space: nowrap; }
 
-/* ══ AUDIÊNCIAS ══ */
-.aud-card { background:var(--card); border:1px solid var(--borda); border-radius:10px; padding:14px 16px; margin-bottom:10px; display:grid; grid-template-columns:90px 1fr auto; gap:12px; align-items:center; transition:box-shadow .15s; }
+/* -- AUDIENCIAS -- */
+.aud-fil-btn { background:var(--fundo2);border:1px solid var(--borda);border-radius:5px;padding:4px 10px;cursor:pointer;font-size:.78em;color:var(--texto2); }
+.aud-fil-btn:hover { background:var(--acento);color:#fff;border-color:var(--acento); }
+.aud-fil-ativo { background:var(--acento)!important;color:#fff!important;border-color:var(--acento)!important; }
+.aud-card { background:var(--card);border:1px solid var(--borda);border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;transition:box-shadow .15s; }
 .aud-card:hover { box-shadow:0 3px 12px rgba(0,0,0,.1); }
-.aud-card.aud-hoje { border-left:4px solid #c0432a; background:linear-gradient(135deg,#fff8f8,var(--card)); }
-.aud-card.aud-passada { opacity:.6; }
-.aud-card.aud-proxima { border-left:4px solid #2d7a5a; }
-.aud-data-box { text-align:center; background:var(--acento); color:#fff; border-radius:8px; padding:8px 4px; }
-.aud-data-dia { font-size:1.8em; font-weight:800; line-height:1; }
-.aud-data-mes { font-size:0.7em; text-transform:uppercase; letter-spacing:1px; }
-.aud-hora-badge { font-size:0.85em; font-weight:700; color:var(--acento); margin-top:2px; }
-.aud-tipo { font-weight:700; font-size:0.95em; color:var(--texto1); }
-.aud-info { font-size:0.8em; color:var(--texto2); margin-top:3px; }
-.aud-aviso { background:linear-gradient(135deg,#fff3e0,#fff8f0); border:2px solid #f0a500; border-radius:10px; padding:12px 16px; margin-bottom:10px; display:flex; align-items:center; gap:12px; }
-.aud-aviso.urgente { background:linear-gradient(135deg,#fff0f0,#fff5f5); border-color:#c0432a; }
-.aud-fil-btn { background:var(--fundo2); border:1px solid var(--borda); border-radius:16px; padding:4px 12px; font-size:0.78em; cursor:pointer; color:var(--texto2); transition:all .15s; }
-.aud-fil-btn:hover, .aud-fil-btn.aud-fil-ativo { background:var(--acento); color:#fff; border-color:var(--acento); font-weight:700; }
-.aud-cal-dia { border-radius:6px; padding:5px 2px; font-size:0.82em; cursor:pointer; transition:all .15s; min-height:32px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; }
-.aud-cal-dia:hover { background:var(--fundo2); }
-.aud-cal-dia.tem-aud { font-weight:700; color:var(--azul); }
-.aud-cal-dia.tem-aud::after { content:'●'; font-size:6px; color:var(--azul); display:block; }
-.aud-cal-dia.hoje { background:#c0432a; color:#fff; font-weight:700; border-radius:50%; }
-.aud-cal-dia.hoje.tem-aud { background:#c0432a; }
-.aud-cal-dia.selecionado { background:var(--acento); color:#fff; border-radius:6px; }
-.aud-cal-header { font-size:0.72em; font-weight:700; color:var(--texto3); padding:3px; text-align:center; }
-
-/* ══ fim dos estilos ══ */
+.aud-card.hoje { border-left:4px solid #c0432a; }
+.aud-card.proxima { border-left:4px solid #2d7a5a; }
+.aud-data-col { min-width:52px;text-align:center;background:var(--fundo);border-radius:8px;padding:8px 6px; }
+.aud-dia { font-size:1.6em;font-weight:700;color:var(--acento);line-height:1; }
+.aud-mes { font-size:.68em;text-transform:uppercase;color:var(--texto3);font-weight:600; }
+.aud-hora { font-size:.8em;color:var(--texto2);margin-top:3px;font-weight:600; }
+.aud-tipo { font-weight:700;color:var(--texto1);font-size:.92em; }
+.aud-info { font-size:.8em;color:var(--texto2);margin-top:2px; }
 </style>
 </head>
 <body>
@@ -670,7 +658,6 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
   <input type="file" id="impFile" accept=".html,.json" style="display:none" onchange="importar(event)">
   <button class="btn-bar btn-bar-ouro" onclick="abrirCred()">🔑 Credenciais</button>
   <span id="backupTs" style="margin-left:4px;"></span>
-  <span id="save-status" style="margin-left:10px;font-size:0.78em;font-weight:700;padding:3px 10px;border-radius:12px;background:rgba(45,122,90,.12);color:#2d7a5a;border:1px solid #2d7a5a;display:none"></span>
   <span style="margin-left:8px;border-left:1px solid var(--borda2);padding-left:8px;color:var(--texto3)">Acesso rápido:</span>
   <button class="btn-bar" style="background:#fdf0f0;border-color:#e07050;color:#c0432a;font-weight:700" id="btn-urgencias-top" onclick="irPag('pg-proc',document.querySelectorAll('.nav-tab')[0]);setTimeout(function(){document.getElementById('urg-body').style.display='block';},100)">🚨 Urgentes <span id="top-urg-cnt" style="background:#c0432a;color:#fff;border-radius:8px;padding:0 6px;font-size:0.8em;margin-left:2px">0</span></button>
   <button class="btn-bar" style="background:var(--amarelo-fundo);border-color:#c4a040;color:var(--amarelo);font-weight:700" onclick="irPag('pg-financ',document.getElementById('tab-financ'));renderFinanc()">💰 Financeiro</button>
@@ -684,7 +671,7 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
   <button class="nav-tab" id="tab-financ" onclick="irPag('pg-financ',this);renderFinanc()">💰 Financeiro <span class="badge-tab" id="badge-financ" style="background:#c9a96e;color:#3a2510;display:none">0</span></button>
   <button class="nav-tab" onclick="irPag('pg-intim',this)">📬 Intimações <span class="badge-tab" id="badge-intim">0</span></button>
   <button class="nav-tab" onclick="irPag('pg-prot',this)">📤 Peticionamento</button>
-  <button class="nav-tab" onclick="irPag('pg-aud',this);renderAudiencias()">📅 Audiências <span class="badge-tab" id="badge-aud" style="background:#c0432a;color:#fff;display:none">0</span></button>
+    <button class="nav-tab" onclick="irPag('pg-aud',this);renderAudiencias()">📅 Audiências <span class="badge-tab" id="badge-aud" style="background:#c0432a;color:#fff;display:none">0</span></button>
   <button class="nav-tab" onclick="irPag('pg-lixo',this)">🗑 Lixeira <span class="badge-tab" id="badge-lixo" style="background:var(--texto3);display:none">0</span></button>
 </div>
 
@@ -1323,6 +1310,7 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
     <div class="modal-head">
       <h3 id="det-titulo">Processo</h3>
       <div style="display:flex;gap:8px;align-items:center">
+        <button onclick="abrirHistoricoCompleto()" title="Histórico completo de todas as ações" style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:5px;padding:4px 11px;cursor:pointer;font-size:.75em;font-weight:700">📋 Histórico</button>
         <button onclick="adicionarNovoProcesso()" class="btn-novo-proc" title="Adicionar outro processo para este mesmo cliente">+ Novo Processo</button>
         <button class="modal-close" onclick="fecharOv('ov-det')">×</button>
       </div>
@@ -1332,8 +1320,8 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
       <div id="det-caso-resumo"></div>
       <div id="det-hon-resumo"></div>
       <div class="m-tabs">
-        <button class="m-tab ativo" onclick="mTab('m-and',this)">📋 Histórico</button>
-        <button class="m-tab" id="tab-outros-proc" onclick="mTab('m-outros-proc',this);renderOutrosProc()" style="display:none">📂 Processos <span id="badge-outros-proc" style="background:#2d5f8a;color:#fff;border-radius:10px;padding:1px 6px;font-size:0.72em;font-weight:700;margin-left:3px">0</span></button>
+        <button class="m-tab ativo" onclick="mTab('m-and',this);var bg=document.getElementById('badge-hist');if(bg)bg.style.display='none';">📋 Histórico <span id="badge-hist" style="background:#e53e3e;color:#fff;border-radius:10px;padding:1px 6px;font-size:.68em;margin-left:2px;display:none">novo</span></button>
+        <button class="m-tab" id="tab-outros-proc" style="display:none" onclick="mTab('m-outros-proc',this);renderOutrosProc()">📂 Processos <span id="badge-outros-proc" style="background:#2d5f8a;color:#fff;border-radius:10px;padding:1px 6px;font-size:.7em;margin-left:2px">0</span></button>
         <button class="m-tab" onclick="mTab('m-hon',this)">💰 Honorários</button>
         <button class="m-tab" onclick="mTab('m-docs',this)">📄 Documentos</button>
         <button class="m-tab" onclick="mTab('m-edit',this)">✏️ Editar</button>
@@ -1387,15 +1375,10 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
         <div id="and-hist"></div>
       </div>
 
-
-      <!-- ABA OUTROS PROCESSOS DO MESMO CLIENTE -->
+      <!-- ABA OUTROS PROCESSOS -->
       <div class="m-pane" id="m-outros-proc">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-          <div>
-            <div style="font-weight:700;font-size:1em;color:var(--texto1)" id="outros-proc-titulo">Processos do cliente</div>
-            <div style="font-size:0.8em;color:var(--texto3);margin-top:2px">Todos os processos vinculados a este cliente</div>
-          </div>
-          <button class="btn-prim" onclick="adicionarNovoProcesso()" style="padding:7px 16px;font-size:0.82em">+ Novo Processo</button>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div><div id="outros-proc-titulo" style="font-weight:700;color:var(--texto1)">Processos do cliente</div><div style="font-size:.8em;color:var(--texto3)">Todos os processos deste cliente</div></div>
         </div>
         <div id="outros-proc-lista"></div>
       </div>
@@ -1736,6 +1719,7 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
           <div style="display:flex;gap:5px">
             <button style="background:#fdf6e3;color:#7a4e00;border:1px solid #c9a96e;border-radius:5px;padding:3px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="toggleRecibosHonFin()">🧾 Ver Recibos</button>
             <button style="background:#fdf6e3;color:#7a4e00;border:1px solid #c9a96e;border-radius:5px;padding:3px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="abrirModalReciboEdit()">🧾 Consolidado</button>
+            <button style="background:#fff8e0;color:#7a5500;border:1px solid #c4a040;border-radius:5px;padding:3px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="gerarDemonstrativo(dados[idxAtual])">📋 Demonstrativo</button>
           </div>
         </div>
         <div id="hon-fin-pags"></div>
@@ -2071,254 +2055,12 @@ tr.row.manif-row { background:linear-gradient(90deg,#f8f0ff,transparent) !import
   </div>
 </div>
 
-
-<!-- ══════════════ PÁG: AUDIÊNCIAS ══════════════ -->
-<div class="pag" id="pg-aud">
-<div class="wrap">
-<div style="max-width:1100px;margin:0 auto">
-
-  <!-- CABEÇALHO -->
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px">
-    <h2 style="font-family:'Playfair Display',serif;font-size:1.5em;color:var(--acento)">📅 Audiências & Compromissos</h2>
-    <button class="btn-prim" onclick="abrirModalAud()" style="padding:8px 20px">+ Nova Audiência</button>
-  </div>
-
-  <!-- AVISOS DE HOJE E PRÓXIMAS -->
-  <div id="aud-avisos" style="margin-bottom:16px"></div>
-
-  <!-- CALENDÁRIO + LISTA LADO A LADO -->
-  <div style="display:grid;grid-template-columns:340px 1fr;gap:20px;align-items:start">
-
-    <!-- CALENDÁRIO -->
-    <div style="background:var(--card);border:1px solid var(--borda);border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <button onclick="audCalMes(-1)" style="background:none;border:none;font-size:1.3em;cursor:pointer;color:var(--acento);padding:4px 8px">‹</button>
-        <span id="aud-cal-titulo" style="font-weight:700;font-size:1em;color:var(--texto1)"></span>
-        <button onclick="audCalMes(1)" style="background:none;border:none;font-size:1.3em;cursor:pointer;color:var(--acento);padding:4px 8px">›</button>
-      </div>
-      <div id="aud-cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center"></div>
-      <div style="margin-top:10px;display:flex;gap:12px;font-size:0.72em;color:var(--texto3)">
-        <span>🔴 Hoje</span><span>🔵 Com audiência</span><span style="background:var(--acento);color:#fff;border-radius:4px;padding:1px 5px">Selecionado</span>
-      </div>
-    </div>
-
-    <!-- LISTA DE AUDIÊNCIAS -->
-    <div>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
-        <span id="aud-lista-titulo" style="font-weight:700;color:var(--texto1)">Todas as audiências</span>
-        <div style="display:flex;gap:6px;margin-left:auto">
-          <button onclick="filtrarAud('todas')" class="aud-fil-btn aud-fil-ativo" id="afb-todas">Todas</button>
-          <button onclick="filtrarAud('proximas')" class="aud-fil-btn" id="afb-proximas">Próximas</button>
-          <button onclick="filtrarAud('hoje')" class="aud-fil-btn" id="afb-hoje">Hoje</button>
-          <button onclick="filtrarAud('passadas')" class="aud-fil-btn" id="afb-passadas">Passadas</button>
-        </div>
-      </div>
-      <div id="aud-lista"></div>
-    </div>
-  </div>
-
-</div>
-</div>
-</div>
-
-<!-- MODAL NOVA/EDITAR AUDIÊNCIA -->
-<div class="ov" id="ov-aud" onclick="fecharOvFora(event,'ov-aud')">
-  <div class="modal" style="max-width:520px">
-    <div class="modal-head">
-      <h3 id="aud-modal-titulo">Nova Audiência</h3>
-      <button class="modal-close" onclick="fecharOv('ov-aud')">×</button>
-    </div>
-    <div class="modal-body" style="display:grid;gap:12px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div>
-          <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Data *</label>
-          <input type="text" id="aud-data" class="inp" style="width:100%" placeholder="dd/mm/aaaa" maxlength="10" oninput="mascaraDataAud(this)" autocomplete="off">
-        </div>
-        <div>
-          <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Hora *</label>
-          <input type="text" id="aud-hora" class="inp" style="width:100%" placeholder="00:00" maxlength="5" oninput="mascaraHoraAud(this)" autocomplete="off">
-        </div>
-      </div>
-      <div>
-        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Tipo de Audiência *</label>
-        <select id="aud-tipo" class="inp" style="width:100%">
-          <option value="">Selecione...</option>
-          <option>Audiência de Instrução e Julgamento</option>
-          <option>Audiência de Conciliação</option>
-          <option>Audiência Preliminar</option>
-          <option>Audiência de Custódia</option>
-          <option>Audiência Una</option>
-          <option>Depoimento Pessoal</option>
-          <option>Oitiva de Testemunha</option>
-          <option>Sessão de Julgamento</option>
-          <option>Outro</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Cliente / Processo</label>
-        <input type="text" id="aud-cliente" class="inp" style="width:100%" placeholder="Nome do cliente ou nº do processo" list="aud-clientes-dl">
-        <datalist id="aud-clientes-dl"></datalist>
-      </div>
-      <div>
-        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Vara / Juízo</label>
-        <input type="text" id="aud-vara" class="inp" style="width:100%" placeholder="Ex: 1ª Vara Cível de São Simão">
-      </div>
-      <div>
-        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Local</label>
-        <input type="text" id="aud-local" class="inp" style="width:100%" placeholder="Ex: Fórum de São Simão, Sala 2">
-      </div>
-      <div>
-        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Observações</label>
-        <textarea id="aud-obs" class="inp" rows="2" style="width:100%;resize:vertical" placeholder="Documentos necessários, orientações..."></textarea>
-      </div>
-      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">
-        <button class="btn-xs" onclick="fecharOv('ov-aud')">Cancelar</button>
-        <button class="btn-prim" onclick="salvarAud()" style="padding:8px 24px">💾 Salvar Audiência</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- MODAL CONCLUIR AUDIÊNCIA -->
-<div class="ov" id="ov-aud-concluir" onclick="fecharOvFora(event,'ov-aud-concluir')">
-  <div class="modal" style="max-width:500px">
-    <div class="modal-head" style="background:linear-gradient(135deg,#2d7a5a,#3da870)">
-      <h3 style="color:#fff">✅ Concluir Audiência</h3>
-      <button class="modal-close" onclick="fecharOv('ov-aud-concluir')" style="color:#fff">×</button>
-    </div>
-    <div class="modal-body" style="display:grid;gap:12px">
-      <div style="background:var(--fundo);border-radius:8px;padding:10px 14px">
-        <div style="font-size:0.72em;color:var(--texto3);font-weight:700;margin-bottom:3px">AUDIÊNCIA</div>
-        <div id="aud-concluir-titulo" style="font-weight:700;color:var(--texto1)"></div>
-        <div id="aud-concluir-info" style="font-size:0.82em;color:var(--texto2);margin-top:3px"></div>
-      </div>
-      <div>
-        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Resultado *</label>
-        <select id="aud-concluir-status" class="inp" style="width:100%">
-          <option value="realizada">✅ Realizada</option>
-          <option value="remarcada">🔄 Remarcada para outra data</option>
-          <option value="cancelada">❌ Cancelada</option>
-          <option value="suspensa">⏸ Suspensa</option>
-          <option value="adiada">📅 Adiada</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">O que aconteceu? *</label>
-        <textarea id="aud-concluir-relato" class="inp" rows="4" style="width:100%;resize:vertical" placeholder="Descreva o resultado da audiência, decisões tomadas, acordos firmados..."></textarea>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div>
-          <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Data de realização</label>
-          <input type="text" id="aud-concluir-data" class="inp" style="width:100%" placeholder="dd/mm/aaaa" maxlength="10" oninput="mascaraDataAud(this)">
-        </div>
-        <div>
-          <label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Nova data (se remarcada)</label>
-          <input type="text" id="aud-concluir-novaData" class="inp" style="width:100%" placeholder="dd/mm/aaaa" maxlength="10" oninput="mascaraDataAud(this)">
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">
-        <button class="btn-xs" onclick="fecharOv('ov-aud-concluir')">Cancelar</button>
-        <button class="btn-prim" onclick="salvarConcluirAud()" style="background:var(--verde);padding:8px 20px">✅ Confirmar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- MODAL RECIBO EDITÁVEL -->
-<div class="ov" id="ov-recibo-edit" onclick="fecharOvFora(event,'ov-recibo-edit')">
-  <div class="modal" style="max-width:620px">
-    <div class="modal-head" style="background:linear-gradient(135deg,#3a2008,#6b4423)">
-      <h3 style="color:#f5ede0">🧾 Recibo Consolidado — Editar antes de gerar</h3>
-      <button class="modal-close" style="color:#f5ede0" onclick="fecharOv('ov-recibo-edit')">×</button>
-    </div>
-    <div class="modal-body" style="display:grid;gap:14px">
-      <div style="background:var(--fundo);border-radius:8px;padding:10px 14px;font-size:0.82em;color:var(--texto2)">
-        ✏️ Edite os campos abaixo antes de gerar o recibo. As alterações <strong>não</strong> são salvas no cadastro.
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Nome do Advogado</label>
-          <input id="re_adv" class="inp" style="width:100%" value="Esther Raquel Cangussu Bernardes dos Santos"></div>
-        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">OAB</label>
-          <input id="re_oab" class="inp" style="width:100%" value="OAB/SP 469.261"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Cliente</label>
-          <input id="re_cli" class="inp" style="width:100%"></div>
-        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">CPF/CNPJ</label>
-          <input id="re_cpf" class="inp" style="width:100%"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Processo</label>
-          <input id="re_proc" class="inp" style="width:100%"></div>
-        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Ação/Referência</label>
-          <input id="re_acao" class="inp" style="width:100%"></div>
-      </div>
-      <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Endereço do Escritório</label>
-        <input id="re_end" class="inp" style="width:100%" value="Rua Expedicionários, 1019, Centro — São Simão/SP · CEP 14200-013"></div>
-      <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Cidade (para assinatura)</label>
-        <input id="re_cidade" class="inp" style="width:100%" value="São Simão/SP"></div>
-      <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Observação adicional (opcional)</label>
-        <textarea id="re_obs" class="inp" rows="2" style="width:100%;resize:vertical" placeholder="Texto adicional a incluir no recibo..."></textarea></div>
-      <div id="re_pagamentos_lista" style="background:var(--fundo);border-radius:8px;padding:12px;font-size:0.82em;max-height:200px;overflow-y:auto"></div>
-      <div style="display:flex;gap:8px;justify-content:flex-end">
-        <button class="btn-xs" onclick="fecharOv('ov-recibo-edit')">Cancelar</button>
-        <button class="btn-prim" onclick="gerarReciboComDadosEdit()" style="background:linear-gradient(135deg,#3a2008,#6b4423);padding:8px 22px">🖨️ Gerar Recibo</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL INSTRUÇÃO PAGAMENTO EDITÁVEL -->
-<div class="ov" id="ov-boleto-edit" onclick="fecharOvFora(event,'ov-boleto-edit')">
-  <div class="modal" style="max-width:580px">
-    <div class="modal-head" style="background:linear-gradient(135deg,#2d7a5a,#1a5e3a)">
-      <h3 style="color:#fff">📄 Instrução de Pagamento — Editar</h3>
-      <button class="modal-close" style="color:#fff" onclick="fecharOv('ov-boleto-edit')">×</button>
-    </div>
-    <div class="modal-body" style="display:grid;gap:14px">
-      <div style="background:var(--fundo);border-radius:8px;padding:10px 14px;font-size:0.82em;color:var(--texto2)">
-        ✏️ Edite os campos antes de gerar o documento.
-      </div>
-      <input type="hidden" id="be_r_json">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Cliente</label>
-          <input id="be_cli" class="inp" style="width:100%"></div>
-        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">CPF</label>
-          <input id="be_cpf" class="inp" style="width:100%"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Referência/Descrição</label>
-          <input id="be_desc" class="inp" style="width:100%"></div>
-        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Processo</label>
-          <input id="be_proc" class="inp" style="width:100%"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
-        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Valor</label>
-          <input id="be_valor" class="inp" style="width:100%"></div>
-        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Vencimento</label>
-          <input id="be_venc" class="inp" style="width:100%" placeholder="dd/mm/aaaa" maxlength="10"></div>
-        <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Forma</label>
-          <input id="be_forma" class="inp" style="width:100%"></div>
-      </div>
-      <div><label style="font-size:0.78em;font-weight:700;color:var(--texto2)">Observação adicional</label>
-        <textarea id="be_obs" class="inp" rows="2" style="width:100%;resize:vertical" placeholder="Instruções adicionais..."></textarea></div>
-      <div style="display:flex;gap:8px;justify-content:flex-end">
-        <button class="btn-xs" onclick="fecharOv('ov-boleto-edit')">Cancelar</button>
-        <button class="btn-prim" onclick="gerarBoletoComEdit()" style="background:#2d7a5a;padding:8px 22px">📄 Gerar Documento</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- FABS -->
 <div class="fab-wrap">
   <button class="fab fab-cloud" onclick="salvarNuvem()">☁️ Salvar</button>
   <button class="fab fab-save" onclick="salvarTudo()">💾 Backup</button>
 </div>
 <div class="toast" id="toast"></div>
-<div id="version-badge" style="position:fixed;bottom:8px;right:8px;background:rgba(0,0,0,.45);color:#fff;font-size:10px;padding:3px 8px;border-radius:10px;z-index:9999;font-family:monospace;pointer-events:none">v53 — 06/03/2026 16:28</div>
 
 <script>
 // ── irPag declarada no topo para estar disponível em todo o HTML ──
@@ -2543,17 +2285,9 @@ async function init(){
     if(error) throw error;
     if(data&&data.length>0){
       supaId=data[0].id; var r=data[0].dados;
-      var procs=[];
-      if(Array.isArray(r)) procs=r;
-      else if(r&&Array.isArray(r.processos)) procs=r.processos;
-      else if(r&&Array.isArray(r.dados)) procs=r.dados;
-      else if(r&&Array.isArray(r.clientes)) procs=r.clientes;
-      dados=procs;
-      if(r&&!Array.isArray(r)){
-        lixo=r.lixo||[]; intimacoes=r.intimacoes||[]; protocolos=r.protocolos||[]; if(r.audiencias) _audiencias=r.audiencias;
-        if(r.creds){localStorage.setItem('escU',r.creds.usuario||'esther');localStorage.setItem('escH',r.creds.senhaHash||'');}
-      }
-      console.log('[INIT] Supabase: estrutura='+JSON.stringify(Object.keys(data[0]))+' processos='+dados.length);
+      if(Array.isArray(r)){ dados=r; lixo=[]; }
+      else if(r&&r.processos){ dados=r.processos; lixo=r.lixo||[]; if(r.creds){localStorage.setItem('escU',r.creds.usuario||'esther');localStorage.setItem('escH',r.creds.senhaHash||'');} intimacoes=r.intimacoes||[]; protocolos=r.protocolos||[]; lixo=r.lixo||[]; if(Array.isArray(r.audiencias)){ _audiencias=r.audiencias; salvarAudsLocal(); } if(Array.isArray(r.tarefas)){ _tarefas=r.tarefas; localStorage.setItem('escTarefas',JSON.stringify(_tarefas)); } }
+      else dados=[];
       localStorage.setItem('escD',JSON.stringify(dados));
     } else {
       try { dados=JSON.parse(localStorage.getItem('escD')||'[]'); } catch(e){ console.warn('escD corrompido, resetando',e); localStorage.removeItem('escD'); dados=[]; }
@@ -2567,12 +2301,6 @@ async function init(){
       try{intimacoes=JSON.parse(localStorage.getItem('escI')||'[]');}catch(e){localStorage.removeItem('escI');intimacoes=[];}
       try{protocolos=JSON.parse(localStorage.getItem('escP')||'[]');}catch(e){localStorage.removeItem('escP');protocolos=[];}
       }
-  var badge = document.getElementById('save-status');
-  if(badge){
-    badge.style.display='inline-block';
-    if(supaId){ badge.textContent='☁️ '+dados.length+' processo(s)'; badge.style.color='#2d7a5a'; badge.style.borderColor='#2d7a5a'; badge.style.background='rgba(45,122,90,.1)'; }
-    else { badge.textContent='⚠️ Offline'; badge.style.color='#c0392b'; badge.style.borderColor='#c0392b'; badge.style.background='rgba(192,57,43,.1)'; }
-  }
   render(dados); renderIntim(); renderProts(); renderLixo(); atualizarBackupTs(); popularDls(); renderUrgencias(); renderTarefas(); atualizarBadgeAud();
   // Pré-selecionar mês atual no financeiro
   var mesAtual = String(new Date().getMonth()+1).padStart(2,"0");
@@ -2597,37 +2325,23 @@ async function recuperarDoServidor(){
     data.forEach(function(row, ri){
       var r = row.dados;
       diagMsg += 'Linha ' + (ri+1) + ' (id=' + row.id + '):\n';
-      diagMsg += '  Chaves row: ' + Object.keys(row).join(', ') + '\n';
+      diagMsg += '  Chaves: ' + Object.keys(row).join(', ') + '\n';
       if(r){
         diagMsg += '  dados tipo: ' + (Array.isArray(r) ? 'array['+r.length+']' : typeof r) + '\n';
         if(typeof r === 'object' && !Array.isArray(r)){
-          var chaves = Object.keys(r);
-          diagMsg += '  dados chaves: ' + chaves.join(', ') + '\n';
-          chaves.forEach(function(k){
-            var v = r[k];
-            diagMsg += '    [' + k + '] tipo=' + (Array.isArray(v)?'array['+v.length+']':typeof v) + '\n';
-          });
+          diagMsg += '  dados chaves: ' + Object.keys(r).join(', ') + '\n';
         }
       }
-      // Tentar extrair processos de TODAS as estruturas possíveis
+      // Tentar extrair processos de todas as estruturas possíveis
       var procs = [];
       if(Array.isArray(r)) procs = r;
       else if(r && Array.isArray(r.processos)) procs = r.processos;
-      else if(r && r.processos && typeof r.processos === 'object') procs = Object.values(r.processos);
       else if(r && Array.isArray(r.dados)) procs = r.dados;
       else if(r && Array.isArray(r.clientes)) procs = r.clientes;
-      else if(r && typeof r === 'object'){
-        // Tentar cada chave que seja array
-        Object.keys(r).forEach(function(k){
-          if(Array.isArray(r[k]) && r[k].length > procs.length && k !== 'lixo' && k !== 'intimacoes' && k !== 'protocolos'){
-            procs = r[k];
-            diagMsg += '  >> Encontrado em r.' + k + '[' + procs.length + ']\n';
-          }
-        });
-      }
+      // Verificar diretamente na linha (sem .dados)
       if(procs.length === 0 && Array.isArray(row.processos)) procs = row.processos;
+      if(procs.length === 0 && row.cli) procs = [row]; // linha é o processo
       diagMsg += '  processos encontrados: ' + procs.length + '\n';
-      if(procs.length > 0) diagMsg += '  primeiro processo: ' + JSON.stringify(procs[0]).substring(0,80) + '\n';
       if(procs.length > melhorProcs.length){ melhorProcs = procs; melhorRow = row; }
     });
     console.log('[DIAGNÓSTICO SUPABASE]\n' + diagMsg);
@@ -2658,31 +2372,10 @@ async function recuperarDoServidor(){
   }
 }
 
-function buildReg(){ return {processos:dados, intimacoes:intimacoes, protocolos:protocolos, lixo:lixo, audiencias:_audiencias, creds:{usuario:localStorage.getItem('escU')||'esther',senhaHash:localStorage.getItem('escH')||''}}; }
+function buildReg(){ return {processos:dados, intimacoes:intimacoes, protocolos:protocolos, lixo:lixo, audiencias:_audiencias, tarefas:_tarefas, creds:{usuario:localStorage.getItem('escU')||'esther',senhaHash:localStorage.getItem('escH')||''}}; }
 async function save(){
-  localStorage.setItem('escD',JSON.stringify(dados));
-  localStorage.setItem('escI',JSON.stringify(intimacoes));
-  localStorage.setItem('escP',JSON.stringify(protocolos));
-  localStorage.setItem('escLX',JSON.stringify(lixo));
-  // Indicador visual de salvamento
-  var badge = document.getElementById('save-status');
-  if(badge){ badge.style.display='inline-block'; badge.textContent='💾 Salvando...'; badge.style.color='#f0a500'; badge.style.borderColor='#f0a500'; badge.style.background='rgba(240,165,0,.1)'; }
-  try {
-    if(!SUPA_OK) throw new Error('offline');
-    var reg = buildReg();
-    if(supaId){
-      var {error} = await sb.from('processos_particulares').update({dados:reg, atualizado_em:new Date().toISOString()}).eq('id',supaId);
-      if(error) throw error;
-    } else {
-      var {data,error} = await sb.from('processos_particulares').insert({dados:reg}).select();
-      if(error) throw error;
-      if(data&&data[0]) supaId=data[0].id;
-    }
-    if(badge){ badge.textContent='✅ Salvo ' + new Date().toLocaleTimeString('pt-BR'); badge.style.color='#2d7a5a'; badge.style.borderColor='#2d7a5a'; badge.style.background='rgba(45,122,90,.1)'; }
-  } catch(e){
-    console.warn('[save] erro:', e.message);
-    if(badge){ badge.textContent='⚠️ Só local!'; badge.style.color='#c0392b'; badge.style.borderColor='#c0392b'; badge.style.background='rgba(192,57,43,.1)'; }
-  }
+  localStorage.setItem('escD',JSON.stringify(dados)); localStorage.setItem('escI',JSON.stringify(intimacoes)); localStorage.setItem('escP',JSON.stringify(protocolos)); localStorage.setItem('escLX',JSON.stringify(lixo));
+  try { if(!SUPA_OK) return; var reg=buildReg(); if(supaId) await sb.from('processos_particulares').update({dados:reg,atualizado_em:new Date().toISOString()}).eq('id',supaId); else {var {data}=await sb.from('processos_particulares').insert({dados:reg}).select();if(data&&data[0])supaId=data[0].id;} } catch(e){console.warn(e);}
   atualizarBackupTs();
 }
 function atualizarBackupTs(){ var t=localStorage.getItem('escBkTs'); document.getElementById('backupTs').textContent=t?'Último: '+t:''; }
@@ -2696,7 +2389,7 @@ function salvarHTML(sil){
   var ts=new Date().toLocaleDateString('pt-BR')+' '+new Date().toLocaleTimeString('pt-BR'); localStorage.setItem('escBkTs',ts); atualizarBackupTs();
   if(!sil) toast('💾 Backup salvo!');
 }
-async function salvarTudo(){ await save(); salvarHTML(false); }
+function salvarTudo(){ save(); salvarHTML(false); }
 function exportCSV(){ var r=[['#','Cliente','CPF','Processo','Área','Data','Status']]; dados.forEach(function(m,i){r.push([i+1,m.cli||'',m.cpf||'',m.p||'',m.area||'',fmt(m.d),m.s||'']);}); var csv=r.map(function(x){return x.map(function(c){return'"'+String(c).replace(/"/g,'""')+'"';}).join(',');}).join('\n'); var a=document.createElement('a'); a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv); a.download='processos_particulares.csv'; a.click(); }
 function importar(ev){ var f=ev.target.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(e){ try { var c=e.target.result; var m=c.match(/var DADOS_INICIAIS = (\[.*?\]);/s); if(m){dados=JSON.parse(m[1]);save();render(dados);toast('✅ '+dados.length+' registros importados!');} else {var j=JSON.parse(c);if(Array.isArray(j)){dados=j;save();render(dados);toast('✅ Importado!');}} } catch(ex){alert('Erro: '+ex.message);} }; r.readAsText(f); ev.target.value=''; }
 function popularDls(){
@@ -2857,15 +2550,11 @@ function abrirDet(idx){
   document.getElementById('ed_cli').value=m.cli||''; document.getElementById('ed_cpf').value=m.cpf||''; document.getElementById('ed_proc').value=m.p||''; dateSet('ed_data', m.d||''); document.getElementById('ed_area').value=m.area||''; document.getElementById('ed_status').value=m.s||''; var edDefEl=document.getElementById('ed_def'); if(edDefEl) edDefEl.checked=m.def||false;
   aplicarBloqueioDefensoria(m.def||false);
   renderHist(m); renderPags(m); renderDocs(m); renderDrive(m); renderCasoRes(m); renderHonRes(m); _iaHistorico=[]; iaAtualizarContexto();
-  // Mostrar aba de outros processos se houver
-  var outrosCount = dados.filter(function(x,xi){ return xi!==idx && x.cli && x.cli===m.cli; }).length;
-  var tabOutros = document.getElementById('tab-outros-proc');
-  var badgeOutros = document.getElementById('badge-outros-proc');
-  if(tabOutros){ tabOutros.style.display = outrosCount>0 ? 'inline-block' : 'none'; }
-  if(badgeOutros){ badgeOutros.textContent = outrosCount+1; }
-  var titOutros = document.getElementById('outros-proc-titulo');
-  if(titOutros) titOutros.textContent = 'Processos de '+(m.cli||'cliente')+' ('+(outrosCount+1)+' total)';
   document.querySelector('.m-tab.ativo').click();
+  var _nO=dados.filter(function(x,i){return i!==idx&&x.cli&&x.cli===m.cli;}).length;
+  var _tO=document.getElementById('tab-outros-proc'),_bO=document.getElementById('badge-outros-proc');
+  if(_tO) _tO.style.display=_nO>0?'':'none';
+  if(_bO) _bO.textContent=(_nO+1);
   document.getElementById('ov-det').classList.add('aberto');
   setTimeout(function(){ var mb=document.querySelector('#ov-det .modal-body'); if(mb) mb.scrollTop=0; }, 50);
 }
@@ -3101,10 +2790,7 @@ function salvarHon(){
   h.obs=document.getElementById('h_obs').value;
   // Calcular saldo automaticamente
   calcularSaldoHon();
-  // Registrar no histórico
-  var h2 = dados[idxAtual].hon||{};
-  var descHon = '💰 Honorários atualizados: Total R$'+(h2.total||'—')+' | Forma: '+(h2.forma||'—')+' | Status: '+(h2.status||'—');
-  registrarHistorico(idxAtual, 'Atualização de Honorários', descHon, new Date().toISOString().slice(0,10));
+  registrarHistorico(idxAtual,'Honorários Atualizados','💰 Total R$'+(dados[idxAtual].hon.total||'—')+' | Forma:'+(dados[idxAtual].hon.forma||'—'),new Date().toISOString().slice(0,10));
   save(); renderHonRes(dados[idxAtual]); render(dados); toggleParcelas(); renderHist(dados[idxAtual]); toast('💰 Honorários salvos!');
 }
 
@@ -3290,11 +2976,8 @@ function addPagamento(){
   var desc = document.getElementById('pg_desc').value.trim();
   if(!val){alert('Informe o valor.');return;}
   if(!dados[idxAtual].pagamentos) dados[idxAtual].pagamentos=[];
-  var novoPag = {data:dt, venc:venc, valor:val, desc:desc, _manual:true};
-  dados[idxAtual].pagamentos.push(novoPag);
-  // Registrar no histórico
-  var descHist = '💰 Pagamento registrado: R$ '+val+(desc?' — '+desc:'')+(dt?' em '+fmt(dt):'')+(venc?' | Venc: '+fmt(venc):'');
-  registrarHistorico(idxAtual, 'Pagamento', descHist, dt||new Date().toISOString().slice(0,10));
+  dados[idxAtual].pagamentos.push({data:dt,venc:venc,valor:val,desc:desc,_manual:true});
+  registrarHistorico(idxAtual,'Pagamento Registrado','💰 R$'+val+(desc?' — '+desc:'')+(dt?' em '+fmt(dt):''),dt||new Date().toISOString().slice(0,10));
   save();
   renderPags(dados[idxAtual]);
   dateSet('pg_data', '');
@@ -3309,8 +2992,21 @@ function renderPags(m){
   if(avisoDefPag) avisoDefPag.style.display = (m.def) ? 'flex' : 'none';
   var addBtnPag = document.querySelector('button[onclick="addPagamento()"]');
   if(addBtnPag){ addBtnPag.disabled = m.def||false; addBtnPag.style.opacity = m.def ? '0.35' : ''; }
-  // Sincronização de parcelas removida daqui para evitar duplicatas
-  // Parcelas pagas são registradas apenas uma vez ao marcar como pago
+  // Sincronizar parcelas pagas → m.pagamentos (garante vínculo sempre)
+  if(m.hon && m.hon.parcelas){
+    m.hon.parcelas.forEach(function(p, pi){
+      if(p.pago){
+        if(!m.pagamentos) m.pagamentos=[];
+        var existe = m.pagamentos.findIndex(function(pg){ return parseInt(pg._parcela)===pi; });
+        var dtPago = p.dtPago||p.dtpag||'';
+        var entrada = {data:dtPago, venc:p.venc||'', valor:p.valorPago||p.valor,
+          desc:'Parcela '+p.num+(m.hon&&m.hon.obs?' — '+m.hon.obs:''),
+          forma:p.forma||'', _parcela:pi};
+        if(existe<0) m.pagamentos.push(entrada);
+        else if(dtPago && !m.pagamentos[existe].data) m.pagamentos[existe]=entrada;
+      }
+    });
+  }
   var div=document.getElementById('pag-lista');
   var selBar=document.getElementById('pag-sel-bar');
   if(!m.pagamentos||!m.pagamentos.length){
@@ -3431,7 +3127,18 @@ function aplicarBloqueioDefensoria(isDef){
   if(btnFinanc){ btnFinanc.disabled = isDef; btnFinanc.style.opacity = isDef ? '.4' : ''; btnFinanc.title = isDef ? 'Bloqueado — Defensoria Pública' : ''; }
 }
 
-function salvarEdit(){ dados[idxAtual].cli=document.getElementById('ed_cli').value.trim(); dados[idxAtual].cpf=document.getElementById('ed_cpf').value.trim(); dados[idxAtual].p=document.getElementById('ed_proc').value.trim(); dados[idxAtual].d=dateVal('ed_data'); dados[idxAtual].area=document.getElementById('ed_area').value; dados[idxAtual].s=document.getElementById('ed_status').value; var edDefEl2=document.getElementById('ed_def'); if(edDefEl2) dados[idxAtual].def=edDefEl2.checked; save(); render(dados); aplicarBloqueioDefensoria(dados[idxAtual].def||false); toast('✅ Atualizado!'); }
+function salvarEdit(){
+  dados[idxAtual].cli=document.getElementById('ed_cli').value.trim();
+  dados[idxAtual].cpf=document.getElementById('ed_cpf').value.trim();
+  dados[idxAtual].p=document.getElementById('ed_proc').value.trim();
+  dados[idxAtual].d=dateVal('ed_data');
+  dados[idxAtual].area=document.getElementById('ed_area').value;
+  dados[idxAtual].s=document.getElementById('ed_status').value;
+  var edDefEl2=document.getElementById('ed_def');
+  if(edDefEl2) dados[idxAtual].def=edDefEl2.checked;
+  registrarHistorico(idxAtual,'Edição de Cadastro','✏️ '+dados[idxAtual].cli+' | '+dados[idxAtual].s,new Date().toISOString().slice(0,10));
+  save(); render(dados); aplicarBloqueioDefensoria(dados[idxAtual].def||false); renderHist(dados[idxAtual]); toast('✅ Atualizado!');
+}
 
 
 
@@ -3625,18 +3332,10 @@ function salvarTarefa(){
     toast('✏️ Tarefa atualizada!');
   } else {
     _tarefas.push(nova);
-    // Registrar no histórico do cliente se vinculado
-    if(ref){
-      var idxCli = encontrarIdxCliente(ref);
-      if(idxCli >= 0){
-        var prioLabel = {alta:'🔴 Alta',media:'🟡 Média',baixa:'🟢 Baixa'}[prio]||prio;
-        var descHist = '📋 Tarefa criada: '+titulo+(prazo?' | Prazo: '+fmt(prazo):'')+(desc?' — '+desc:'');
-        registrarHistorico(idxCli, 'Tarefa Criada ('+prioLabel+')', descHist, nova.criada);
-      }
-    }
     toast('📋 Tarefa criada!');
   }
   salvarTarefasLocal();
+  save();
   fecharOv('ov-tarefa');
   renderTarefas();
 }
@@ -3667,18 +3366,13 @@ function confirmarCumprimento(){
   t.dtCumprimento = dt;
   t.horaCumprimento = hora;
   t.relatoCumprimento = relato;
-  // ── Registrar no histórico do cliente vinculado ──
-  var idxCli = encontrarIdxCliente(t.ref || t.titulo);
-  if(idxCli >= 0){
-    var desc = '📋 Tarefa concluída: ' + t.titulo + (hora?' às '+hora:'') + '\n' + relato;
-    registrarHistorico(idxCli, 'Cumprimento de Tarefa', desc, dt);
-    toast('✅ Cumprimento registrado no histórico de ' + dados[idxCli].cli + '!');
-  } else {
-    toast('✅ Tarefa cumprida! Registrado em '+fmt(dt)+(hora?' às '+hora:'')+'.');
-  }
   salvarTarefasLocal();
   fecharOv('ov-cumprir');
+  var _icli=encontrarIdxCliente(t.ref||t.titulo);
+  if(_icli>=0) registrarHistorico(_icli,'Tarefa Concluída','✅ '+t.titulo+(hora?' às '+hora:'')+' — '+relato,dt);
+  save();
   renderTarefas();
+  toast('✅ Tarefa cumprida!');
 }
 
 function excluirTarefa(idx){
@@ -3713,17 +3407,15 @@ function renderTarefas(){
   var painel = document.getElementById('tarefas-painel');
   if(painel) painel.style.display = 'block';
 
-  var pendentes2 = _tarefas.filter(function(t){ return !t.concluida; });
-  var concluidas2 = _tarefas.filter(function(t){ return t.concluida; });
-  if(!pendentes2.length){
-    lista.innerHTML = '<div style="text-align:center;padding:14px;color:var(--texto3);font-size:0.85em">'+(concluidas2.length?'✅ '+concluidas2.length+' tarefa(s) concluída(s). Nenhuma pendente.':'Nenhuma tarefa criada. Clique em <strong>+ Nova Tarefa</strong> para começar.')+'</div>';
+  if(!_tarefas.length){
+    lista.innerHTML = '<div style="text-align:center;padding:14px;color:var(--texto3);font-size:0.85em">Nenhuma tarefa criada. Clique em <strong>+ Nova Tarefa</strong> para começar.</div>';
     return;
   }
 
   var hoje = new Date(); hoje.setHours(0,0,0,0);
 
-  // Mostrar apenas pendentes na tela principal (concluídas somem)
-  var ordenadas = _tarefas.slice().map(function(t,i){ return {t:t,i:i}; }).filter(function(o){ return !o.t.concluida; });
+  // Ordenar: pendentes urgentes primeiro, depois por prazo, depois concluídas
+  var ordenadas = _tarefas.filter(function(t){return !t.concluida;}).map(function(t,i){ return {t:t,i:i}; });
   ordenadas.sort(function(a,b){
     if(a.t.concluida !== b.t.concluida) return a.t.concluida ? 1 : -1;
     var pa = a.t.prazo ? new Date(a.t.prazo+'T00:00:00') : null;
@@ -4167,10 +3859,24 @@ function aplicarFiltroEOrdem(){
 // ── RECIBO ──
 
 function abrirReciboConsolidado(){
+  _honFinIdxM=idxAtual; abrirModalReciboEdit(); return;
   var m = dados[idxAtual];
   if(!m) return;
   // Sincronizar parcelas pagas → m.pagamentos
-  /* Sync de parcelas desabilitada — evita duplicatas na lista de pagamentos */
+  if(m.hon && m.hon.parcelas){
+    m.hon.parcelas.forEach(function(p, pi){
+      if(p.pago){
+        if(!m.pagamentos) m.pagamentos=[];
+        var existe = m.pagamentos.findIndex(function(pg){ return parseInt(pg._parcela)===pi; });
+        var dtPago = p.dtPago||p.dtpag||'';
+        var entrada = {data:dtPago, venc:p.venc||'', valor:p.valorPago||p.valor,
+          desc:'Parcela '+p.num+(m.hon&&m.hon.obs?' — '+m.hon.obs:''),
+          forma:p.forma||'', _parcela:pi};
+        if(existe<0) m.pagamentos.push(entrada);
+        else if(!m.pagamentos[existe].data && dtPago) m.pagamentos[existe]=entrada;
+      }
+    });
+  }
   // Coletar pagamentos selecionados
   var checks = document.querySelectorAll('.pag-check:checked');
   var selecionados = [];
@@ -4223,7 +3929,7 @@ function abrirReciboConsolidado(){
       + '</tr>';
   }).join('');
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v53 — 06/03/2026 16:28]</title><style>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Recibo Consolidado nº '+num+'</title><style>'
     + '@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap");'
     + '*{margin:0;padding:0;box-sizing:border-box}'
     + 'body{font-family:"Cormorant Garamond",Georgia,serif;max-width:740px;margin:40px auto;padding:36px 48px;color:#1a1a1a;background:#fff;font-size:16px}'
@@ -4328,7 +4034,7 @@ function gerarRecibo(){
   var vencVal = document.getElementById('rc_venc') ? dateVal('rc_venc') : '';
   var vencFmt = vencVal ? (function(d){var p=d.split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:d;})(vencVal) : '';
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v53 — 06/03/2026 16:28]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Recibo nº '+num+'</title>'
     + '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=EB+Garamond:wght@400;600&display=swap" rel="stylesheet">'
     + '<style>'
     + 'body{font-family:"Cormorant Garamond","EB Garamond",Georgia,serif;max-width:680px;margin:40px auto;padding:36px 48px;color:#1a1a1a;background:#fff;line-height:1.6}'
@@ -4750,6 +4456,7 @@ function renderRecibosHonFin(){
   // Coletar todos os pagamentos pagos (de parcelas e avulsos)
   var pagos = [];
   if(m.pagamentos) m.pagamentos.forEach(function(p, pi){
+    if(p._parcela!==undefined&&p._parcela!==null) return;
     if(p.data) pagos.push({idx:pi, data:p.data, valor:p.valor, desc:p.desc||'', venc:p.venc||'', forma:p.forma||''});
   });
 
@@ -4844,7 +4551,7 @@ function gerarReciboConsolidadoHonFin(){
 
   var totalFmt = 'R$ '+totalV.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v53 — 06/03/2026 16:28]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Recibo Consolidado nº '+num+'</title>'
     +'<style>'
     +'@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap");'
     +'*{margin:0;padding:0;box-sizing:border-box}'
@@ -4885,7 +4592,7 @@ function gerarReciboConsolidadoHonFin(){
     +', a título de honorários advocatícios'+(caso?' referentes a <span class="dest">'+caso+'</span>':'')
     +(proc?' — Processo nº <span class="dest">'+proc+'</span>':'')
     +', os seguintes pagamentos:</div>'
-    +(m&&m.hon&&m.hon.total?'<div style="background:#fdf8f0;border:1px solid #e8d4bc;border-radius:6px;padding:12px 16px;margin:14px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"><div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;letter-spacing:.8px">Valor do Contrato</div><div style="font-size:17px;font-weight:700;color:#3a2008;margin-top:3px">R$ '+m.hon.total+'</div></div><div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;letter-spacing:.8px">Total de Parcelas</div><div style="font-size:17px;font-weight:700;color:#3a2008;margin-top:3px">'+(m.hon.parcelas?m.hon.parcelas.length:1)+'</div></div><div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;letter-spacing:.8px">Parcelas Pagas</div><div style="font-size:17px;font-weight:700;color:#2d7a5a;margin-top:3px">'+pagos.length+'</div></div></div>':'')+'<div class="secao">Discriminação dos Pagamentos</div>'
+    +'<div class="secao">Discriminação dos Pagamentos</div>'
     +'<table class="tab-pags"><thead><tr>'
     +'<th style="width:34px">#</th><th style="width:110px">Valor</th><th style="width:110px">Pago em</th><th style="width:110px">Vencimento</th><th style="width:100px">Forma</th><th>Referência</th>'
     +'</tr></thead><tbody>'+tabelaLinhas+'</tbody>'
@@ -5004,8 +4711,8 @@ function renderBoletos(){
       +'<td style="padding:9px 12px;font-weight:800;text-align:right">'+escHtml(r.valor)+'</td>'
       +'<td style="padding:7px 10px;text-align:center">'
       +'<div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap">'
-      +'<button style="background:#edf5f0;color:#2d7a5a;border:1px solid #2d7a5a;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="abrirModalBoletoEdit('+JSON.stringify(r).replace(/"/g,"&quot;")+')" title="Gerar instrução de pagamento">📄 Gerar Instrução de Pagamento</button>'
-      +'<button style="background:#fff8e0;color:#8b6000;border:1px solid #c4a040;margin-left:4px;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="gerarInstrucaoAberto('+JSON.stringify(r).replace(/"/g,"&quot;")+')" title="Parcelas em aberto">📋 Todas em Aberto</button>'
+      +'<button style="background:#edf5f0;color:#2d7a5a;border:1px solid #2d7a5a;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="gerarBoleto('+JSON.stringify(r).replace(/"/g,"&quot;")+')" title="Gerar instrução de pagamento">📄 Gerar Instrução de Pagamento</button>'
+      +'<button style="background:#fff8e0;color:#7a5500;border:1px solid #c4a040;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:0.76em;font-weight:700;margin-left:3px" onclick="gerarDemonstrativo('+JSON.stringify(r).replace(/"/g,"&quot;")+')" title="Demonstrativo">📋 Demonstrativo</button>'
       +'<button style="background:#e8f4ff;color:#1a6aaa;border:1px solid #1a6aaa;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:0.76em;font-weight:700" onclick="marcarPagoBoleto('+JSON.stringify(r).replace(/"/g,"&quot;")+')" title="Marcar como pago">✅ Colocar Pago</button>'
       +'</div></td>'
       +'</tr>';
@@ -5066,12 +4773,8 @@ function marcarPagoBoleto(r){
     var entrada = {data:iso, venc:p.venc||'', valor:p.valorPago||p.valor,
       desc:'Parcela '+p.num+(m.hon&&m.hon.obs?' — '+m.hon.obs:''), forma:p.forma||'', _parcela:r.idxParc};
     if(existe<0) m.pagamentos.push(entrada); else m.pagamentos[existe]=entrada;
-    // Histórico
-    var descPag2 = '💰 Parcela '+p.num+' paga: R$'+(p.valorPago||p.valor)+' em '+dt;
-    registrarHistorico(r.idxM, 'Pagamento de Parcela', descPag2, iso);
-    save();
-    renderBoletos();
-    renderFinanc();
+    registrarHistorico(r.idxM,'Parcela Paga','💰 Parcela '+p.num+' — R$'+(p.valorPago||p.valor||'—'),iso);
+    save(); renderBoletos(); renderFinanc();
     toast('✅ Parcela '+p.num+' marcada como paga!');
   }
 }
@@ -5082,9 +4785,9 @@ function gerarBoleto(r){
   var oab    = 'OAB/SP 469.261';
   var hoje   = new Date().toLocaleDateString('pt-BR');
   var num    = 'BOL-'+Date.now()%100000;
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Escritório [v53 — 06/03/2026 16:28]</title>'
+  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Instrução de Pagamento</title>'
     +'<style>'
-    +'@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap");'
+    +'@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap");'
     +'*{margin:0;padding:0;box-sizing:border-box}'
     +'body{font-family:"Inter",sans-serif;padding:36px 42px;max-width:740px;margin:0 auto;color:#1a1a1a;font-size:14.5px;background:#fff;line-height:1.6}'
     +'.h-bol{padding-bottom:16px;margin-bottom:0;border-bottom:3px solid #3a2008;display:flex;justify-content:space-between;align-items:flex-start}'
@@ -5362,7 +5065,7 @@ function renderFinanc(){
     if(!filtroTipoVal || filtroTipoVal === 'honorario' || filtroTipoVal === 'pagamento'){
       if(m.pagamentos && m.pagamentos.length){
         m.pagamentos.forEach(function(p, pi){
-          if(p._parcela !== undefined && p._parcela !== null) return; // parcela já listada acima
+          if(p._parcela!==undefined&&p._parcela!==null) return; // já listada como parcela acima
           var dataRef = p.venc || p.data || '';
           if(filtroMes && dataRef && dataRef.substring(5,7) !== filtroMes) return;
           if(filtroAno && dataRef && dataRef.substring(0,4) !== filtroAno) return;
@@ -6305,11 +6008,474 @@ function fecharOvFora(e,id){ if(e.target===document.getElementById(id))fecharOv(
 function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},3000); }
 
 // Handler de erro removido para evitar limpeza acidental de dados
+// ══ FUNÇÕES NOVAS ══════════════════════════════════════════════
 
-// ══════════════════════════════════════════════════════════
-// AUDIÊNCIAS
-// ══════════════════════════════════════════════════════════
-var _audiencias = (function(){ try { return JSON.parse(localStorage.getItem('escAud')||'[]'); } catch(e){ return []; } })();
+function registrarHistorico(idx,tipo,desc,data){
+  if(idx<0||!dados[idx])return;
+  if(!dados[idx].andamentos)dados[idx].andamentos=[];
+  dados[idx].andamentos.push({
+    data:data||new Date().toISOString().slice(0,10),
+    and:tipo, prot:'', prazo:'', status:'Registrado', obs:desc
+  });
+  if(idx===idxAtual){
+    var d=document.getElementById('and-hist');
+    if(d) renderHist(dados[idx]);
+    var pand=document.getElementById('m-and');
+    var badge=document.getElementById('badge-hist');
+    if(badge&&pand&&!pand.classList.contains('ativo'))
+      badge.style.display='inline';
+  }
+  save();
+}
+
+function encontrarIdxCliente(ref){
+  if(!ref)return -1;
+  var r=ref.toLowerCase();
+  for(var i=0;i<dados.length;i++){
+    if((dados[i].cli||'').toLowerCase().includes(r)) return i;
+    if((dados[i].p||'').toLowerCase().includes(r)) return i;
+  }
+  return -1;
+}
+
+function renderOutrosProc(){
+  var m=dados[idxAtual]; if(!m) return;
+  var outros=dados.filter(function(x,i){return i!==idxAtual&&x.cli&&x.cli===m.cli;});
+  var tit=document.getElementById('outros-proc-titulo');
+  if(tit) tit.textContent='Processos de '+(m.cli||'')+(outros.length?' ('+(outros.length+1)+' processos)':'');
+  var lista=document.getElementById('outros-proc-lista'); if(!lista) return;
+  var todos=[{p:m,idx:idxAtual,atual:true}].concat(
+    outros.map(function(x){return{p:x,idx:dados.indexOf(x),atual:false};})
+  );
+  lista.innerHTML=todos.map(function(item){
+    var p=item.p,ia=item.atual;
+    var nA=(p.andamentos||[]).length,nP=0,nPg=0;
+    if(p.hon&&p.hon.parcelas){
+      nP=p.hon.parcelas.length;
+      nPg=p.hon.parcelas.filter(function(x){return x.pago;}).length;
+    }
+    var sCor={Ativo:'#2d7a5a',Arquivado:'#888',Encerrado:'#c0432a'}[p.s||'Ativo']||'#888';
+    var ultAnds=(p.andamentos||[]).slice(-2).reverse().map(function(a){
+      return '<div style="font-size:.77em;padding:2px 0;border-bottom:1px solid var(--fundo2);display:flex;gap:6px">'
+        +'<span style="color:var(--texto3);white-space:nowrap">'+fmt(a.data)+'</span>'
+        +'<span>'+escHtml(a.and||'')+(a.obs?(' — '+escHtml((a.obs||'').slice(0,50))):'')+'</span></div>';
+    }).join('');
+    return '<div style="background:'+(ia?'var(--fundo)':'var(--card)')+';border:'
+      +(ia?'2px solid var(--acento)':'1px solid var(--borda)')
+      +';border-radius:9px;padding:12px 14px;margin-bottom:8px">'
+      +'<div style="display:flex;gap:10px;justify-content:space-between"><div style="flex:1">'
+        +(ia?'<span style="font-size:.68em;background:var(--acento);color:#fff;border-radius:4px;padding:1px 7px;font-weight:700;display:inline-block;margin-bottom:4px">PROCESSO ATUAL</span><br>':'')
+        +'<div style="font-weight:700">'+(p.p&&p.p!=='-'?escHtml(p.p):'Sem número')+'</div>'
+        +'<div style="font-size:.8em;margin-top:2px"><span style="color:'+sCor+';font-weight:700">'+(p.s||'Ativo')+'</span>'
+          +(p.area?' · '+escHtml(p.area):'')+(p.d?' · '+fmt(p.d):'')+'</div>'
+        +'<div style="font-size:.75em;color:var(--texto3);margin-top:3px">'+nA+' andamentos'+(nP?' · '+nPg+'/'+nP+' parcelas':'')+'</div>'
+      +'</div>'
+      +(!ia?'<div style="display:flex;flex-direction:column;gap:5px">'
+        +'<button class="btn-prim" style="padding:4px 11px;font-size:.75em" '
+          +'data-abrir-idx="'+item.idx+'" onclick="abrirOutroProc(this)">Abrir</button>'
+        +'<button style="background:var(--fundo2);color:var(--vermelho);border:1px solid var(--vermelho);'
+          +'border-radius:5px;padding:3px 8px;cursor:pointer;font-size:.72em" '
+          +'data-del-idx="'+item.idx+'" onclick="delProcOutro(this)">Excluir</button>'
+        +'</div>':'')
+      +'</div>'
+      +(nA?'<div style="margin-top:7px;padding-top:7px;border-top:1px solid var(--borda)">'+ultAnds+'</div>':'')
+      +'</div>';
+  }).join('');
+}
+
+function abrirOutroProc(btn){
+  var idx=parseInt(btn.getAttribute('data-abrir-idx'));
+  // Recarregar o modal com o novo processo (sem fechar e reabrir)
+  abrirDet(idx);
+  // Ir para aba Histórico após carregar
+  setTimeout(function(){
+    var tabHist=document.querySelector('.m-tab.ativo');
+    if(tabHist) tabHist.click();
+    // Scroll para o topo
+    var mb=document.querySelector('#ov-det .modal-body');
+    if(mb) mb.scrollTop=0;
+  },50);
+}
+
+function delProcOutro(btn){
+  var idx=parseInt(btn.getAttribute('data-del-idx'));
+  if(idx===idxAtual){toast('Feche o processo antes de excluir.');return;}
+  if(!confirm('Excluir este processo permanentemente?')) return;
+  dados.splice(idx,1); save(); render(dados);
+  toast('Processo excluído.');
+}
+
+function abrirModalReciboEdit(){
+  var idx=(_honFinIdxM!==undefined&&_honFinIdxM!==null&&_honFinIdxM>=0)?_honFinIdxM:idxAtual;
+  var m=dados[idx]; if(!m){toast('Nenhum processo selecionado.');return;}
+  document.getElementById('re_adv').value='Esther Raquel Cangussu Bernardes dos Santos';
+  document.getElementById('re_oab').value='OAB/SP 469.261';
+  document.getElementById('re_end').value='Rua Expedicionários, 1019 — São Simão/SP · CEP 14200-013';
+  document.getElementById('re_cidade').value='São Simão/SP';
+  document.getElementById('re_cli').value=m.cli||'';
+  document.getElementById('re_cpf').value=m.cpf||'';
+  document.getElementById('re_proc').value=(m.p&&m.p!=='-')?m.p:'';
+  document.getElementById('re_acao').value=(m.caso&&m.caso.acao)?m.caso.acao:'';
+  document.getElementById('re_obs').value='';
+  if(m.hon&&m.hon.parcelas){
+    m.hon.parcelas.forEach(function(p,pi){
+      if(!p.pago) return;
+      if(!m.pagamentos) m.pagamentos=[];
+      var existe=m.pagamentos.findIndex(function(pg){return parseInt(pg._parcela)===pi;});
+      var ent={data:p.dtPago||p.dtpag||'',venc:p.venc||'',valor:p.valorPago||p.valor,
+        desc:'Parcela '+(p.num||(pi+1)),forma:p.forma||m.hon.forma||'',_parcela:pi};
+      if(existe<0) m.pagamentos.push(ent);
+      else if(ent.data) m.pagamentos[existe]=ent;
+    });
+  }
+  var pagos=(m.pagamentos||[]).filter(function(p){return p.data;});
+  var lis=document.getElementById('re_pagamentos_lista');
+  if(lis) lis.innerHTML=pagos.length
+    ?'<div style="font-size:.78em;font-weight:700;margin-bottom:4px">'+pagos.length+' pagamento(s):</div>'
+      +pagos.map(function(p){
+        return '<div style="font-size:.77em;padding:3px 0;border-bottom:1px solid var(--borda);display:flex;gap:8px">'
+          +'<b style="color:#2d7a5a">R$ '+escHtml(p.valor||'—')+'</b>'
+          +' · '+fmt(p.data)
+          +' · <span style="color:var(--texto3)">'+escHtml(p.desc||'Honorários')+'</span></div>';
+      }).join('')
+    :'<span style="font-size:.8em;color:var(--texto3)">Nenhum pagamento registrado.</span>';
+  document.getElementById('ov-recibo-edit').classList.add('aberto');
+}
+
+function gerarReciboComDadosEdit(){
+  var idx=(_honFinIdxM!==undefined&&_honFinIdxM!==null&&_honFinIdxM>=0)?_honFinIdxM:idxAtual;
+  var m=dados[idx]; if(!m) return;
+  var adv=document.getElementById('re_adv').value.trim()||'Esther Raquel Cangussu Bernardes dos Santos';
+  var oab=document.getElementById('re_oab').value.trim()||'OAB/SP 469.261';
+  var endAdv=document.getElementById('re_end').value.trim();
+  var cidade=document.getElementById('re_cidade').value.trim()||'São Simão/SP';
+  var cli=document.getElementById('re_cli').value.trim()||m.cli||'';
+  var cpf=document.getElementById('re_cpf').value.trim()||m.cpf||'';
+  var proc=document.getElementById('re_proc').value.trim();
+  var acao=document.getElementById('re_acao').value.trim();
+  var obsAdd=document.getElementById('re_obs').value.trim();
+  var hoje=new Date().toLocaleDateString('pt-BR');
+  _reciboContador++; try{localStorage.setItem('escRcN',_reciboContador);}catch(e){}
+  var num=String(_reciboContador).padStart(4,'0')+'/'+new Date().getFullYear();
+  var pagos=(m.pagamentos||[]).filter(function(p){return p.data;});
+  if(!pagos.length){toast('Nenhum pagamento para gerar recibo.');return;}
+  var totalV=0;
+  var linhas=pagos.map(function(p,i){
+    var v=parseFloat(String(p.valor||'').replace(/[^\d,.]/g,'').replace(',','.'));
+    if(!isNaN(v)) totalV+=v;
+    return '<tr style="background:'+(i%2?'#fff':'#fffcf8')+'">'
+      +'<td style="padding:7px 9px;border-bottom:1px solid #ede8df;text-align:center;color:#aaa;font-size:12px">'+(i+1)+'</td>'
+      +'<td style="padding:7px 9px;border-bottom:1px solid #ede8df;font-weight:700;color:#2d7a5a">'+escHtml(p.valor||'—')+'</td>'
+      +'<td style="padding:7px 9px;border-bottom:1px solid #ede8df">'+fmt(p.data)+'</td>'
+      +'<td style="padding:7px 9px;border-bottom:1px solid #ede8df;color:#666;font-size:12px">'+escHtml(p.forma||'—')+'</td>'
+      +'<td style="padding:7px 9px;border-bottom:1px solid #ede8df;font-size:12px;color:#444">'+escHtml(p.desc||'Honorários')+'</td>'
+      +'</tr>';
+  }).join('');
+  var totFmt='R$ '+totalV.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  var html='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">'
+    +'<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">'
+    +'<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:"DM Sans",sans-serif;max-width:760px;margin:38px auto;padding:38px 50px;color:#1a1a1a;background:#fff;font-size:14px;line-height:1.65}.hd{text-align:center;padding-bottom:16px;margin-bottom:20px;border-bottom:3px solid #c9a96e}.an{font-family:"Cormorant Garamond",serif;font-size:24px;font-weight:700;color:#2c1a0e}.as{font-size:11px;color:#8b6f47;letter-spacing:1.2px;text-transform:uppercase;margin-top:4px}.ae{font-size:11px;color:#aaa;margin-top:3px}.ti{text-align:center;margin:16px 0 4px}.ti h2{font-family:"Cormorant Garamond",serif;font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#5c4020;border:1.5px solid #c9a96e;display:inline-block;padding:6px 24px;font-weight:400}.nr{font-size:11px;color:#bbb;text-align:center;margin:4px 0 18px}.cp{font-size:15px;line-height:1.9;font-family:"Cormorant Garamond",serif;margin-bottom:12px}.dst{font-weight:700;color:#2c1a0e}table{width:100%;border-collapse:collapse;font-size:14px}thead th{background:#f5ede0;color:#5c4020;font-size:9px;text-transform:uppercase;padding:7px 9px;text-align:left;border-bottom:2px solid #c9a96e;font-weight:700}tfoot td{padding:9px;border-top:2px solid #c9a96e;font-weight:700;color:#3a2008}.vb{background:linear-gradient(135deg,#fdf8f0,#f5ede0);border:2px solid #c9a96e;border-radius:6px;padding:13px 22px;margin:14px 0;text-align:center}.vn{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:700;color:#3a2008}.al{margin-top:44px;text-align:center}.all{width:240px;border-top:1.5px solid #555;margin:0 auto 7px}.aln{font-family:"Cormorant Garamond",serif;font-size:16px;font-weight:700;color:#2c1a0e}.rod{margin-top:16px;text-align:center;font-size:10px;color:#ccc;border-top:1px solid #f0e8de;padding-top:8px}@media print{body{margin:0;padding:18px}.bp{display:none!important}}.bp{display:block;margin:18px auto 0;background:#3a2008;color:#f0e0c0;border:none;padding:9px 26px;border-radius:4px;font-size:13px;cursor:pointer}</style></head><body>'
+    +'<div class="hd"><div class="an">'+adv+'</div><div class="as">'+oab+'</div><div class="ae">'+endAdv+'</div></div>'
+    +'<div class="ti"><h2>Recibo Consolidado de Honorários</h2></div>'
+    +'<div class="nr">Nº '+num+' · Emitido em '+hoje+'</div>'
+    +'<div class="cp">Recebi de <span class="dst">'+cli+'</span>'+(cpf?' (CPF: <span class="dst">'+cpf+'</span>)':'')+' a título de honorários advocatícios'+(acao?' ref. <span class="dst">'+acao+'</span>':'')+(proc?' — Proc. <span class="dst">'+proc+'</span>':'')+', os pagamentos abaixo:</div>'
+    +'<table><thead><tr><th>#</th><th>Valor</th><th>Data</th><th>Forma</th><th>Referência</th></tr></thead><tbody>'+linhas+'</tbody>'
+    +'<tfoot><tr><td colspan="3" style="text-align:right;color:#888;font-size:11px">TOTAL:</td><td colspan="2">'+totFmt+'</td></tr></tfoot></table>'
+    +'<div class="vb"><div class="vn">'+totFmt+'</div><div style="font-size:11px;color:#8b6f47;margin-top:3px">'+pagos.length+' pagamento'+(pagos.length!==1?'s':'')+' consolidados</div></div>'
+    +(obsAdd?'<div style="background:#fafaf8;border:1px solid #e0d8cc;border-radius:5px;padding:9px 13px;font-size:13px;color:#444;margin-bottom:12px">'+obsAdd+'</div>':'')
+    +'<div class="cp">Por serem verdadeiros, firmo o presente recibo.</div>'
+    +'<div class="al"><div class="all"></div><div class="aln">'+adv+'</div><div style="font-size:11px;color:#8b6f47;margin-top:2px">'+oab+'</div><div style="font-size:12px;color:#888;margin-top:3px">'+cidade+', '+hoje+'</div></div>'
+    +'<div class="rod">'+adv+' — '+oab+'</div>'
+    +'<button class="bp" onclick="window.print()">&#x1F5A8;&#xFE0F; Imprimir / PDF</button></body></html>';
+  fecharOv('ov-recibo-edit');
+  var w=window.open('','_blank','width=820,height=950,scrollbars=yes');
+  if(w){w.document.write(html);w.document.close();}
+  toast('&#x1F9FE; Recibo gerado!');
+}
+
+function gerarDemonstrativo_OLD_REPLACED(r){
+  var m=null;
+  if(r&&r.andamentos!==undefined){
+    m=r;
+  } else {
+    dados.forEach(function(d){
+      if((d.cli||'')===(r.cli||'')&&(d.p||'')===(r.proc||'')) m=d;
+    });
+    if(!m) dados.forEach(function(d){
+      if((d.cli||'')===(r.cli||'')) m=m||d;
+    });
+    if(!m) m=dados[idxAtual];
+  }
+  if(!m) return;
+  var adv='Esther Raquel Cangussu Bernardes dos Santos',oab='OAB/SP 469.261';
+  var hoje=new Date().toLocaleDateString('pt-BR'),hoje2=new Date(); hoje2.setHours(0,0,0,0);
+  var totC=(m.hon&&m.hon.total)||'',nP=(m.hon&&m.hon.parcelas)?m.hon.parcelas.length:0;
+  var ab=[],pg=[];
+  if(m.hon&&m.hon.parcelas){
+    m.hon.parcelas.forEach(function(p,pi){
+      var it={num:(p.num||(pi+1)),val:(p.valorPago||p.valor||'—'),venc:(p.venc||''),forma:(p.forma||m.hon.forma||''),dtPago:(p.dtPago||p.dtpag||'')};
+      if(p.pago) pg.push(it); else ab.push(it);
+    });
+  }
+  if(!ab.length&&!pg.length) ab.push({num:1,val:(m.hon&&m.hon.total)||'—',venc:(m.hon&&m.hon.dtvenc)||'',forma:(m.hon&&m.hon.forma)||''});
+  function vn(s){return parseFloat(String(s).replace(/[^0-9,.]/g,'').replace(',','.'))||0;}
+  var totAb=ab.reduce(function(a,x){return a+vn(x.val);},0);
+  var totPg=pg.reduce(function(a,x){return a+vn(x.val);},0);
+  function row(p,tipo){
+    var vStr=p.venc?new Date(p.venc+'T00:00:00').toLocaleDateString('pt-BR'):'—';
+    var atras=tipo!=='paga'&&p.venc&&new Date(p.venc+'T00:00:00')<hoje2;
+    var bg=tipo==='paga'?'#f0faf4':atras?'#fff5f5':'#fffcf8';
+    return '<tr style="background:'+bg+'">'
+      +'<td style="padding:8px 11px;border-bottom:1px solid #e8d4bc;text-align:center;font-weight:700;color:#8b6f47">'+p.num+'</td>'
+      +'<td style="padding:8px 11px;border-bottom:1px solid #e8d4bc;font-weight:700;font-size:14px">R$ '+p.val+'</td>'
+      +(tipo==='paga'
+        ?'<td style="padding:8px 11px;border-bottom:1px solid #e8d4bc;color:#2d7a5a;font-weight:700;font-size:12px">&#x2705; '+(p.dtPago?new Date(p.dtPago+'T00:00:00').toLocaleDateString('pt-BR'):'Pago')+'</td>'
+        :'<td style="padding:8px 11px;border-bottom:1px solid #e8d4bc;color:'+(atras?'#c0432a;font-weight:700':'#444')+'">'+vStr+(atras?' &#x26A0;':'')+'</td>')
+      +'<td style="padding:8px 11px;border-bottom:1px solid #e8d4bc;color:#666;font-size:12px">'+p.forma+'</td></tr>';
+  }
+  var html='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">'
+    +'<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">'
+    +'<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:"DM Sans",sans-serif;padding:38px 46px;max-width:780px;margin:0 auto;color:#1a1a1a;font-size:14px;background:#fff;line-height:1.65}.cab{display:flex;justify-content:space-between;padding-bottom:13px;border-bottom:3px solid #3a2008;margin-bottom:18px}.an{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:700;color:#2c1a0e}.tit{background:linear-gradient(135deg,#3a2008,#6b4423);color:#f5ede0;text-align:center;padding:11px;font-family:"Cormorant Garamond",serif;font-size:16px;letter-spacing:3px;text-transform:uppercase;border-radius:4px;margin-bottom:16px}.bl{border:1px solid #d4b896;border-radius:6px;padding:11px 15px;background:#fffcf8;margin-bottom:10px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.c label{font-size:9px;font-weight:700;text-transform:uppercase;color:#8b6f47;display:block;margin-bottom:2px}.c .v{font-size:13px;padding-bottom:2px;border-bottom:1px solid #e8d4bc}table{width:100%;border-collapse:collapse}th{background:#3a2008;color:#f5ede0;padding:7px 11px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase}.st{font-family:"Cormorant Garamond",serif;font-size:14px;font-weight:700;color:#3a2008;margin:13px 0 5px;padding-bottom:3px;border-bottom:2px solid #c9a96e}.tb{background:linear-gradient(135deg,#f5ede0,#fff8f0);border:2px solid #8b6f47;border-radius:7px;padding:10px 15px;display:flex;justify-content:space-between;align-items:center;margin:9px 0}.tl{font-size:9px;font-weight:700;text-transform:uppercase;color:#7a5535}.tv{font-family:"Cormorant Garamond",serif;font-size:21px;font-weight:700;color:#2c1a0e}.px{background:#edf5f0;border:1.5px solid #2d7a5a;border-radius:7px;padding:9px 13px;margin-top:11px}.rod{margin-top:20px;padding-top:9px;border-top:1px solid #d4b896;font-size:10px;color:#999;text-align:center}@media print{body{padding:18px}.bp{display:none!important}}.bp{display:block;width:100%;margin-top:13px;padding:9px;background:#3a2008;color:#f5ede0;border:none;border-radius:4px;font-size:13px;cursor:pointer}</style></head><body>'
+    +'<div class="cab"><div><div class="an">'+adv+'</div><div style="font-size:11px;color:#7a5535;margin-top:3px">'+oab+'</div></div><div style="text-align:right;font-size:11px;color:#999">Emitido em '+hoje+'</div></div>'
+    +'<div class="tit">Demonstrativo Financeiro do Contrato</div>'
+    +'<div class="bl"><div class="g2"><div class="c"><label>Cliente</label><div class="v">'+escHtml(m.cli||'—')+'</div></div><div class="c"><label>CPF</label><div class="v">'+(m.cpf||'—')+'</div></div><div class="c"><label>Processo</label><div class="v">'+escHtml(m.p||'—')+'</div></div><div class="c"><label>Área</label><div class="v">'+escHtml(m.area||'—')+'</div></div></div></div>'
+    +(totC?'<div class="bl"><div class="g2"><div class="c"><label>Valor do Contrato</label><div class="v" style="font-size:15px;font-weight:700;color:#3a2008">R$ '+totC+'</div></div><div class="c"><label>Parcelas</label><div class="v">'+nP+' parcela'+(nP!==1?'s':'')+'</div></div></div></div>':'');
+  if(pg.length) html+='<div class="st">&#x2705; Parcelas Pagas ('+pg.length+')</div><table><thead><tr><th>N&#xBA;</th><th>Valor</th><th>Data Pagto</th><th>Forma</th></tr></thead><tbody>'+pg.map(function(p){return row(p,'paga');}).join('')+'</tbody></table><div class="tb"><div class="tl">Total Pago</div><div class="tv" style="color:#2d7a5a">R$ '+totPg.toFixed(2).replace('.',',')+'</div></div>';
+  if(ab.length) html+='<div class="st">&#x23F3; Em Aberto ('+ab.length+')</div><table><thead><tr><th>N&#xBA;</th><th>Valor</th><th>Vencimento</th><th>Forma</th></tr></thead><tbody>'+ab.map(function(p){return row(p,'aberto');}).join('')+'</tbody></table><div class="tb"><div class="tl">Total em Aberto</div><div class="tv">R$ '+totAb.toFixed(2).replace('.',',')+'</div></div>';
+  html+='<div class="px"><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#2d7a5a;margin-bottom:4px">Dados para Pagamento</div>'
+    +'<div style="font-size:14px;font-weight:700;color:#1a5e3a">PIX — CPF: 397.180.958-88</div>'
+    +'<div style="font-size:12px;color:#2d7a5a;margin-top:2px">'+adv+'</div>'
+    +'<div style="font-size:12px;color:#555;margin-top:2px">Banco do Brasil · Ag: 1398-6 · CC: 18144-7</div></div>'
+    +'<div class="rod">'+adv+' — '+oab+' | '+hoje+'</div>'
+    +'<button class="bp" onclick="window.print()">&#x1F5A8;&#xFE0F; Imprimir / PDF</button></body></html>';
+  var w=window.open('','_blank');
+  if(w){w.document.write(html);w.document.close();}
+}
+
+
+function abrirHistoricoCompleto(){
+  var m=dados[idxAtual]; if(!m) return;
+  var ands=(m.andamentos||[]).slice().reverse();
+  var pags=(m.pagamentos||[]).filter(function(p){return p._parcela===undefined||p._parcela===null;});
+  var parcs=(m.hon&&m.hon.parcelas)||[];
+  var tarefasCliente=_tarefas.filter(function(t){
+    return t.ref&&(t.ref.toLowerCase().includes((m.cli||'').toLowerCase())||
+      ((m.p&&m.p!=='-')&&t.ref.toLowerCase().includes((m.p||'').toLowerCase())));
+  });
+
+  function row(icon,data,tipo,desc,extra,cor){
+    return '<tr style="border-bottom:1px solid #f0f0f0">'
+      +'<td style="padding:8px 10px;white-space:nowrap;font-size:12px;color:#888">'+fmt(data)+'</td>'
+      +'<td style="padding:8px 10px;font-size:11px"><span style="background:'+(cor||'#eee')+';color:'+(cor?'#fff':'#555')+';border-radius:4px;padding:2px 7px;font-weight:700;white-space:nowrap">'+icon+' '+tipo+'</span></td>'
+      +'<td style="padding:8px 10px;font-size:13px">'+escHtml(desc||'')+'</td>'
+      +(extra?'<td style="padding:8px 10px;font-size:12px;color:#555;white-space:nowrap">'+extra+'</td>':'<td></td>')
+      +'</tr>';
+  }
+
+  var linhas=[];
+  // Andamentos
+  ands.forEach(function(a){
+    var cor='#3a6ea8';
+    if((a.and||'').includes('Pago')||(a.and||'').includes('Parcela')) cor='#2d7a5a';
+    else if((a.and||'').includes('Honorár')) cor='#7a5500';
+    else if((a.and||'').includes('Tarefa')) cor='#6b21a8';
+    else if((a.and||'').includes('Edição')) cor='#555';
+    linhas.push({data:a.data||'',html:row('📋',a.data,a.and,a.obs||'',
+      (a.prot?'Prot: '+a.prot:'')+(a.prazo?' | Prazo: '+fmt(a.prazo):''),cor)});
+  });
+  // Pagamentos avulsos
+  pags.forEach(function(p){
+    linhas.push({data:p.data||p.venc||'',html:row('💰',p.data||p.venc,'Pagamento','R$ '+(p.valor||'—')+' — '+(p.desc||'Honorários'),fmt(p.data),'#2d7a5a')});
+  });
+  // Parcelas pagas
+  parcs.forEach(function(p){
+    if(!p.pago) return;
+    linhas.push({data:p.dtPago||p.dtpag||'',html:row('✅',p.dtPago||p.dtpag,'Parcela '+(p.num||''),'R$ '+(p.valorPago||p.valor||'—'),fmt(p.dtPago||p.dtpag),'#2d7a5a')});
+  });
+  // Tarefas
+  tarefasCliente.forEach(function(t){
+    if(t.concluida) linhas.push({data:t.dtCumprimento||'',html:row('✅',t.dtCumprimento,'Tarefa Cumprida',t.titulo,(t.relatoCumprimento||'').slice(0,60),'#6b21a8')});
+  });
+
+  // Ordenar por data desc
+  linhas.sort(function(a,b){return (b.data||'').localeCompare(a.data||'');});
+
+  var hoje=new Date().toLocaleDateString('pt-BR');
+  var html='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">'
+    +'<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">'
+    +'<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:"DM Sans",sans-serif;padding:30px 40px;max-width:900px;margin:0 auto;color:#1a1a1a;font-size:14px;background:#fff}'
+    +'.cab{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:12px;border-bottom:3px solid #3a2008;margin-bottom:20px}'
+    +'.an{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:700;color:#2c1a0e}'
+    +'.tit{background:linear-gradient(135deg,#3a2008,#5a3418);color:#f5ede0;text-align:center;padding:10px;font-family:"Cormorant Garamond",serif;font-size:15px;letter-spacing:3px;text-transform:uppercase;border-radius:4px;margin-bottom:16px}'
+    +'.info{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}'
+    +'.ic{border:1px solid #e0d8cc;border-radius:5px;padding:8px 10px;background:#fffcf8}'
+    +'.il{font-size:9px;font-weight:700;text-transform:uppercase;color:#8b6f47}'
+    +'.iv{font-size:13px;color:#1a1a1a;margin-top:2px;font-weight:600}'
+    +'table{width:100%;border-collapse:collapse}th{background:#3a2008;color:#f5ede0;padding:7px 11px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase}'
+    +'.rod{margin-top:16px;padding-top:8px;border-top:1px solid #e0d8cc;font-size:10px;color:#aaa;text-align:center}'
+    +'@media print{body{padding:18px}.bp{display:none!important}}'
+    +'.bp{display:block;width:100%;margin-top:12px;padding:9px;background:#3a2008;color:#f5ede0;border:none;border-radius:4px;font-size:13px;cursor:pointer}'
+    +'</style></head><body>'
+    +'<div class="cab"><div><div class="an">Esther Raquel Cangussu Bernardes dos Santos</div>'
+    +'<div style="font-size:11px;color:#7a5535;margin-top:2px">OAB/SP 469.261</div></div>'
+    +'<div style="text-align:right;font-size:11px;color:#999">Emitido em '+hoje+'</div></div>'
+    +'<div class="tit">Histórico Completo do Processo</div>'
+    +'<div class="info">'
+    +'<div class="ic"><div class="il">Cliente</div><div class="iv">'+escHtml(m.cli||'—')+'</div></div>'
+    +'<div class="ic"><div class="il">CPF</div><div class="iv">'+(m.cpf||'—')+'</div></div>'
+    +'<div class="ic"><div class="il">Processo</div><div class="iv">'+escHtml(m.p||'—')+'</div></div>'
+    +'<div class="ic"><div class="il">Área</div><div class="iv">'+escHtml(m.area||'—')+'</div></div>'
+    +'</div>'
+    +'<table><thead><tr><th style="width:100px">Data</th><th style="width:150px">Tipo</th><th>Descrição / Observação</th><th style="width:100px">Detalhe</th></tr></thead>'
+    +'<tbody>'+(linhas.length?linhas.map(function(l){return l.html;}).join(''):'<tr><td colspan="4" style="padding:20px;text-align:center;color:#aaa">Nenhum registro encontrado.</td></tr>')+'</tbody></table>'
+    +'<div class="rod">Esther Raquel Cangussu Bernardes dos Santos — OAB/SP 469.261 | '+hoje+' | '+linhas.length+' registros</div>'
+    +'<button class="bp" onclick="window.print()">&#x1F5A8;&#xFE0F; Imprimir / PDF</button>'
+    +'</body></html>';
+
+  var w=window.open('','_blank','width=960,height=850,scrollbars=yes');
+  if(w){w.document.write(html);w.document.close();}
+}
+
+function gerarDemonstrativo(r){
+  var m=null;
+  if(r&&r.andamentos!==undefined){
+    m=r;
+  } else {
+    dados.forEach(function(d){
+      if((d.cli||'')===(r.cli||'')&&(d.p||'')===(r.proc||'')) m=d;
+    });
+    if(!m) dados.forEach(function(d){if((d.cli||'')===(r.cli||'')) m=m||d;});
+    if(!m) m=dados[idxAtual];
+  }
+  if(!m) return;
+  var adv='Esther Raquel Cangussu Bernardes dos Santos',oab='OAB/SP 469.261';
+  var hoje=new Date().toLocaleDateString('pt-BR'),hoje2=new Date(); hoje2.setHours(0,0,0,0);
+  var totC=(m.hon&&m.hon.total)||'',nP=(m.hon&&m.hon.parcelas)?m.hon.parcelas.length:0;
+
+  // Coletar TODOS os pagamentos: parcelas pagas + pagamentos avulsos manuais
+  var todasPagas=[];
+  // Parcelas pagas de hon.parcelas
+  if(m.hon&&m.hon.parcelas){
+    m.hon.parcelas.forEach(function(p,pi){
+      if(p.pago){
+        todasPagas.push({
+          num:'P'+(p.num||(pi+1)),
+          val:p.valorPago||p.valor||'—',
+          dt:p.dtPago||p.dtpag||'',
+          forma:p.forma||m.hon.forma||'',
+          desc:'Parcela '+(p.num||(pi+1)),
+          tipo:'parcela'
+        });
+      }
+    });
+  }
+  // Pagamentos avulsos (não vinculados a parcela)
+  if(m.pagamentos){
+    m.pagamentos.forEach(function(p){
+      if(p._parcela!==undefined&&p._parcela!==null) return; // já listado acima
+      if(p.data||p.venc){
+        todasPagas.push({
+          num:'A'+(todasPagas.length+1),
+          val:p.valor||'—',
+          dt:p.data||'',
+          forma:p.forma||'',
+          desc:p.desc||'Pagamento',
+          tipo:'avulso'
+        });
+      }
+    });
+  }
+
+  // Parcelas em aberto
+  var emAberto=[];
+  if(m.hon&&m.hon.parcelas){
+    m.hon.parcelas.forEach(function(p,pi){
+      if(!p.pago){
+        emAberto.push({
+          num:p.num||(pi+1),
+          val:p.valor||'—',
+          venc:p.venc||'',
+          forma:p.forma||m.hon.forma||''
+        });
+      }
+    });
+  }
+  // Se não tem parcelas mas tem contrato, mostrar como vencimento único
+  if(!emAberto.length && m.hon && m.hon.total && !(m.hon.parcelas&&m.hon.parcelas.length)){
+    if(!m.hon.dtpag){
+      emAberto.push({num:1,val:m.hon.total,venc:m.hon.dtvenc||m.hon.proxven||'',forma:m.hon.forma||''});
+    }
+  }
+
+  function vn(s){return parseFloat(String(s).replace(/[^0-9,.]/g,'').replace(',','.'))||0;}
+  var totPg=todasPagas.reduce(function(a,x){return a+vn(x.val);},0);
+  var totAb=emAberto.reduce(function(a,x){return a+vn(x.val);},0);
+
+  function rowPaga(p){
+    return '<tr style="background:#f0faf4">'
+      +'<td style="padding:8px 11px;border-bottom:1px solid #e0f0e8;text-align:center;font-weight:700;color:#8b6f47;font-size:12px">'+p.num+'</td>'
+      +'<td style="padding:8px 11px;border-bottom:1px solid #e0f0e8;font-weight:700;color:#1a5e3a">R$ '+p.val+'</td>'
+      +'<td style="padding:8px 11px;border-bottom:1px solid #e0f0e8;color:#2d7a5a;font-weight:700;font-size:12px">&#x2705; '+(p.dt?new Date(p.dt+'T00:00:00').toLocaleDateString('pt-BR'):'—')+'</td>'
+      +'<td style="padding:8px 11px;border-bottom:1px solid #e0f0e8;color:#666;font-size:12px">'+p.forma+'</td>'
+      +'<td style="padding:8px 11px;border-bottom:1px solid #e0f0e8;font-size:11px;color:#555">'+escHtml(p.desc)+'</td>'
+      +'</tr>';
+  }
+  function rowAberto(p){
+    var atras=p.venc&&new Date(p.venc+'T00:00:00')<hoje2;
+    var vStr=p.venc?new Date(p.venc+'T00:00:00').toLocaleDateString('pt-BR'):'—';
+    return '<tr style="background:'+(atras?'#fff5f5':'#fffcf8')+'">'
+      +'<td style="padding:8px 11px;border-bottom:1px solid #e8d4bc;text-align:center;font-weight:700;color:#8b6f47;font-size:12px">'+p.num+'</td>'
+      +'<td style="padding:8px 11px;border-bottom:1px solid #e8d4bc;font-weight:700;color:#1a1a1a">R$ '+p.val+'</td>'
+      +'<td style="padding:8px 11px;border-bottom:1px solid #e8d4bc;color:'+(atras?'#c0432a;font-weight:700':'#444')+'">'+vStr+(atras?' &#x26A0;':'')+'</td>'
+      +'<td style="padding:8px 11px;border-bottom:1px solid #e8d4bc;color:#666;font-size:12px">'+p.forma+'</td>'
+      +'<td></td>'
+      +'</tr>';
+  }
+
+  var html='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">'
+    +'<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">'
+    +'<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:"DM Sans",sans-serif;padding:38px 46px;max-width:820px;margin:0 auto;color:#1a1a1a;font-size:14px;background:#fff;line-height:1.6}.cab{display:flex;justify-content:space-between;padding-bottom:12px;border-bottom:3px solid #3a2008;margin-bottom:16px}.an{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:700;color:#2c1a0e}.tit{background:linear-gradient(135deg,#3a2008,#6b4423);color:#f5ede0;text-align:center;padding:10px;font-family:"Cormorant Garamond",serif;font-size:15px;letter-spacing:3px;text-transform:uppercase;border-radius:4px;margin-bottom:14px}.bl{border:1px solid #d4b896;border-radius:6px;padding:10px 14px;background:#fffcf8;margin-bottom:10px}.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.c label{font-size:9px;font-weight:700;text-transform:uppercase;color:#8b6f47;display:block}.c .v{font-size:12px;color:#1a1a1a;padding-bottom:2px;border-bottom:1px solid #e8d4bc;margin-top:1px}table{width:100%;border-collapse:collapse}th{background:#3a2008;color:#f5ede0;padding:7px 11px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase}.st{font-family:"Cormorant Garamond",serif;font-size:14px;font-weight:700;color:#3a2008;margin:12px 0 5px;padding-bottom:3px;border-bottom:2px solid #c9a96e}.tb{background:linear-gradient(135deg,#f5ede0,#fff8f0);border:2px solid #8b6f47;border-radius:7px;padding:9px 14px;display:flex;justify-content:space-between;align-items:center;margin:8px 0}.tl{font-size:9px;font-weight:700;text-transform:uppercase;color:#7a5535}.tv{font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:700;color:#2c1a0e}.px{background:#edf5f0;border:1.5px solid #2d7a5a;border-radius:7px;padding:9px 13px;margin-top:10px}.rod{margin-top:16px;padding-top:8px;border-top:1px solid #d4b896;font-size:10px;color:#999;text-align:center}@media print{body{padding:18px}.bp{display:none!important}}.bp{display:block;width:100%;margin-top:12px;padding:9px;background:#3a2008;color:#f5ede0;border:none;border-radius:4px;font-size:13px;cursor:pointer}</style></head><body>'
+    +'<div class="cab"><div><div class="an">'+adv+'</div><div style="font-size:11px;color:#7a5535;margin-top:2px">'+oab+'</div></div><div style="text-align:right;font-size:11px;color:#999">Emitido em '+hoje+'</div></div>'
+    +'<div class="tit">Demonstrativo Financeiro do Contrato</div>'
+    +'<div class="bl"><div class="g4">'
+    +'<div class="c"><label>Cliente</label><div class="v">'+escHtml(m.cli||'—')+'</div></div>'
+    +'<div class="c"><label>CPF</label><div class="v">'+(m.cpf||'—')+'</div></div>'
+    +'<div class="c"><label>Processo</label><div class="v">'+escHtml(m.p||'—')+'</div></div>'
+    +'<div class="c"><label>Área</label><div class="v">'+escHtml(m.area||'—')+'</div></div>'
+    +'</div></div>'
+    +(totC?'<div class="bl" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">'
+      +'<div class="c"><label>Valor Contrato</label><div class="v" style="font-size:15px;font-weight:700;color:#3a2008">R$ '+totC+'</div></div>'
+      +'<div class="c"><label>Total Parcelas</label><div class="v">'+nP+(nP?' parcela'+(nP!==1?'s':''):'—')+'</div></div>'
+      +'<div class="c"><label>Pagamentos</label><div class="v">'+todasPagas.length+' registrado'+(todasPagas.length!==1?'s':'')+'</div></div>'
+      +'</div>':'');
+
+  if(todasPagas.length){
+    html+='<div class="st">&#x2705; Valores Pagos ('+todasPagas.length+')</div>'
+      +'<table><thead><tr><th style="width:60px">Ref</th><th style="width:110px">Valor</th><th style="width:110px">Data Pagto</th><th style="width:100px">Forma</th><th>Descrição</th></tr></thead>'
+      +'<tbody>'+todasPagas.map(rowPaga).join('')+'</tbody></table>'
+      +'<div class="tb"><div class="tl">Total Pago</div><div class="tv" style="color:#2d7a5a">R$ '+totPg.toFixed(2).replace('.',',')+'</div></div>';
+  }
+  if(emAberto.length){
+    html+='<div class="st">&#x23F3; Em Aberto ('+emAberto.length+')</div>'
+      +'<table><thead><tr><th style="width:60px">Parc</th><th style="width:110px">Valor</th><th style="width:110px">Vencimento</th><th style="width:100px">Forma</th><th></th></tr></thead>'
+      +'<tbody>'+emAberto.map(rowAberto).join('')+'</tbody></table>'
+      +'<div class="tb"><div class="tl">Total em Aberto</div><div class="tv">R$ '+totAb.toFixed(2).replace('.',',')+'</div></div>';
+  }
+
+  html+='<div class="px"><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#2d7a5a;margin-bottom:4px">Dados para Pagamento</div>'
+    +'<div style="font-size:14px;font-weight:700;color:#1a5e3a">PIX — CPF: 397.180.958-88</div>'
+    +'<div style="font-size:12px;color:#2d7a5a;margin-top:2px">'+adv+'</div>'
+    +'<div style="font-size:12px;color:#555;margin-top:2px">Banco do Brasil · Ag: 1398-6 · CC: 18144-7</div></div>'
+    +'<div class="rod">'+adv+' — '+oab+' | '+hoje+'</div>'
+    +'<button class="bp" onclick="window.print()">&#x1F5A8;&#xFE0F; Imprimir / PDF</button></body></html>';
+  var w=window.open('','_blank');
+  if(w){w.document.write(html);w.document.close();}
+}
+
+
+// == AUDIENCIAS ==================================================
+
+var _audiencias = (function(){ try{ return JSON.parse(localStorage.getItem('escAud')||'[]'); } catch(e){ return []; } })();
 var _audEditIdx = -1;
 var _audCalAno  = new Date().getFullYear();
 var _audCalMes  = new Date().getMonth();
@@ -6321,105 +6487,68 @@ function salvarAudsLocal(){ localStorage.setItem('escAud', JSON.stringify(_audie
 function abrirModalAud(idx){
   _audEditIdx = (idx !== undefined) ? idx : -1;
   var dl = document.getElementById('aud-clientes-dl');
-  if(dl){ dl.innerHTML = dados.map(function(m){ return '<option value="'+(m.cli||'')+(m.p&&m.p!=='-'?' — '+m.p:'')+'">' }).join(''); }
+  if(dl) dl.innerHTML = dados.map(function(m){ return '<option value="'+(m.cli||'')+(m.p&&m.p!=='-'?' \u2014 '+m.p:'')+'">'; }).join('');
   if(_audEditIdx >= 0){
     var a = _audiencias[_audEditIdx];
-    document.getElementById('aud-modal-titulo').textContent = 'Editar Audiência';
-    document.getElementById('aud-data').value  = audFormatData(a.data||'');
-    document.getElementById('aud-hora').value  = a.hora||'';
-    document.getElementById('aud-tipo').value  = a.tipo||'';
+    document.getElementById('aud-modal-titulo').textContent = 'Editar Audi\u00eancia';
+    document.getElementById('aud-data').value    = a.data||'';
+    document.getElementById('aud-hora').value    = a.hora||'';
+    document.getElementById('aud-tipo').value    = a.tipo||'';
     document.getElementById('aud-cliente').value = a.cliente||'';
-    document.getElementById('aud-vara').value  = a.vara||'';
-    document.getElementById('aud-local').value = a.local||'';
-    document.getElementById('aud-obs').value   = a.obs||'';
+    document.getElementById('aud-vara').value    = a.vara||'';
+    document.getElementById('aud-local').value   = a.local||'';
+    document.getElementById('aud-obs').value     = a.obs||'';
   } else {
-    document.getElementById('aud-modal-titulo').textContent = 'Nova Audiência';
-    document.getElementById('aud-data').value  = _audDiaSel || '';
-    document.getElementById('aud-hora').value  = '';
-    document.getElementById('aud-tipo').value  = '';
-    document.getElementById('aud-cliente').value = '';
-    document.getElementById('aud-vara').value  = '';
-    document.getElementById('aud-local').value = '';
-    document.getElementById('aud-obs').value   = '';
+    document.getElementById('aud-modal-titulo').textContent = 'Nova Audi\u00eancia';
+    ['aud-data','aud-hora','aud-tipo','aud-cliente','aud-vara','aud-local','aud-obs'].forEach(function(id){
+      var el=document.getElementById(id); if(el) el.value='';
+    });
+    if(_audDiaSel) document.getElementById('aud-data').value = _audDiaSel;
   }
   document.getElementById('ov-aud').classList.add('aberto');
 }
 
-function audParseData(s){
-  // Converte dd/mm/aaaa para yyyy-mm-dd
-  if(!s) return '';
-  if(s.includes('-')) return s; // já está no formato ISO
-  var p=s.split('/');
-  if(p.length===3) return p[2]+'-'+p[1]+'-'+p[0];
-  return s;
-}
-function audFormatData(s){
-  // Converte yyyy-mm-dd para dd/mm/aaaa para exibição
-  if(!s) return '';
-  if(s.includes('/')) return s; // já está formatado
-  var p=s.split('-');
-  if(p.length===3) return p[2]+'/'+p[1]+'/'+p[0];
-  return s;
-}
-function mascaraHoraAud(el){
-  var v=el.value.replace(/\D/g,'');
-  if(v.length>=3) v=v.slice(0,2)+':'+v.slice(2,4);
-  el.value=v;
-}
-function mascaraDataAud(el){
-  var v=el.value.replace(/\D/g,'');
-  if(v.length>=5) v=v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4,8);
-  else if(v.length>=3) v=v.slice(0,2)+'/'+v.slice(2);
-  el.value=v;
-}
 function salvarAud(){
-  var dataDigitada=document.getElementById('aud-data').value;
-  var hora=document.getElementById('aud-hora').value;
-  var tipo=document.getElementById('aud-tipo').value;
-  if(!dataDigitada){alert('Informe a data!');return;}
-  if(dataDigitada.replace(/\D/g,'').length<8){alert('Data incompleta! Use dd/mm/aaaa');return;}
-  if(!hora||hora.replace(/\D/g,'').length<4){alert('Informe o horário! Use HH:MM');return;}
-  if(!tipo){alert('Selecione o tipo!');return;}
-  var data=audParseData(dataDigitada); // salvar internamente como yyyy-mm-dd
-  var aud={data:data,hora:hora,tipo:tipo,
-    cliente:document.getElementById('aud-cliente').value.trim(),
-    vara:document.getElementById('aud-vara').value.trim(),
-    local:document.getElementById('aud-local').value.trim(),
-    obs:document.getElementById('aud-obs').value.trim()};
-  if(_audEditIdx>=0) _audiencias[_audEditIdx]=aud;
-  else _audiencias.push(aud);
-  _audiencias.sort(function(a,b){return (a.data+a.hora).localeCompare(b.data+b.hora);});
-  salvarAudsLocal(); save(); fecharOv('ov-aud'); renderAudiencias(); atualizarBadgeAud();
-  // Registrar no histórico do cliente
-  if(aud.cliente){
-    var idxCliAud = encontrarIdxCliente(aud.cliente);
-    if(idxCliAud >= 0){
-      var M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
-      var pa = aud.data ? aud.data.split('-') : ['','',''];
-      var descAud = '📅 Audiência agendada: '+aud.tipo+
-        (aud.data?' em '+parseInt(pa[2])+'/'+(pa[1]?M[parseInt(pa[1])-1]:'')+'/'+pa[0]:'')+
-        (aud.hora?' às '+aud.hora:'')+
-        (aud.vara?' | '+aud.vara:'')+
-        (aud.local?' | '+aud.local:'');
-      registrarHistorico(idxCliAud, 'Audiência Agendada', descAud, aud.data||new Date().toISOString().slice(0,10));
-    }
+  var data    = document.getElementById('aud-data').value;
+  var hora    = document.getElementById('aud-hora').value;
+  var tipo    = document.getElementById('aud-tipo').value;
+  var cliente = document.getElementById('aud-cliente').value.trim();
+  var vara    = document.getElementById('aud-vara').value.trim();
+  var local   = document.getElementById('aud-local').value.trim();
+  var obs     = document.getElementById('aud-obs').value.trim();
+  if(!data){ alert('Informe a data!'); return; }
+  if(!hora){ alert('Informe o hor\u00e1rio!'); return; }
+  if(!tipo){ alert('Selecione o tipo!'); return; }
+  var aud = {data:data,hora:hora,tipo:tipo,cliente:cliente,vara:vara,local:local,obs:obs};
+  if(_audEditIdx >= 0){
+    _audiencias[_audEditIdx] = aud;
+    toast('\u2705 Audi\u00eancia atualizada!');
+  } else {
+    _audiencias.push(aud);
+    _audiencias.sort(function(x,y){ return (x.data+x.hora).localeCompare(y.data+y.hora); });
+    toast('\ud83d\udcc5 Audi\u00eancia cadastrada!');
   }
-  toast('📅 Audiência salva!');
+  if(cliente){
+    var ic = encontrarIdxCliente(cliente);
+    if(ic>=0) registrarHistorico(ic,'Audi\u00eancia Agendada','\ud83d\udcc5 '+tipo+' em '+fmt(data)+' \u00e0s '+hora+(vara?' \u2014 '+vara:''),data);
+  }
+  salvarAudsLocal(); save(); fecharOv('ov-aud'); renderAudiencias(); atualizarBadgeAud();
 }
 
 function excluirAud(idx){
-  if(!confirm('Excluir esta audiência?')) return;
-  _audiencias.splice(idx,1); salvarAudsLocal(); save(); renderAudiencias(); atualizarBadgeAud();
-  toast('🗑 Excluída.');
+  if(!confirm('Excluir esta audi\u00eancia?')) return;
+  _audiencias.splice(idx,1);
+  salvarAudsLocal(); renderAudiencias(); atualizarBadgeAud();
+  toast('\ud83d\uddd1 Audi\u00eancia exclu\u00edda.');
 }
 
 function filtrarAud(f){
   _audFiltro=f; _audDiaSel=null;
-  document.querySelectorAll('.aud-fil-btn').forEach(function(b){b.classList.remove('aud-fil-ativo');});
+  document.querySelectorAll('.aud-fil-btn').forEach(function(b){ b.classList.remove('aud-fil-ativo'); });
   var btn=document.getElementById('afb-'+f); if(btn) btn.classList.add('aud-fil-ativo');
   var tit=document.getElementById('aud-lista-titulo');
-  if(tit) tit.textContent=f==='hoje'?'Audiências de hoje':f==='proximas'?'Próximas audiências':f==='passadas'?'Passadas':'Todas';
-  renderListaAud();
+  if(tit) tit.textContent=f==='hoje'?'Audi\u00eancias de hoje':f==='proximas'?'Pr\u00f3ximas audi\u00eancias':f==='passadas'?'Passadas':'Todas as audi\u00eancias';
+  renderCalAud(); renderListaAud();
 }
 
 function audCalMes(delta){
@@ -6430,100 +6559,96 @@ function audCalMes(delta){
 }
 
 function renderCalAud(){
-  var MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-  var DIAS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-  var tit=document.getElementById('aud-cal-titulo');
-  if(tit) tit.textContent=MESES[_audCalMes]+' '+_audCalAno;
-  var grid=document.getElementById('aud-cal-grid'); if(!grid) return;
-  var hoje=new Date(); hoje.setHours(0,0,0,0);
-  var comAud={};
+  var MESES=['Janeiro','Fevereiro','Mar\u00e7o','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  var DIAS=['D','S','T','Q','Q','S','S'];
+  var titulo=document.getElementById('aud-cal-titulo');
+  var grid=document.getElementById('aud-cal-grid');
+  if(!titulo||!grid) return;
+  titulo.textContent=MESES[_audCalMes]+' '+_audCalAno;
+  var hoje=new Date();
+  var hs=hoje.getFullYear()+'-'+String(hoje.getMonth()+1).padStart(2,'0')+'-'+String(hoje.getDate()).padStart(2,'0');
+  var dca={};
   _audiencias.forEach(function(a){
-    if(a.data){var p=a.data.split('-');if(parseInt(p[0])===_audCalAno&&parseInt(p[1])-1===_audCalMes)comAud[parseInt(p[2])]=true;}
+    if(a.data&&a.data.substring(0,7)===(_audCalAno+'-'+String(_audCalMes+1).padStart(2,'0'))) dca[a.data]=true;
   });
-  var html=DIAS.map(function(d){return '<div class="aud-cal-header">'+d+'</div>';}).join('');
   var prim=new Date(_audCalAno,_audCalMes,1).getDay();
+  var tot=new Date(_audCalAno,_audCalMes+1,0).getDate();
+  var html=DIAS.map(function(d){ return '<div style="font-size:.65em;font-weight:700;color:var(--texto3);padding:2px">'+d+'</div>'; }).join('');
   for(var i=0;i<prim;i++) html+='<div></div>';
-  var total=new Date(_audCalAno,_audCalMes+1,0).getDate();
-  for(var d=1;d<=total;d++){
+  for(var d=1;d<=tot;d++){
     var ds=_audCalAno+'-'+String(_audCalMes+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-    var dObj=new Date(_audCalAno,_audCalMes,d);
-    var cls='aud-cal-dia'+(comAud[d]?' tem-aud':'')+(dObj.getTime()===hoje.getTime()?' hoje':'')+((_audDiaSel===ds)?' selecionado':'');
-    html+='<div class="'+cls+'" onclick="selecionarDiaAud(\"'+ds+'\")">'+d+'</div>';
+    var isH=ds===hs,temA=dca[ds],isS=ds===_audDiaSel;
+    var bg=isS?'var(--acento)':isH?'#fde8e8':temA?'#e8f0fe':'transparent';
+    var cor=isS?'#fff':isH?'#c0432a':temA?'#2d5fa8':'var(--texto1)';
+    html+='<div onclick="selecionarDiaAud(\''+ds+'\')" style="cursor:pointer;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:.78em;background:'+bg+';color:'+cor+';font-weight:'+(isH||isS||temA?'700':'400')+';margin:1px auto">'+d+'</div>';
   }
   grid.innerHTML=html;
 }
 
 function selecionarDiaAud(ds){
-  _audDiaSel=ds; _audFiltro='dia';
-  document.querySelectorAll('.aud-fil-btn').forEach(function(b){b.classList.remove('aud-fil-ativo');});
-  var p=ds.split('-'); var M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  _audDiaSel=ds;
+  var p=ds.split('-');
+  var M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
   var tit=document.getElementById('aud-lista-titulo');
-  if(tit) tit.textContent='Audiências em '+parseInt(p[2])+'/'+M[parseInt(p[1])-1]+'/'+p[0];
-  // Preencher campo data no formato dd/mm/aaaa ao clicar no calendário
-  var campoData = document.getElementById('aud-data');
-  if(campoData) campoData.value = p[2]+'/'+p[1]+'/'+p[0];
+  if(tit) tit.textContent='Audi\u00eancias em '+parseInt(p[2])+'/'+M[parseInt(p[1])-1]+'/'+p[0];
   renderCalAud(); renderListaAud();
 }
 
 function renderAvisos(){
-  var el=document.getElementById('aud-avisos'); if(!el) return;
-  var hoje=new Date(); hoje.setHours(0,0,0,0);
+  var div=document.getElementById('aud-avisos'); if(!div) return;
+  var hoje=new Date();
+  var hs=hoje.getFullYear()+'-'+String(hoje.getMonth()+1).padStart(2,'0')+'-'+String(hoje.getDate()).padStart(2,'0');
+  var am=new Date(hoje); am.setDate(am.getDate()+1);
+  var as=am.getFullYear()+'-'+String(am.getMonth()+1).padStart(2,'0')+'-'+String(am.getDate()).padStart(2,'0');
+  var hojeA=_audiencias.filter(function(a){return a.data===hs;});
+  var proxA=_audiencias.filter(function(a){return a.data>hs&&a.data<=as;});
   var html='';
-  _audiencias.forEach(function(a,idx){
-    if(!a.data) return;
-    var d=new Date(a.data+'T00:00:00');
-    var diff=Math.round((d-hoje)/(1000*60*60*24));
-    if(diff===0) html+='<div class="aud-aviso urgente">🔴 <strong>HOJE às '+a.hora+'</strong> — '+escHtml(a.tipo)+(a.cliente?' | '+escHtml(a.cliente):'')+(a.local?' | '+escHtml(a.local):'')+' <button onclick="abrirModalAud('+idx+')" style="margin-left:auto;background:none;border:1px solid #c0432a;color:#c0432a;border-radius:5px;padding:2px 8px;cursor:pointer;font-size:0.78em">✏️</button></div>';
-    else if(diff===1) html+='<div class="aud-aviso">🟡 <strong>AMANHÃ às '+a.hora+'</strong> — '+escHtml(a.tipo)+(a.cliente?' | '+escHtml(a.cliente):'')+' <button onclick="abrirModalAud('+idx+')" style="margin-left:auto;background:none;border:1px solid #f0a500;color:#8b6000;border-radius:5px;padding:2px 8px;cursor:pointer;font-size:0.78em">✏️</button></div>';
-    else if(diff>1&&diff<=7) html+='<div class="aud-aviso">📅 <strong>Em '+diff+' dias — '+a.hora+'</strong> — '+escHtml(a.tipo)+(a.cliente?' | '+escHtml(a.cliente):'')+' <button onclick="abrirModalAud('+idx+')" style="margin-left:auto;background:none;border:1px solid var(--borda);border-radius:5px;padding:2px 8px;cursor:pointer;font-size:0.78em">✏️</button></div>';
-  });
-  el.innerHTML=html;
+  if(hojeA.length){
+    html+='<div style="background:#fde8e8;border:1.5px solid #c0432a;border-radius:8px;padding:10px 14px;margin-bottom:8px">';
+    html+='<div style="font-weight:700;color:#c0432a;font-size:.9em;margin-bottom:6px">\ud83d\udd34 HOJE \u2014 '+hojeA.length+' audi\u00eancia'+(hojeA.length!==1?'s':'')+':</div>';
+    hojeA.forEach(function(a){ html+='<div style="font-size:.83em;color:#5c1a1a;padding:3px 0">\u23f0 '+a.hora+' \u2014 '+escHtml(a.tipo||'')+(a.cliente?' | \ud83d\udc64 '+escHtml(a.cliente):'')+(a.vara?' | \u2696\ufe0f '+escHtml(a.vara):'')+'</div>'; });
+    html+='</div>';
+  }
+  if(proxA.length){
+    html+='<div style="background:#edf5f0;border:1.5px solid #2d7a5a;border-radius:8px;padding:10px 14px">';
+    html+='<div style="font-weight:700;color:#2d7a5a;font-size:.9em;margin-bottom:6px">\ud83d\udcc5 Amanh\u00e3 \u2014 '+proxA.length+' audi\u00eancia'+(proxA.length!==1?'s':'')+':</div>';
+    proxA.forEach(function(a){ html+='<div style="font-size:.83em;color:#1a3d2e;padding:3px 0">\u23f0 '+a.hora+' \u2014 '+escHtml(a.tipo||'')+(a.cliente?' | \ud83d\udc64 '+escHtml(a.cliente):'')+'</div>'; });
+    html+='</div>';
+  }
+  div.innerHTML=html;
 }
 
 function renderListaAud(){
-  var el=document.getElementById('aud-lista'); if(!el) return;
-  var hoje=new Date(); hoje.setHours(0,0,0,0);
-  var lista=_audiencias.filter(function(a){
-    if(!a.data) return true;
-    var d=new Date(a.data+'T00:00:00');
-    var diff=Math.round((d-hoje)/(1000*60*60*24));
-    if(_audFiltro==='hoje') return diff===0;
-    if(_audFiltro==='proximas') return diff>=0;
-    if(_audFiltro==='passadas') return diff<0;
-    if(_audFiltro==='dia') return audParseData(a.data)===_audDiaSel||a.data===_audDiaSel;
-    return true;
-  });
-  if(!lista.length){ el.innerHTML='<div style="text-align:center;padding:40px;color:var(--texto3)">Nenhuma audiência encontrada.</div>'; return; }
-  var M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
-  el.innerHTML=lista.map(function(a){
-    var idx=_audiencias.indexOf(a);
-    var p=a.data?a.data.split('-'):['','',''];
-    var dObj=a.data?new Date(a.data+'T00:00:00'):null;
-    var hoje2=new Date(); hoje2.setHours(0,0,0,0);
-    var diff=dObj?Math.round((dObj-hoje2)/(1000*60*60*24)):999;
-    var cls='aud-card'+(diff===0?' aud-hoje':diff<0?' aud-passada':diff<=7?' aud-proxima':'');
-    var statusLabel = a.status==='realizada'?'<span style="color:#2d7a5a;font-size:0.75em;background:#e8f5ec;border-radius:4px;padding:1px 6px">✅ Realizada</span>':a.status==='remarcada'?'<span style="color:#f0a500;font-size:0.75em;background:#fff8e0;border-radius:4px;padding:1px 6px">🔄 Remarcada</span>':a.status==='cancelada'?'<span style="color:#c0432a;font-size:0.75em;background:#fff0f0;border-radius:4px;padding:1px 6px">❌ Cancelada</span>':'';
-    var difTxt=statusLabel||(diff===0?'<span style="color:#c0432a;font-weight:700;font-size:0.75em"> • HOJE</span>':diff===1?'<span style="color:#f0a500;font-size:0.75em"> • amanhã</span>':diff>1&&diff<=7?'<span style="color:#2d7a5a;font-size:0.75em"> • em '+diff+' dias</span>':diff<0?'<span style="color:var(--texto3);font-size:0.75em"> • passou</span>':'');
-    return '<div class="'+cls+'">'+
-      '<div class="aud-data-box">'+
-        '<div class="aud-data-dia">'+(p[2]?parseInt(p[2]):'—')+'</div>'+
-        '<div class="aud-data-mes">'+(p[1]?M[parseInt(p[1])-1]:'')+'</div>'+
-        '<div class="aud-data-mes">'+(p[0]||'')+'</div>'+
-        '<div class="aud-hora-badge">'+(a.hora||'—')+'</div>'+
-      '</div>'+
-      '<div>'+
-        '<div class="aud-tipo">'+escHtml(a.tipo||'—')+difTxt+'</div>'+
-        '<div class="aud-info" style="font-weight:700;color:var(--acento)">🕐 '+audFormatData(a.data)+' às '+(a.hora||'—')+'</div>'+
-        (a.cliente?'<div class="aud-info">👤 '+escHtml(a.cliente)+'</div>':'')+
-        (a.vara?'<div class="aud-info">⚖️ '+escHtml(a.vara)+'</div>':'')+
-        (a.local?'<div class="aud-info">📍 '+escHtml(a.local)+'</div>':'')+
-        (a.obs?'<div class="aud-info" style="font-style:italic">📝 '+escHtml(a.obs)+'</div>':'')+
-      '</div>'+
-      '<div style="display:flex;flex-direction:column;gap:6px">'+
-        (a.status!=='realizada'&&a.status!=='remarcada'?'<button onclick="abrirConcluirAud('+idx+')" class="btn-xs btn-xs-verde" title="Concluir audiência">✅</button>':'')+
-        '<button onclick="abrirModalAud('+idx+')" class="btn-xs">✏️</button>'+
-        '<button onclick="excluirAud('+idx+')" class="btn-xs btn-xs-del">✕</button>'+
-      '</div></div>';
+  var lista=document.getElementById('aud-lista'); if(!lista) return;
+  var hoje=new Date();
+  var hs=hoje.getFullYear()+'-'+String(hoje.getMonth()+1).padStart(2,'0')+'-'+String(hoje.getDate()).padStart(2,'0');
+  var auds=_audiencias.slice();
+  if(_audDiaSel) auds=auds.filter(function(a){return a.data===_audDiaSel;});
+  else if(_audFiltro==='hoje') auds=auds.filter(function(a){return a.data===hs;});
+  else if(_audFiltro==='proximas') auds=auds.filter(function(a){return a.data>=hs;});
+  else if(_audFiltro==='passadas') auds=auds.filter(function(a){return a.data<hs;});
+  if(!auds.length){ lista.innerHTML='<div style="text-align:center;padding:30px;color:var(--texto3);font-size:.9em">Nenhuma audi\u00eancia encontrada.</div>'; return; }
+  var M3=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  lista.innerHTML=auds.map(function(a){
+    var ri=_audiencias.indexOf(a);
+    var p=(a.data||'').split('-');
+    var dia=p[2]||'--',mes=p[1]?M3[parseInt(p[1])-1]:'--';
+    var isH=a.data===hs,isFut=a.data>hs;
+    var cls=isH?'aud-card hoje':isFut?'aud-card proxima':'aud-card';
+    return '<div class="'+cls+'">'
+      +'<div class="aud-data-col"><div class="aud-dia">'+dia+'</div><div class="aud-mes">'+mes+'</div><div class="aud-hora">'+escHtml(a.hora||'')+'</div></div>'
+      +'<div style="flex:1">'
+        +'<div class="aud-tipo">'+escHtml(a.tipo||'\u2014')+'</div>'
+        +(a.cliente?'<div class="aud-info">\ud83d\udc64 '+escHtml(a.cliente)+'</div>':'')
+        +(a.vara?'<div class="aud-info">\u2696\ufe0f '+escHtml(a.vara)+'</div>':'')
+        +(a.local?'<div class="aud-info">\ud83d\udccd '+escHtml(a.local)+'</div>':'')
+        +(a.obs?'<div class="aud-info" style="color:var(--texto3);font-style:italic">\ud83d\udcac '+escHtml(a.obs)+'</div>':'')
+      +'</div>'
+      +'<div style="display:flex;flex-direction:column;gap:5px">'
+        +'<button onclick="abrirModalAud('+ri+')" style="background:var(--fundo);border:1px solid var(--borda);border-radius:5px;padding:4px 10px;cursor:pointer;font-size:.75em">\u270f\ufe0f</button>'
+        +'<button onclick="excluirAud('+ri+')" style="background:#fff0f0;border:1px solid #f0aaaa;border-radius:5px;padding:4px 10px;cursor:pointer;font-size:.75em;color:#c0432a">\ud83d\uddd1</button>'
+      +'</div>'
+    +'</div>';
   }).join('');
 }
 
@@ -6532,408 +6657,130 @@ function renderAudiencias(){
 }
 
 function atualizarBadgeAud(){
-  var hoje=new Date(); hoje.setHours(0,0,0,0);
-  var n=_audiencias.filter(function(a){
-    if(!a.data) return false;
-    var d=new Date(a.data+'T00:00:00');
-    return Math.round((d-hoje)/(1000*60*60*24))>=0;
-  }).length;
+  var hoje=new Date();
+  var hs=hoje.getFullYear()+'-'+String(hoje.getMonth()+1).padStart(2,'0')+'-'+String(hoje.getDate()).padStart(2,'0');
+  var n=_audiencias.filter(function(a){return a.data>=hs;}).length;
   var badge=document.getElementById('badge-aud');
-  if(badge){badge.style.display=n>0?'inline':'none';badge.textContent=n;}
+  if(badge){ badge.style.display=n>0?'inline':'none'; badge.textContent=n; }
 }
 
-
-
-// ── Registra qualquer evento no histórico (andamentos) de um cliente ──
-function registrarHistorico(idxCliente, tipo, descricao, data){
-  if(idxCliente < 0 || !dados[idxCliente]) return;
-  if(!dados[idxCliente].andamentos) dados[idxCliente].andamentos = [];
-  var dt = data || new Date().toISOString().slice(0,10);
-  dados[idxCliente].andamentos.push({
-    data: dt,
-    and: tipo,
-    prot: '',
-    prazo: '',
-    status: 'Concluído',
-    obs: descricao
-  });
-  save();
-}
-
-// Encontra índice do cliente pelo nome/referência da tarefa
-function encontrarIdxCliente(ref){
-  if(!ref) return -1;
-  var r = ref.toLowerCase();
-  for(var i=0; i<dados.length; i++){
-    var m = dados[i];
-    if((m.cli||'').toLowerCase().includes(r)) return i;
-    if((m.p||'').toLowerCase().includes(r)) return i;
-  }
-  return -1;
-}
-
-
-var _audConcluirIdx = -1;
-
-function abrirConcluirAud(idx){
-  _audConcluirIdx = idx;
-  var a = _audiencias[idx];
-  if(!a) return;
-  var M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
-  var p = a.data ? a.data.split('-') : ['','',''];
-  document.getElementById('aud-concluir-titulo').textContent = a.tipo || '—';
-  document.getElementById('aud-concluir-info').textContent = 
-    (p[2]?parseInt(p[2])+'/'+(p[1]?M[parseInt(p[1])-1]:'')+'/'+p[0]:'') + 
-    (a.hora?' às '+a.hora:'') + (a.cliente?' | '+a.cliente:'') + (a.local?' | '+a.local:'');
-  document.getElementById('aud-concluir-status').value = 'realizada';
-  document.getElementById('aud-concluir-relato').value = '';
-  // Data padrão = data da audiência
-  var hoje = new Date();
-  var dataHoje = String(hoje.getDate()).padStart(2,'0')+'/'+String(hoje.getMonth()+1).padStart(2,'0')+'/'+hoje.getFullYear();
-  document.getElementById('aud-concluir-data').value = a.data ? (p[2]+'/'+p[1]+'/'+p[0]) : dataHoje;
-  document.getElementById('aud-concluir-novaData').value = '';
-  document.getElementById('ov-aud-concluir').classList.add('aberto');
-}
-
-function salvarConcluirAud(){
-  var relato = document.getElementById('aud-concluir-relato').value.trim();
-  var status = document.getElementById('aud-concluir-status').value;
-  var dataStr = document.getElementById('aud-concluir-data').value;
-  var novaData = document.getElementById('aud-concluir-novaData').value;
-  if(!relato){ alert('Descreva o que aconteceu na audiência.'); return; }
-  var a = _audiencias[_audConcluirIdx];
-  if(!a) return;
-  // Atualizar audiência
-  a.status = status;
-  a.relatoConclusao = relato;
-  a.dataConclusao = audParseData(dataStr);
-  if(novaData) a.novaData = audParseData(novaData);
-  // Se remarcada, criar nova audiência
-  if(status === 'remarcada' && novaData){
-    var novaAud = {
-      data: audParseData(novaData), hora: a.hora, tipo: a.tipo,
-      cliente: a.cliente, vara: a.vara, local: a.local,
-      obs: 'Remarcada de '+audFormatData(a.data)+'. '+relato
-    };
-    _audiencias.push(novaAud);
-    _audiencias.sort(function(x,y){ return (x.data+x.hora).localeCompare(y.data+y.hora); });
-  }
-  salvarAudsLocal();
-  // ── Registrar no histórico do cliente ──
-  var idxCli = encontrarIdxCliente(a.cliente);
-  if(idxCli >= 0){
-    var statusLabel = {realizada:'Realizada',remarcada:'Remarcada',cancelada:'Cancelada',suspensa:'Suspensa',adiada:'Adiada'}[status]||status;
-    var descHist = '⚖️ Audiência '+statusLabel+': '+a.tipo+
-      (a.data?' em '+audFormatData(a.data)+(a.hora?' às '+a.hora:''):'')+
-      (a.local?' | '+a.local:'')+
-      '\n'+relato+
-      (novaData&&status==='remarcada'?' | Nova data: '+novaData:'');
-    registrarHistorico(idxCli, 'Audiência — '+statusLabel, descHist, audParseData(dataStr));
-    toast('✅ Audiência concluída! Registrado no histórico de '+dados[idxCli].cli+'.');
-  } else {
-    toast('✅ Audiência marcada como '+status+'!');
-  }
-  save();
-  fecharOv('ov-aud-concluir');
-  renderAudiencias();
-  atualizarBadgeAud();
-}
-
-
-function gerarInstrucaoAberto(r){
-  var m = null;
-  dados.forEach(function(d){
-    if((d.cli||'')===( r.cli||'') && (d.p||'')===(r.proc||'')) m=d;
-    else if((d.cli||'')===(r.cli||'') && !m) m=d;
-  });
-  if(!m) m=r;
-
-  var adv   = 'Esther Raquel Cangussu Bernardes dos Santos';
-  var oab   = 'OAB/SP 469.261';
-  var hoje  = new Date().toLocaleDateString('pt-BR');
-  var hoje2 = new Date(); hoje2.setHours(0,0,0,0);
-  var num   = 'INS-'+Date.now()%100000;
-
-  var parcelasAberto = [], parcelasPagas = [];
-  var totalContrato = (m.hon&&m.hon.total)||'';
-  var nParcelas = (m.hon&&m.hon.parcelas) ? m.hon.parcelas.length : 0;
-
-  if(m.hon && m.hon.parcelas){
-    m.hon.parcelas.forEach(function(p, pi){
-      var item = {
-        num: p.num||(pi+1),
-        valor: p.valorPago||p.valor||'—',
-        venc: p.venc||'',
-        forma: p.forma||m.hon.forma||'',
-        pago: p.pago||false,
-        dtPago: p.dtPago||''
-      };
-      if(p.pago) parcelasPagas.push(item);
-      else parcelasAberto.push(item);
-    });
-  }
-  if(!parcelasAberto.length && !parcelasPagas.length){
-    parcelasAberto.push({num:1, valor:r.valor||'—', venc:r.venc||'', forma:r.forma||'', pago:false});
-  }
-
-  var totalAberto = parcelasAberto.reduce(function(a,p){ return a+(parseFloat(String(p.valor).replace(/[^0-9,\.]/g,'').replace(',','.'))||0); }, 0);
-  var totalPago   = parcelasPagas.reduce(function(a,p){ return a+(parseFloat(String(p.valor).replace(/[^0-9,\.]/g,'').replace(',','.'))||0); }, 0);
-
-  function rowParcela(p, tipo){
-    var vStr = p.venc ? new Date(p.venc+'T00:00:00').toLocaleDateString('pt-BR') : '—';
-    var atrasado = !p.pago && p.venc && new Date(p.venc+'T00:00:00') < hoje2;
-    var bg = tipo==='paga' ? '#f0faf4' : (atrasado?'#fff5f5':'#fffcf8');
-    var statusCell = tipo==='paga'
-      ? '<td style="padding:9px 12px;border-bottom:1px solid #e8d4bc;color:#2d7a5a;font-weight:700;font-size:12px">✅ Pago em '+(p.dtPago?new Date(p.dtPago+'T00:00:00').toLocaleDateString('pt-BR'):'—')+'</td>'
-      : '<td style="padding:9px 12px;border-bottom:1px solid #e8d4bc;color:'+(atrasado?'#c0432a;font-weight:700':'#444')+'">' +vStr+(atrasado?' ⚠':'')+'</td>';
-    return '<tr style="background:'+bg+'">'+
-      '<td style="padding:9px 12px;border-bottom:1px solid #e8d4bc;text-align:center;font-weight:700;color:#8b6f47">'+p.num+'ª</td>'+
-      '<td style="padding:9px 12px;border-bottom:1px solid #e8d4bc;font-weight:700;font-size:15px;color:#2c1a0e">R$ '+p.valor+'</td>'+
-      statusCell+
-      '<td style="padding:9px 12px;border-bottom:1px solid #e8d4bc;color:#666;font-size:13px">'+p.forma+'</td>'+
-    '</tr>';
-  }
-
-  var html = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">'
-    +'<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">'
-    +'<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:"DM Sans",sans-serif;padding:44px 52px;max-width:780px;margin:0 auto;color:#1a1a1a;font-size:14px;background:#fff;line-height:1.7}.cabecalho{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:18px;border-bottom:3px solid #3a2008;margin-bottom:24px}.adv-nome{font-family:"Cormorant Garamond",serif;font-size:24px;font-weight:700;color:#2c1a0e}.adv-sub{font-size:12px;color:#7a5535;margin-top:5px}.titulo-doc{background:linear-gradient(135deg,#3a2008,#6b4423);color:#f5ede0;text-align:center;padding:14px;font-family:"Cormorant Garamond",serif;font-size:17px;letter-spacing:3px;text-transform:uppercase;border-radius:4px;margin-bottom:22px}.bloco{border:1px solid #d4b896;border-radius:6px;padding:16px 20px;background:#fffcf8;margin-bottom:14px}.bloco-titulo{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#8b6f47;margin-bottom:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.campo label{font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;display:block;margin-bottom:3px;letter-spacing:.8px}.campo .val{font-size:14px;font-weight:500;color:#1a1a1a;padding-bottom:4px;border-bottom:1px solid #e8d4bc}table{width:100%;border-collapse:collapse}th{background:#3a2008;color:#f5ede0;padding:9px 12px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase}.secao-titulo{font-family:"Cormorant Garamond",serif;font-size:15px;font-weight:700;color:#3a2008;margin:18px 0 8px;padding-bottom:4px;border-bottom:2px solid #c9a96e}.total-box{background:linear-gradient(135deg,#f5ede0,#fff8f0);border:2px solid #8b6f47;border-radius:8px;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;margin:14px 0}.total-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#7a5535}.total-val{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:700;color:#2c1a0e}.pix-box{background:#edf5f0;border:1.5px solid #2d7a5a;border-radius:8px;padding:14px 18px;margin-top:14px}.rodape{margin-top:28px;padding-top:14px;border-top:1px solid #d4b896;font-size:11px;color:#999;text-align:center}@media print{body{padding:24px}.btn-print{display:none!important}}.btn-print{display:block;width:100%;margin-top:20px;padding:11px;background:#3a2008;color:#f5ede0;border:none;border-radius:4px;font-size:13px;cursor:pointer;font-family:"DM Sans",sans-serif;letter-spacing:.5px}</style></head><body>'
-    +'<div class="cabecalho"><div><div class="adv-nome">'+adv+'</div><div class="adv-sub">'+oab+' | Advogada</div></div><div style="text-align:right;font-size:11px;color:#999">Nº '+num+'<br>Emitido em '+hoje+'</div></div>'
-    +'<div class="titulo-doc">Demonstrativo Financeiro do Contrato</div>'
-    +'<div class="bloco"><div class="bloco-titulo">Dados do Cliente</div><div class="grid2">'
-      +'<div class="campo"><label>Cliente</label><div class="val">'+(m.cli||r.cli||'—')+'</div></div>'
-      +'<div class="campo"><label>CPF</label><div class="val">'+(m.cpf||'—')+'</div></div>'
-      +'<div class="campo"><label>Processo</label><div class="val">'+(m.p||r.proc||'—')+'</div></div>'
-      +'<div class="campo"><label>Área</label><div class="val">'+(m.area||'—')+'</div></div>'
-    +'</div></div>'
-    +(totalContrato?'<div class="bloco"><div class="grid2"><div class="campo"><label>Valor Total do Contrato</label><div class="val" style="font-size:16px;font-weight:700;color:#3a2008">R$ '+totalContrato+'</div></div><div class="campo"><label>Total de Parcelas</label><div class="val">'+nParcelas+' parcela'+(nParcelas!==1?'s':'')+'</div></div></div></div>':'');
-
-  if(parcelasPagas.length){
-    html += '<div class="secao-titulo">✅ Parcelas Pagas ('+parcelasPagas.length+')</div>'
-      +'<table><thead><tr><th>Parcela</th><th>Valor</th><th>Situação</th><th>Forma</th></tr></thead><tbody>'
-      +parcelasPagas.map(function(p){ return rowParcela(p,'paga'); }).join('')
-      +'</tbody></table>'
-      +'<div class="total-box"><div class="total-label">Total Pago</div><div class="total-val" style="color:#2d7a5a">R$ '+totalPago.toFixed(2).replace('.',',')+'</div></div>';
-  }
-  if(parcelasAberto.length){
-    html += '<div class="secao-titulo">⏳ Parcelas em Aberto ('+parcelasAberto.length+')</div>'
-      +'<table><thead><tr><th>Parcela</th><th>Valor</th><th>Vencimento</th><th>Forma</th></tr></thead><tbody>'
-      +parcelasAberto.map(function(p){ return rowParcela(p,'aberto'); }).join('')
-      +'</tbody></table>'
-      +'<div class="total-box"><div class="total-label">Total em Aberto</div><div class="total-val">R$ '+totalAberto.toFixed(2).replace('.',',')+'</div></div>';
-  }
-  html += '<div class="pix-box"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#2d7a5a;margin-bottom:6px">🔑 Dados para Pagamento</div>'
-    +'<div style="font-size:15px;font-weight:700;color:#1a5e3a">PIX — CPF: 397.180.958-88</div>'
-    +'<div style="font-size:12px;color:#2d7a5a;margin-top:4px">'+adv+'</div>'
-    +'<div style="font-size:12px;color:#555;margin-top:4px">Banco do Brasil · Agência: 1398-6 · CC: 18144-7</div></div>'
-    +'<div class="rodape">'+adv+' — '+oab+' | Emitido em '+hoje+'</div>'
-    +'<button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>'
-    +'</body></html>';
-
-  var w=window.open('','_blank');
-  if(w){ w.document.write(html); w.document.close(); }
-}
-
-function renderOutrosProc(){
-  var m = dados[idxAtual];
-  if(!m) return;
-  var outros = dados.filter(function(x, xi){ return xi !== idxAtual && x.cli && x.cli === m.cli; });
-  var tit = document.getElementById('outros-proc-titulo');
-  if(tit) tit.textContent = 'Processos de ' + (m.cli||'cliente') + ' ('+( outros.length+1)+' total)';
-  var lista = document.getElementById('outros-proc-lista');
-  if(!lista) return;
-
-  // Card do processo atual
-  var todos = [{ proc: m, idx: idxAtual, atual: true }].concat(
-    outros.map(function(x){ return { proc: x, idx: dados.indexOf(x), atual: false }; })
-  );
-
-  lista.innerHTML = todos.map(function(item){
-    var p = item.proc;
-    var isAtual = item.atual;
-    var andCount = (p.andamentos||[]).length;
-    var docCount = (p.docs||[]).length;
-    var parcelasTotal = (p.hon&&p.hon.parcelas) ? p.hon.parcelas.length : 0;
-    var parcelasPagas = (p.hon&&p.hon.parcelas) ? p.hon.parcelas.filter(function(pc){ return pc.pago; }).length : 0;
-    var statusCor = {Ativo:'#2d7a5a',Arquivado:'#888',Encerrado:'#c0432a','Em recurso':'#e07a20'}[p.s||'Ativo']||'#888';
-
-    return '<div style="background:'+(isAtual?'linear-gradient(135deg,#fff8f0,var(--card))':'var(--card)')+';border:'+(isAtual?'2px solid var(--acento)':'1px solid var(--borda)')+';border-radius:10px;padding:14px 16px;margin-bottom:10px">'+
-      '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">'+
-        '<div style="flex:1">'+
-          (isAtual?'<span style="font-size:0.7em;background:var(--acento);color:#fff;border-radius:4px;padding:1px 7px;font-weight:700;margin-bottom:6px;display:inline-block">● ESTE PROCESSO</span><br>':'')+
-          '<div style="font-weight:700;font-size:0.95em;color:var(--texto1)">'+(p.p&&p.p!=='-'?escHtml(p.p):'Sem número')+'</div>'+
-          '<div style="font-size:0.82em;color:var(--texto2);margin-top:3px">'+
-            '<span style="color:'+statusCor+';font-weight:700">● '+(p.s||'Ativo')+'</span>'+
-            (p.area?' &nbsp;·&nbsp; '+escHtml(p.area):'')+
-            (p.d?' &nbsp;·&nbsp; Entrada: '+fmt(p.d):'')+
-          '</div>'+
-          (p.caso&&p.caso.acao?'<div style="font-size:0.8em;color:var(--texto2);margin-top:4px">⚖️ '+escHtml(p.caso.acao)+'</div>':'')+
-          '<div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap">'+
-            '<span style="font-size:0.75em;color:var(--texto3)">📝 '+andCount+' andamento'+(andCount!==1?'s':'')+'</span>'+
-            '<span style="font-size:0.75em;color:var(--texto3)">📄 '+docCount+' doc'+(docCount!==1?'s':'')+'</span>'+
-            (parcelasTotal?'<span style="font-size:0.75em;color:'+(parcelasPagas===parcelasTotal?'#2d7a5a':'#c0432a')+'">💰 '+parcelasPagas+'/'+parcelasTotal+' pago'+(parcelasTotal!==1?'s':'')+'</span>':'')+
-          '</div>'+
-        '</div>'+
-        '<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">'+
-          (!isAtual?'<button onclick="fecharOv(\"ov-det\");setTimeout(function(){abrirDet('+item.idx+')},80)" class="btn-prim" style="padding:5px 14px;font-size:0.78em">Abrir</button>':'')+
-          (!isAtual?'<button onclick="if(confirm(\"Excluir este processo?\"))delProcesso('+item.idx+')" class="btn-xs btn-xs-del" style="font-size:0.72em">Excluir</button>':'')+
-        '</div>'+
-      '</div>'+
-      // Últimos andamentos
-      (andCount>0?'<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--borda)">'+
-        '<div style="font-size:0.72em;color:var(--texto3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Últimos andamentos</div>'+
-        (p.andamentos||[]).slice(-3).reverse().map(function(a){
-          return '<div style="font-size:0.8em;padding:4px 0;border-bottom:1px solid var(--fundo2);display:flex;gap:8px;align-items:flex-start">'+
-            '<span style="color:var(--texto3);white-space:nowrap;font-size:0.85em">'+fmt(a.data)+'</span>'+
-            '<span style="color:var(--texto1)">'+escHtml(a.and||'')+(a.obs?' — '+escHtml(a.obs.slice(0,60))+(a.obs.length>60?'…':''):'')+'</span>'+
-          '</div>';
-        }).join('')+
-      '</div>':'') +
-    '</div>';
-  }).join('');
-}
-
-function delProcesso(idx){
-  dados.splice(idx,1);
-  save(); render(dados);
-  renderOutrosProc();
-  toast('🗑 Processo excluído.');
-}
-
-
-// ══════════════════════════════════════════════════════════
-// RECIBO CONSOLIDADO EDITÁVEL
-// ══════════════════════════════════════════════════════════
-function abrirModalReciboEdit(){
-  var m = dados[_honFinIdxM];
-  if(!m){ toast('Selecione um processo.'); return; }
-  document.getElementById('re_cli').value = m.cli||'';
-  document.getElementById('re_cpf').value = m.cpf||'';
-  document.getElementById('re_proc').value = m.p&&m.p!=='-'?m.p:'';
-  document.getElementById('re_acao').value = m.caso&&m.caso.acao?m.caso.acao:'';
-  document.getElementById('re_obs').value = '';
-  // Listar pagamentos
-  var pagos = [];
-  if(m.pagamentos) m.pagamentos.forEach(function(p,pi){ if(p.data) pagos.push({p:p,pi:pi}); });
-  var lista = document.getElementById('re_pagamentos_lista');
-  if(lista){
-    if(!pagos.length){
-      lista.innerHTML='<div style="color:var(--texto3)">⚠️ Nenhum pagamento registrado para incluir no recibo.</div>';
-    } else {
-      lista.innerHTML='<div style="font-weight:700;color:var(--texto2);margin-bottom:6px">Pagamentos que serão incluídos ('+pagos.length+'):</div>'+
-        pagos.map(function(item){ var p=item.p;
-          return '<div style="padding:4px 0;border-bottom:1px solid var(--borda);display:flex;gap:8px">'+
-            '<span style="font-weight:700;color:#2d7a5a">R$ '+escHtml(p.valor)+'</span>'+
-            '<span style="color:var(--texto3)">'+fmt(p.data)+'</span>'+
-            '<span style="color:var(--texto2)">'+escHtml(p.desc||'Honorários')+'</span>'+
-          '</div>';
-        }).join('');
-    }
-  }
-  document.getElementById('ov-recibo-edit').classList.add('aberto');
-}
-
-function gerarReciboComDadosEdit(){
-  var m = dados[_honFinIdxM];
-  if(!m){ return; }
-  var adv     = document.getElementById('re_adv').value.trim() || 'Esther Raquel Cangussu Bernardes dos Santos';
-  var oab     = document.getElementById('re_oab').value.trim() || 'OAB/SP 469.261';
-  var cli     = document.getElementById('re_cli').value.trim() || m.cli||'';
-  var cpf     = document.getElementById('re_cpf').value.trim() || m.cpf||'';
-  var proc    = document.getElementById('re_proc').value.trim();
-  var acao    = document.getElementById('re_acao').value.trim();
-  var endAdv  = document.getElementById('re_end').value.trim();
-  var cidade  = document.getElementById('re_cidade').value.trim() || 'São Simão/SP';
-  var obsAdd  = document.getElementById('re_obs').value.trim();
-  var hoje    = new Date().toLocaleDateString('pt-BR');
-  _reciboContador++;
-  try{ localStorage.setItem('escRcN',_reciboContador); }catch(e){}
-  var num = String(_reciboContador).padStart(4,'0')+'/'+new Date().getFullYear();
-  var pagos = [];
-  if(m.pagamentos) m.pagamentos.forEach(function(p,pi){ if(p.data) pagos.push({p:p,pi:pi}); });
-  if(!pagos.length){ toast('Nenhum pagamento registrado.'); return; }
-  var totalV = 0;
-  var tabelaLinhas = pagos.map(function(item,idx){
-    var p=item.p;
-    var v=parseFloat((p.valor||'').replace(/[^\d,\.]/g,'').replace(',','.'));
-    if(!isNaN(v)) totalV+=v;
-    return '<tr>'
-      +'<td style="padding:8px 10px;border-bottom:1px solid #ede8df;text-align:center;color:#888;font-size:12px">'+(idx+1)+'</td>'
-      +'<td style="padding:8px 10px;border-bottom:1px solid #ede8df;font-size:15px;font-weight:700;color:#2d7a5a">'+escHtml(p.valor)+'</td>'
-      +'<td style="padding:8px 10px;border-bottom:1px solid #ede8df;font-size:13px;font-weight:600;color:#2c1a0e">'+fmt(p.data)+'</td>'
-      +'<td style="padding:8px 10px;border-bottom:1px solid #ede8df;font-size:13px;color:'+(p.venc?'#8b4513':'#aaa')+'">'+(p.venc?fmt(p.venc):'—')+'</td>'
-      +'<td style="padding:8px 10px;border-bottom:1px solid #ede8df;font-size:12px;color:#666">'+(p.forma||'—')+'</td>'
-      +'<td style="padding:8px 10px;border-bottom:1px solid #ede8df;font-size:13px;color:#444">'+escHtml(p.desc||'Honorários advocatícios')+'</td>'
-      +'</tr>';
-  }).join('');
-  var totalFmt = 'R$ '+totalV.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-  var html='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">'
-    +'<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">'
-    +'<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:"DM Sans",sans-serif;max-width:760px;margin:40px auto;padding:40px 52px;color:#1a1a1a;background:#fff;font-size:14px;line-height:1.7}.h-rec{text-align:center;padding-bottom:18px;margin-bottom:24px;border-bottom:3px solid #c9a96e}.adv-nome{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:700;color:#2c1a0e;letter-spacing:.5px}.adv-sub{font-size:12px;color:#8b6f47;letter-spacing:1.5px;text-transform:uppercase;margin-top:5px}.adv-end{font-size:11px;color:#aaa;margin-top:4px}.titulo-rec{text-align:center;margin:22px 0 6px}.titulo-rec h2{font-family:"Cormorant Garamond",serif;font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#5c4020;border:1.5px solid #c9a96e;display:inline-block;padding:7px 32px;font-weight:400}.num-rec{font-size:11px;color:#bbb;text-align:center;margin:5px 0 24px;letter-spacing:1px}.corpo{font-size:15px;line-height:2;color:#1a1a1a;margin-bottom:16px;font-family:"Cormorant Garamond",serif}.dest{font-weight:700;color:#2c1a0e}.valor-box{background:linear-gradient(135deg,#fdf8f0,#f5ede0);border:2px solid #c9a96e;border-radius:6px;padding:18px 28px;margin:20px 0;text-align:center}.valor-n{font-family:"Cormorant Garamond",serif;font-size:34px;font-weight:700;color:#3a2008;letter-spacing:1px}.valor-ext{font-size:12px;color:#8b6f47;margin-top:5px}.secao{font-family:"DM Sans",sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#8b6f47;margin:18px 0 8px;font-weight:700;border-bottom:1px solid #f0e8de;padding-bottom:4px}.tab-pags{width:100%;border-collapse:collapse;font-size:14px}.tab-pags thead th{background:#f5ede0;color:#5c4020;font-size:10px;text-transform:uppercase;letter-spacing:.6px;padding:8px 10px;text-align:left;border-bottom:2px solid #c9a96e;font-weight:700}.tab-pags tbody td,.tab-pags tfoot td{padding:8px 10px}.tab-pags tfoot td{border-top:2px solid #c9a96e;font-weight:700;color:#3a2008;font-size:15px}.ass{margin-top:52px;text-align:center}.ass-linha{width:260px;border-top:1.5px solid #555;margin:0 auto 10px}.ass-nome{font-family:"Cormorant Garamond",serif;font-size:17px;font-weight:700;color:#2c1a0e}.ass-oab{font-size:11px;color:#8b6f47;letter-spacing:1px;margin-top:2px}.rodape{margin-top:22px;text-align:center;font-size:10px;color:#ccc;border-top:1px solid #f0e8de;padding-top:10px}@media print{body{margin:0;padding:24px}.btn-print{display:none!important}}.btn-print{display:block;margin:24px auto 0;background:#3a2008;color:#f0e0c0;border:none;padding:10px 32px;border-radius:4px;font-size:13px;cursor:pointer;letter-spacing:1px;font-family:"DM Sans",sans-serif}</style></head><body>'
-    +'<div class="h-rec"><div style="font-size:22px;color:#c9a96e;margin-bottom:6px">⚖</div>'
-    +'<div class="adv-nome">'+adv+'</div>'
-    +'<div class="adv-sub">'+oab+'</div>'
-    +(endAdv?'<div class="adv-end">'+endAdv+'</div>':'')+
-    '</div>'
-    +'<div class="titulo-rec"><h2>Recibo Consolidado de Honorários</h2></div>'
-    +'<div class="num-rec">Nº '+num+' &nbsp;·&nbsp; Emitido em '+hoje+'</div>'
-    +'<div class="corpo">Recebi de <span class="dest">'+cli+'</span>'+(cpf?' (CPF/CNPJ: <span class="dest">'+cpf+'</span>)':'')+', a título de honorários advocatícios'+(acao?' referentes a <span class="dest">'+acao+'</span>':'')+(proc?' — Processo nº <span class="dest">'+proc+'</span>':'')+', os seguintes pagamentos:</div>'
-    +(m&&m.hon&&m.hon.total?'<div style="background:#fdf8f0;border:1px solid #e8d4bc;border-radius:6px;padding:12px 16px;margin:14px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px"><div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;letter-spacing:.8px">Valor do Contrato</div><div style="font-size:17px;font-weight:700;color:#3a2008;margin-top:3px">R$ '+m.hon.total+'</div></div><div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;letter-spacing:.8px">Total de Parcelas</div><div style="font-size:17px;font-weight:700;color:#3a2008;margin-top:3px">'+(m.hon.parcelas?m.hon.parcelas.length:1)+'</div></div><div><div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#8b6f47;letter-spacing:.8px">Parcelas Pagas</div><div style="font-size:17px;font-weight:700;color:#2d7a5a;margin-top:3px">'+pagos.length+'</div></div></div>':'')+'<div class="secao">Discriminação dos Pagamentos</div>'
-    +'<table class="tab-pags"><thead><tr><th style="width:32px">#</th><th style="width:110px">Valor</th><th style="width:110px">Pago em</th><th style="width:110px">Vencimento</th><th style="width:100px">Forma</th><th>Referência</th></tr></thead>'
-    +'<tbody>'+tabelaLinhas+'</tbody>'
-    +'<tfoot><tr><td colspan="4" style="text-align:right;font-size:12px;color:#888">TOTAL:</td><td colspan="2" style="font-weight:700;font-size:16px;color:#3a2008">'+totalFmt+'</td></tr></tfoot></table>'
-    +'<div class="valor-box"><div class="valor-n">'+totalFmt+'</div><div class="valor-ext">'+pagos.length+' pagamento'+(pagos.length!==1?'s':'')+' consolidados</div></div>'
-    +'<div class="corpo">Por serem verdadeiros, firmo o presente recibo declarando quitados os valores acima discriminados.</div>'
-    +(obsAdd?'<div style="background:#fafaf8;border:1px solid #e0d8cc;border-radius:6px;padding:12px 16px;font-size:13px;color:#444;margin-bottom:16px">'+obsAdd+'</div>':'')+
-    '<div class="ass"><div class="ass-linha"></div><div class="ass-nome">'+adv+'</div><div class="ass-oab">'+oab+'</div><div style="font-size:12px;color:#888;margin-top:5px">'+cidade+', '+hoje+'</div></div>'
-    +'<div class="rodape">'+adv+' — '+oab+'</div>'
-    +'<button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>'
-    +'</body></html>';
-  fecharOv('ov-recibo-edit');
-  var w=window.open('','_blank','width=820,height=950,scrollbars=yes');
-  w.document.write(html); w.document.close();
-  toast('🧾 Recibo gerado!');
-}
-
-// ══════════════════════════════════════════════════════════
-// INSTRUÇÃO DE PAGAMENTO EDITÁVEL
-// ══════════════════════════════════════════════════════════
-function abrirModalBoletoEdit(r){
-  document.getElementById('be_cli').value = r.cli||'';
-  document.getElementById('be_cpf').value = r.cpf||'';
-  document.getElementById('be_desc').value = r.desc||'';
-  document.getElementById('be_proc').value = r.proc||'';
-  document.getElementById('be_valor').value = r.valor||'';
-  document.getElementById('be_venc').value = r.venc ? fmt(r.venc) : '';
-  document.getElementById('be_forma').value = r.forma||'';
-  document.getElementById('be_obs').value = '';
-  document.getElementById('be_r_json').value = JSON.stringify(r);
-  document.getElementById('ov-boleto-edit').classList.add('aberto');
-}
-
-function gerarBoletoComEdit(){
-  var r = {};
-  try{ r = JSON.parse(document.getElementById('be_r_json').value||'{}'); }catch(e){}
-  r.cli   = document.getElementById('be_cli').value.trim();
-  r.cpf   = document.getElementById('be_cpf').value.trim();
-  r.desc  = document.getElementById('be_desc').value.trim();
-  r.proc  = document.getElementById('be_proc').value.trim();
-  r.valor = document.getElementById('be_valor').value.trim();
-  var vencRaw = document.getElementById('be_venc').value.trim();
-  // Converter dd/mm/aaaa para yyyy-mm-dd
-  if(vencRaw && vencRaw.includes('/')){
-    var vp = vencRaw.split('/');
-    r.venc = vp[2]+'-'+vp[1]+'-'+vp[0];
-  } else {
-    r.venc = vencRaw;
-  }
-  r.forma = document.getElementById('be_forma').value.trim();
-  r._obsExtra = document.getElementById('be_obs').value.trim();
-  fecharOv('ov-boleto-edit');
-  gerarBoleto(r);
-}
 
 preCarregar();
 </script>
+</div>
+
+<div class="ov" id="ov-recibo-edit" onclick="fecharOvFora(event,'ov-recibo-edit')">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-head" style="background:linear-gradient(135deg,#3a2008,#6b4423)">
+      <h3 style="color:#f5ede0">&#x1F9FE; Recibo Consolidado</h3>
+      <button class="modal-close" style="color:#f5ede0" onclick="fecharOv('ov-recibo-edit')">&#xD7;</button>
+    </div>
+    <div class="modal-body" style="display:grid;gap:10px">
+      <p style="font-size:.8em;color:var(--texto2);background:var(--fundo);padding:7px 10px;border-radius:6px;margin:0">&#x270F;&#xFE0F; Edite os dados antes de gerar.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+        <div><label style="font-size:.76em;font-weight:700;color:var(--texto2);display:block;margin-bottom:3px">Advogado(a)</label><input id="re_adv" class="inp" style="width:100%"></div>
+        <div><label style="font-size:.76em;font-weight:700;color:var(--texto2);display:block;margin-bottom:3px">OAB</label><input id="re_oab" class="inp" style="width:100%"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+        <div><label style="font-size:.76em;font-weight:700;color:var(--texto2);display:block;margin-bottom:3px">Cliente</label><input id="re_cli" class="inp" style="width:100%"></div>
+        <div><label style="font-size:.76em;font-weight:700;color:var(--texto2);display:block;margin-bottom:3px">CPF/CNPJ</label><input id="re_cpf" class="inp" style="width:100%"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+        <div><label style="font-size:.76em;font-weight:700;color:var(--texto2);display:block;margin-bottom:3px">N&#xBA; Processo</label><input id="re_proc" class="inp" style="width:100%"></div>
+        <div><label style="font-size:.76em;font-weight:700;color:var(--texto2);display:block;margin-bottom:3px">A&#xE7;&#xE3;o</label><input id="re_acao" class="inp" style="width:100%"></div>
+      </div>
+      <div><label style="font-size:.76em;font-weight:700;color:var(--texto2);display:block;margin-bottom:3px">Endere&#xE7;o</label><input id="re_end" class="inp" style="width:100%"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+        <div><label style="font-size:.76em;font-weight:700;color:var(--texto2);display:block;margin-bottom:3px">Cidade</label><input id="re_cidade" class="inp" style="width:100%"></div>
+        <div><label style="font-size:.76em;font-weight:700;color:var(--texto2);display:block;margin-bottom:3px">Observa&#xE7;&#xE3;o</label><input id="re_obs" class="inp" style="width:100%"></div>
+      </div>
+      <div id="re_pagamentos_lista" style="background:var(--fundo);border-radius:7px;padding:8px 10px;max-height:160px;overflow-y:auto"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px;border-top:1px solid var(--borda)">
+        <button onclick="fecharOv('ov-recibo-edit')" style="background:var(--fundo2);border:1px solid var(--borda);border-radius:6px;padding:7px 15px;cursor:pointer;font-size:.84em;color:var(--texto1)">Cancelar</button>
+        <button onclick="gerarReciboComDadosEdit()" style="background:linear-gradient(135deg,#3a2008,#6b4423);color:#fff;border:none;border-radius:6px;padding:8px 20px;cursor:pointer;font-weight:700;font-size:.85em">&#x1F5A8;&#xFE0F; Gerar Recibo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============== PAG: AUDIENCIAS =============== -->
+<div class="pag" id="pg-aud">
+<div class="wrap">
+<div style="max-width:1100px;margin:0 auto">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.5em;color:var(--acento)">📅 Audiências &amp; Compromissos</h2>
+    <button class="btn-prim" onclick="abrirModalAud()" style="padding:8px 20px">+ Nova Audiência</button>
+  </div>
+  <div id="aud-avisos" style="margin-bottom:16px"></div>
+  <div style="display:grid;grid-template-columns:340px 1fr;gap:20px;align-items:start">
+    <div style="background:var(--card);border:1px solid var(--borda);border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <button onclick="audCalMes(-1)" style="background:none;border:none;font-size:1.3em;cursor:pointer;color:var(--acento);padding:4px 8px">‹</button>
+        <span id="aud-cal-titulo" style="font-weight:700;font-size:1em;color:var(--texto1)"></span>
+        <button onclick="audCalMes(1)" style="background:none;border:none;font-size:1.3em;cursor:pointer;color:var(--acento);padding:4px 8px">›</button>
+      </div>
+      <div id="aud-cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center"></div>
+      <div style="margin-top:10px;display:flex;gap:12px;font-size:0.72em;color:var(--texto3)">
+        <span>🔴 Hoje</span><span>🔵 Com audiência</span><span style="background:var(--acento);color:#fff;border-radius:4px;padding:1px 5px">Selecionado</span>
+      </div>
+    </div>
+    <div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+        <span id="aud-lista-titulo" style="font-weight:700;color:var(--texto1)">Todas as audiências</span>
+        <div style="display:flex;gap:6px;margin-left:auto">
+          <button onclick="filtrarAud('todas')" class="aud-fil-btn aud-fil-ativo" id="afb-todas">Todas</button>
+          <button onclick="filtrarAud('proximas')" class="aud-fil-btn" id="afb-proximas">Próximas</button>
+          <button onclick="filtrarAud('hoje')" class="aud-fil-btn" id="afb-hoje">Hoje</button>
+          <button onclick="filtrarAud('passadas')" class="aud-fil-btn" id="afb-passadas">Passadas</button>
+        </div>
+      </div>
+      <div id="aud-lista"></div>
+    </div>
+  </div>
+</div></div></div>
+
+<!-- MODAL NOVA/EDITAR AUDIENCIA -->
+<div class="ov" id="ov-aud" onclick="fecharOvFora(event,'ov-aud')">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-head">
+      <h3 id="aud-modal-titulo">Nova Audiência</h3>
+      <button class="modal-close" onclick="fecharOv('ov-aud')">×</button>
+    </div>
+    <div class="modal-body" style="display:grid;gap:12px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div><label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Data *</label>
+          <input type="date" id="aud-data" class="inp" style="width:100%"></div>
+        <div><label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Hora *</label>
+          <input type="time" id="aud-hora" class="inp" style="width:100%"></div>
+      </div>
+      <div><label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Tipo de Audiência *</label>
+        <select id="aud-tipo" class="inp" style="width:100%">
+          <option value="">Selecione...</option>
+          <option>Audiência de Instrução e Julgamento</option>
+          <option>Audiência de Conciliação</option>
+          <option>Audiência Preliminar</option>
+          <option>Audiência de Custódia</option>
+          <option>Audiência Una</option>
+          <option>Depoimento Pessoal</option>
+          <option>Oitiva de Testemunha</option>
+          <option>Sessão de Julgamento</option>
+          <option>Outro</option>
+        </select></div>
+      <div><label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Cliente / Processo</label>
+        <input type="text" id="aud-cliente" class="inp" style="width:100%" placeholder="Nome do cliente ou nº do processo" list="aud-clientes-dl">
+        <datalist id="aud-clientes-dl"></datalist></div>
+      <div><label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Vara / Juízo</label>
+        <input type="text" id="aud-vara" class="inp" style="width:100%" placeholder="Ex: 1ª Vara Cível de São Simão"></div>
+      <div><label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Local</label>
+        <input type="text" id="aud-local" class="inp" style="width:100%" placeholder="Ex: Fórum de São Simão, Sala 2"></div>
+      <div><label style="font-size:0.8em;font-weight:600;color:var(--texto2)">Observações</label>
+        <textarea id="aud-obs" class="inp" rows="2" style="width:100%;resize:vertical" placeholder="Documentos necessários, orientações..."></textarea></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">
+        <button class="btn-xs" onclick="fecharOv('ov-aud')">Cancelar</button>
+        <button class="btn-prim" onclick="salvarAud()" style="padding:8px 24px">💾 Salvar Audiência</button>
+      </div>
+    </div>
+  </div>
 </div>
 </body>
 </html>
